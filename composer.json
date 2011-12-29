@@ -1,0 +1,29 @@
+{
+    "name": "leezy/media-bundle",
+    "type": "symfony-bundle",
+    "description": "Symfony LeezyMediaBundle",
+    "keywords": ["Media management"],
+    "homepage": "",
+    "license": "",
+    "authors": [
+        {
+            "name": "Thomas Tourlourat",
+            "email": "thomas@tourlourat.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.2",
+        "knplabs/gaufrette": "*",
+        "twig/twig": "1.*",
+        "twig/extensions": "2.*"
+    },
+    "suggest": {
+        "symfony/doctrine-bundle": "*",
+        "symfony/mongodb-odm-bundle": "*",
+        "doctrine/couchdb-odm-bundle": "*"
+    },
+    "autoload": {
+        "psr-0": { "Leezy\\Bundle\\MediaBundle": "" }
+    },
+    "target-dir": "Leezy\MediaBundle"
+}
