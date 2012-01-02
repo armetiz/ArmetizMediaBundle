@@ -35,6 +35,8 @@ class MediaManager
                 if ($context->hasManagedClass (get_class($value)))
                     return $context;
             }
+            
+            $name = "";
         }
         elseif (is_string($value))
             $name = $value;

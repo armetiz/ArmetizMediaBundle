@@ -24,13 +24,13 @@
         <service id="leezy.media.context.subtitle" class="%leezy.media.context.class%" public="false">
             <argument>subtitle</argument>
             <argument type="service" id="leezy.media.provider.file.subtitle" />
-            <call method="addManagedClass"><argument>Leezy\SubtitleBundle\Models\Entity\Subtitle</argument></call>
+            <call method="addManagedClass"><argument>Konbini\SubtitleBundle\Models\Entity\Subtitle</argument></call>
         </service>
         
         <service id="leezy.media.context.video" class="%leezy.media.context.class%" public="false">
             <argument>video</argument>
             <argument type="service" id="leezy.media.provider.file.video" />
-            <call method="addManagedClass"><argument>Leezy\VideoBundle\Models\Entity\Video</argument></call>
+            <call method="addManagedClass"><argument>Konbini\VideoBundle\Models\Entity\Video</argument></call>
         </service>
         
         <service id="leezy.media.provider.file.subtitle" class="%leezy.media.provider.file.class%" public="false">
