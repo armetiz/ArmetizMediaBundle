@@ -3,6 +3,7 @@
 namespace Leezy\MediaBundle\Context;
 
 use Leezy\MediaBundle\Provider\ProviderInterface;
+use Leezy\SystemBundle\Exceptions\ArgumentException;
 
 class Context implements ContextInterface
 {
@@ -46,6 +47,28 @@ class Context implements ContextInterface
     public function setFormats(array $value)
     {
         $this->formats = $value;
+    }
+    
+    public function isManaged ($value) {
+        if (!$this->managedClasses) {
+            return false;
+        }
+        
+        if (is_string($value)) {
+            return $this->hasManagedClass ($value);
+        }
+        
+        if (!is_object($value)) {
+            throw new ArgumentException("isManaged attempt a string or an object. " . gettype($value) . " given.");
+        }
+        
+        foreach ($this->managedClasses as $managedClass) {
+            if ($value instanceof $managedClass) {
+                return true;
+            }
+        }
+        
+        return false;
     }
     
     public function addManagedClass ($value)

@@ -14,4 +14,8 @@ interface ContextInterface
     
     public function getFormats();
     public function setFormats(array $value); 
+    
+    public function hasManagedClass ($value);
+    public function addManagedClass ($value);
+    public function isManaged ($value);
 }

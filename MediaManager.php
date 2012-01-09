@@ -25,23 +25,19 @@ class MediaManager
         $this->contexts[$context->getName()] = $context;
     }
         
-    protected function getContext ($value)
-    {
-        if ($value instanceof MediaAdvancedInterface && $value->getContext())
-            $name = $value->getContext();
-        elseif ($value instanceof MediaInterface)
+    protected function getContext ($value) {
+        $name = "";
+        
+        if ($value instanceof MediaInterface)
         {
             foreach ($this->contexts as $context) {
-                if ($context->hasManagedClass (get_class($value)))
+                if ($context->isManaged ($value))
                     return $context;
             }
-            
-            $name = "";
         }
-        elseif (is_string($value))
+        elseif (is_string($value)) {
             $name = $value;
-        else
-            $name = "";
+        }
         
         if (!$this->hasContext($name)) {
             if ($name)
