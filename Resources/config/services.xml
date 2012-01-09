@@ -33,6 +33,12 @@
             <call method="addManagedClass"><argument>Konbini\VideoBundle\Models\Entity\Video</argument></call>
         </service>
         
+        <service id="leezy.media.context.avatar" class="%leezy.media.context.class%" public="false">
+            <argument>avatar</argument>
+            <argument type="service" id="leezy.media.provider.file.avatar" />
+            <call method="addManagedClass"><argument>Konbini\UserBundle\Models\Entity\Picture</argument></call>
+        </service>
+        
         <service id="leezy.media.provider.file.subtitle" class="%leezy.media.provider.file.class%" public="false">
             <argument type="service" id="gaufrette.filesystem" />
             <argument type="service" id="leezy.media.cdn" />
@@ -47,9 +53,16 @@
             <argument type="string">%leezy.media.generator.path.class%</argument>
             <argument type="string">video</argument>
         </service>
+        
+        <service id="leezy.media.provider.file.avatar" class="%leezy.media.provider.file.class%" public="false">
+            <argument type="service" id="gaufrette.filesystem" />
+            <argument type="service" id="leezy.media.cdn" />
+            <argument type="string">%leezy.media.generator.path.class%</argument>
+            <argument type="string">avatar</argument>
+        </service>
                
         <service id="leezy.media.cdn" class="%leezy.media.cdn.class%" public="false">
-            <argument>http://localhost:8888/LeezyServer/web/medias</argument>
+            <argument>http://localhost/KonbiniServer/web/medias</argument>
         </service>
         
         <service id="gaufrette.adapter" class="%gaufrette.adapter.class%" public="false">
@@ -64,6 +77,9 @@
             </call>
             <call method="addContext">
                 <argument type="service" id="leezy.media.context.video" />
+            </call>
+            <call method="addContext">
+                <argument type="service" id="leezy.media.context.avatar" />
             </call>
         </service>
         

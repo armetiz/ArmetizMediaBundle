@@ -4,10 +4,10 @@ namespace Leezy\MediaBundle\Exceptions;
 
 use Exception;
 
-class IdentifierEmptyException extends Exception
+class UnknowMimeTypeException extends Exception
 {
 	public function __construct()
     {
-        parent::__construct("Media identifier is empty.");
+        parent::__construct("Unknonw mime type.");
     }
 }
