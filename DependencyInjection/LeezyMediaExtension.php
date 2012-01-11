@@ -6,6 +6,7 @@ use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
+use Symfony\Component\DependencyInjection\Definition;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -21,8 +22,57 @@ class LeezyMediaExtension extends Extension
     {
         $configuration = new Configuration();
         $config = $this->processConfiguration($configuration, $configs);
-
+        
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        
+        $contextClass = $container->getParameter("leezy.media.context.class");
+        $cdnClass = $container->getParameter("leezy.media.cdn.class");
+        $pathGeneratorClass = $container->getParameter("leezy.media.generator.path.class");
+        $mediaProviderClass = $container->getParameter("leezy.media.provider.file.class");
+
+        $manager = $container->getDefinition("leezy.media.manager");
+        $storages = array();
+        $cdns = array();
+        $providers = array();
+        $contexts = array();
+        
+        foreach ($config["storages"] as $name => $storage) {
+            $folder = $storage["folder"];
+            $clazz = $storage["adapter"];
+            
+            $adapter = new Definition ($clazz, array ($folder));
+            $storages[$name] = new Definition ("Gaufrette\Filesystem", array ($adapter));
+        }
+        
+        foreach ($config["cdns"] as $name => $cdn) {
+            $baseUrl = $cdn["base_url"];
+            
+            $cdns[$name] = new Definition ($cdnClass, array ($baseUrl));
+        }
+        
+        foreach ($config["providers"] as $name => $provider) {
+            $filesystem = $storages[$provider["filesystem"]];
+            $cdn = $cdns[$provider["cdn"]];
+            $namespace = $name;
+            $template = null;
+            
+            if (array_key_exists("template", $provider))
+                $template = $provider["template"];
+            
+            if (array_key_exists("namespace", $provider))
+                $namespace = $provider["namespace"];
+            
+            $providers[$name] = new Definition ($mediaProviderClass, array ($filesystem, $cdn, $pathGeneratorClass, $namespace, $template));
+        }
+        
+        foreach ($config["contexts"] as $name => $context) {
+            $provider = $providers[$context["provider"]];
+            $managed = $context["managed"];
+            
+            $contexts[$name] = new Definition ($contextClass, array ($name, $provider, array($managed)));
+            
+            $manager->addMethodCall("addContext", array($contexts[$name]));
+        }
     }
 }

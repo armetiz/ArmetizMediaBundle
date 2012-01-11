@@ -14,7 +14,7 @@ class MediaManager
     protected $contexts;
     protected $dispatcher;
     
-    public function __construct (array $contexts = null, EventDispatcherInterface $dispatcher = null)
+    public function __construct (EventDispatcherInterface $dispatcher = null)
     {
         $this->contexts = array();
         $this->dispatcher = $dispatcher;

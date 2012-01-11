@@ -12,11 +12,11 @@ class Context implements ContextInterface
     protected $formats;
     protected $managedClasses;
     
-    public function __construct($name, ProviderInterface $provider)
+    public function __construct($name, ProviderInterface $provider, array $managedClasses = array())
     {
         $this->name = $name;
         $this->provider = $provider;
-        $this->managedClasses = array ();
+        $this->managedClasses = $managedClasses;
     }
     
     public function getName()

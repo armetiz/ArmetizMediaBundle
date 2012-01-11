@@ -20,71 +20,9 @@
     </parameters>
 
     <services>
-        <!-- externalize using extension system -->
-        <service id="leezy.media.context.subtitle" class="%leezy.media.context.class%" public="false">
-            <argument>subtitle</argument>
-            <argument type="service" id="leezy.media.provider.file.subtitle" />
-            <call method="addManagedClass"><argument>Konbini\SubtitleBundle\Models\Entity\Subtitle</argument></call>
-        </service>
-        
-        <service id="leezy.media.context.video" class="%leezy.media.context.class%" public="false">
-            <argument>video</argument>
-            <argument type="service" id="leezy.media.provider.file.video" />
-            <call method="addManagedClass"><argument>Konbini\VideoBundle\Models\Entity\Video</argument></call>
-        </service>
-        
-        <service id="leezy.media.context.avatar" class="%leezy.media.context.class%" public="false">
-            <argument>avatar</argument>
-            <argument type="service" id="leezy.media.provider.file.avatar" />
-            <call method="addManagedClass"><argument>Konbini\UserBundle\Models\Entity\Picture</argument></call>
-        </service>
-        
-        <service id="leezy.media.provider.file.subtitle" class="%leezy.media.provider.file.class%" public="false">
-            <argument type="service" id="gaufrette.filesystem" />
-            <argument type="service" id="leezy.media.cdn" />
-            <argument type="string">%leezy.media.generator.path.class%</argument>
-            <argument type="string">subtitle</argument>
-            <argument type="string">%leezy.media.twig.subtitle.view%</argument>
-        </service>
-        
-        <service id="leezy.media.provider.file.video" class="%leezy.media.provider.file.class%" public="false">
-            <argument type="service" id="gaufrette.filesystem" />
-            <argument type="service" id="leezy.media.cdn" />
-            <argument type="string">%leezy.media.generator.path.class%</argument>
-            <argument type="string">video</argument>
-        </service>
-        
-        <service id="leezy.media.provider.file.avatar" class="%leezy.media.provider.file.class%" public="false">
-            <argument type="service" id="gaufrette.filesystem" />
-            <argument type="service" id="leezy.media.cdn" />
-            <argument type="string">%leezy.media.generator.path.class%</argument>
-            <argument type="string">avatar</argument>
-        </service>
-               
-        <service id="leezy.media.cdn" class="%leezy.media.cdn.class%" public="false">
-            <argument>http://localhost/KonbiniServer/web/medias</argument>
-        </service>
-        
-        <service id="gaufrette.adapter" class="%gaufrette.adapter.class%" public="false">
-            <argument>%kernel.root_dir%/../web/medias</argument>
-        </service>
-        
         <service id="leezy.media.manager" class="%leezy.media.manager.class%">
-            <argument type="collection"/>
             <argument type="service" id="event_dispatcher" on-invalid="ignore"/>
-            <call method="addContext">
-                <argument type="service" id="leezy.media.context.subtitle" />
-            </call>
-            <call method="addContext">
-                <argument type="service" id="leezy.media.context.video" />
-            </call>
-            <call method="addContext">
-                <argument type="service" id="leezy.media.context.avatar" />
-            </call>
         </service>
-        
-        
-        
         
         <service id="gaufrette.filesystem" class="%gaufrette.filesystem.class%" public="false">
             <argument type="service" id="gaufrette.adapter" />
