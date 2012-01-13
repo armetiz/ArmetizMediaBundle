@@ -26,28 +26,20 @@ class MediaManager
     }
         
     protected function getContext ($value) {
-        $name = "";
-        
         if ($value instanceof MediaInterface)
         {
             foreach ($this->contexts as $context) {
                 if ($context->isManaged ($value))
                     return $context;
             }
+            
+            throw new \InvalidArgumentException(sprintf("Context for class '%s' doesn't exist", get_class($value)));
         }
-        elseif (is_string($value)) {
-            $name = $value;
-        }
-        
-        if (!$this->hasContext($name)) {
-            if ($name)
-                throw new \InvalidArgumentException(sprintf("Context '%s' doesn't exist", $name));
-            else
-                throw new \InvalidArgumentException(sprintf("Context for class '%s' doesn't exist", get_class($value)));
-                
+        elseif (is_string($value) && $this->hasContext($value)) {
+            return $this->contexts[$value];
         }
         
-        return $this->contexts[$name];
+        return null;
     }
     
     protected function hasContext($name)
