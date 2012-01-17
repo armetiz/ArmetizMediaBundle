@@ -44,13 +44,13 @@ abstract class AbstractProvider implements ProviderInterface
      */
     protected $formats;
     
-    public function __construct ($filesystem, CDNInterface $contentDeliveryNetwork, $pathGenerator, $namespace = null, $template = null, $formats = null)
+    public function __construct ($filesystem, CDNInterface $contentDeliveryNetwork, $pathGenerator, $namespace = null, $template = null)
     {
-        $this->filesystem       = $filesystem;
-        $this->namespace        = $namespace;
-        $this->formats          = $formats;
-        $this->template         = $template;
+        $this->filesystem = $filesystem;
+        $this->namespace = $namespace;
+        $this->template = $template;
         $this->contentDeliveryNetwork = $contentDeliveryNetwork;
+        $this->formats = null;
         
         if ($pathGenerator instanceof PathInterface)
             $this->pathGenerator = $pathGenerator;
