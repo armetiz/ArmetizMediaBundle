@@ -13,7 +13,6 @@ interface ContextInterface
     public function setProvider(ProviderInterface $value);
     
     public function getFormats();
-    public function setFormats(array $value); 
     
     public function hasManagedClass ($value);
     public function addManagedClass ($value);

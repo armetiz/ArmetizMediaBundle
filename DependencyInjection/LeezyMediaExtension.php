@@ -69,8 +69,9 @@ class LeezyMediaExtension extends Extension
         foreach ($config["contexts"] as $name => $context) {
             $provider = $providers[$context["provider"]];
             $managed = $context["managed"];
+            $formats = $context["formats"];
             
-            $contexts[$name] = new Definition ($contextClass, array ($name, $provider, array($managed)));
+            $contexts[$name] = new Definition ($contextClass, array ($name, $provider, array($managed), $formats));
             
             $manager->addMethodCall("addContext", array($contexts[$name]));
         }

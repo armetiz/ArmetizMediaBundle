@@ -12,11 +12,12 @@ class Context implements ContextInterface
     protected $formats;
     protected $managedClasses;
     
-    public function __construct($name, ProviderInterface $provider, array $managedClasses = array())
+    public function __construct($name, ProviderInterface $provider, array $managedClasses = array(), array $formats = array())
     {
         $this->name = $name;
         $this->provider = $provider;
         $this->managedClasses = $managedClasses;
+        $this->formats = $formats;
     }
     
     public function getName()
@@ -42,11 +43,6 @@ class Context implements ContextInterface
     public function getFormats()
     {
         return $this->formats;
-    }
-    
-    public function setFormats(array $value)
-    {
-        $this->formats = $value;
     }
     
     public function isManaged ($value) {
