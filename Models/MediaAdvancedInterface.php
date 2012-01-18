@@ -2,6 +2,8 @@
 
 namespace Leezy\MediaBundle\Models;
 
+use Leezy\MediaBundle\Models\MediaInterface;
+
 interface MediaAdvancedInterface extends MediaInterface
 {   
     public function getContentType();
