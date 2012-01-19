@@ -77,6 +77,8 @@ class MediaExtension extends \Twig_Extension
     }
     
     private function findMedia ($value, $format = null) {
+        $media = null;
+        
         if ($value instanceof Collection) {
             foreach ($value as $mediaBlack) {
                 if ($format == $mediaBlack->getFormat()) {
