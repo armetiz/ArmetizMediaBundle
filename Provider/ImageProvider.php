@@ -5,7 +5,7 @@ namespace Leezy\MediaBundle\Provider;
 use Leezy\MediaBundle\Models\MediaInterface;
 use Leezy\MediaBundle\Exceptions\NotValidException;
 
-use Imagine\Imagick\Imagine;
+use Imagine\Gd\Imagine;
 
 class ImageProvider extends FileProvider
 {
