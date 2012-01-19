@@ -28,8 +28,8 @@ class ImageProvider extends FileProvider
         if (array_key_exists("height", $format)) {
             $width = $format["height"];
             
-            if ($width != $size->getWidth())
-                throw new NotValidException("height", $width, $size->getWidth());
+            if ($width != $size->getHeight())
+                throw new NotValidException("height", $width, $size->getHeight());
         }
     }
 }
