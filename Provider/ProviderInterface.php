@@ -9,5 +9,5 @@ interface ProviderInterface
 {
     public function saveMedia (MediaInterface $media);    
     public function deleteMedia (MediaInterface $media);
-    public function prepareMedia (MediaInterface $media, $format = null);
+    public function prepareMedia (MediaInterface $media);
 }

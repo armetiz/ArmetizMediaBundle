@@ -2,6 +2,8 @@
 
 namespace Leezy\MediaBundle\Twig\Extension;
 
+use Doctrine\Common\Collections\Collection;
+
 use Leezy\MediaBundle\Templating\Helper\MediaHelper;
 use Leezy\MediaBundle\Models\MediaInterface;
 
@@ -40,28 +42,54 @@ class MediaExtension extends \Twig_Extension
         );
     }
 
-    public function getMedia($media, $format = null, array $options = array())
+    public function getMedia($value, $format = null, array $options = array())
     {
+        if (is_array($value)) {
+            foreach ($value as $media) {
+                if ($format == $media->getFormat()) break;
+            }
+        }
+        
         if ( !($media instanceof MediaInterface))
             return "";
         
         return $this->helper->getMedia($media, $format, $options);
     }
 
-    public function getPath($media, $format = null)
+    public function getPath($value, $format = null)
     {
-        if ( !($media instanceof MediaInterface))
-            return "";
+        $media = $this->findMedia ($value, $format);
+        
+        if (!$media)
+            return '';
         
         return $this->helper->getUri($media, $format);
     }
 
     public function getRaw($media, $format = null)
     {
-        if ( !($media instanceof MediaInterface))
-            return "";
+        $media = $this->findMedia ($value, $format);
+        
+        if (!$media)
+            return '';
         
         return $this->helper->getRaw($media, $format);
+    }
+    
+    private function findMedia ($value, $format = null) {
+        if ($value instanceof Collection) {
+            foreach ($value as $mediaBlack) {
+                if ($format == $mediaBlack->getFormat()) {
+                    $media = $mediaBlack;
+                    break;
+                }
+            }
+        }
+        
+        if ( !($media instanceof MediaInterface))
+            return null;
+        
+        return $media;
     }
 
     /**

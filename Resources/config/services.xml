@@ -7,6 +7,7 @@
         <parameter key="leezy.media.cdn.class">Leezy\MediaBundle\CDN\Server</parameter>
         <parameter key="leezy.media.manager.class">Leezy\MediaBundle\MediaManager</parameter>
         <parameter key="leezy.media.provider.file.class">Leezy\MediaBundle\Provider\FileProvider</parameter>
+        <parameter key="leezy.media.provider.image.class">Leezy\MediaBundle\Provider\ImageProvider</parameter>
         <parameter key="leezy.media.context.class">Leezy\MediaBundle\Context\Context</parameter>
         <parameter key="leezy.media.cdn.class">Leezy\MediaBundle\CDN\Server</parameter>
         <parameter key="leezy.media.generator.path.class">Leezy\MediaBundle\Generator\DefaultFilePathGenerator</parameter>

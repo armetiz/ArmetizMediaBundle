@@ -16,7 +16,9 @@ use Leezy\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 use Symfony\Component\HttpFoundation\File\File;
 
 class FileProvider extends AbstractProvider
-{  
+{
+    public function validate (MediaInterface $media) {}
+    
     public function saveMedia (MediaInterface $media)
     {
         if (null == $media->getMedia()){
@@ -26,8 +28,10 @@ class FileProvider extends AbstractProvider
         if (!$media->getMedia() instanceof File) {
             throw new MustPreparedException();
         }
+        
+        $this->validate($media);
                        
-        $path = $this->getPathGenerator()->generatePath ($media);
+        $path = $this->getPath($media);
         
         $gaufretteFile  = $this->getFilesystem()->get($path, true);
         $gaufretteFile->setContent(file_get_contents($media->getMedia()->getRealPath()));
@@ -37,14 +41,14 @@ class FileProvider extends AbstractProvider
     {
         //TODO: Check is media has been prepared.
         
-        $path = $this->getPathGenerator()->generatePath ($media);
+        $path = $this->getPath($media);
         
         if ($this->getFilesystem()->has($path)) {
             $this->getFilesystem()->delete($path);
         }
     }
     
-    public function prepareMedia (MediaInterface $media, $format = null)
+    public function prepareMedia (MediaInterface $media)
     {
         
         $content = $media->getMedia();
@@ -93,7 +97,7 @@ class FileProvider extends AbstractProvider
     
     public function getRaw (MediaInterface $media)
     {
-        $path = $this->getPathGenerator()->generatePath ($media);
+        $path = $this->getPath($media);
         $raw = null;
         try
         {

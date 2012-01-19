@@ -4,7 +4,8 @@ namespace Leezy\MediaBundle\Provider;
 
 use Symfony\Component\HttpFoundation\File\File;
 
-use Leezy\MediaBundle\Generator\PathInterface;
+use Leezy\MediaBundle\Exceptions\NotSupportedFormatException;
+use Leezy\MediaBundle\Models\FormatInterface;
 use Leezy\MediaBundle\Models\MediaInterface;
 use Leezy\MediaBundle\CDN\CDNInterface;
 
@@ -20,12 +21,6 @@ abstract class AbstractProvider implements ProviderInterface
      * @var Leezy\MediaBundle\CDN\CDNInterface
      */
     protected $contentDeliveryNetwork;
-    
-    /**
-     *
-     * @var Leezy\MediaBundle\Generator\PathInterface
-     */
-    protected $pathGenerator;
     
     /**
      * @var string
@@ -44,20 +39,13 @@ abstract class AbstractProvider implements ProviderInterface
      */
     protected $formats;
     
-    public function __construct ($filesystem, CDNInterface $contentDeliveryNetwork, $pathGenerator, $namespace = null, $template = null)
+    public function __construct ($filesystem, CDNInterface $contentDeliveryNetwork, $namespace, $template = null)
     {
         $this->filesystem = $filesystem;
         $this->namespace = $namespace;
         $this->template = $template;
         $this->contentDeliveryNetwork = $contentDeliveryNetwork;
         $this->formats = null;
-        
-        if ($pathGenerator instanceof PathInterface)
-            $this->pathGenerator = $pathGenerator;
-        elseif (is_string($pathGenerator))
-            $this->pathGenerator = new $pathGenerator($namespace);
-        else
-            throw new \Exception("A path generator is mandatory");
     }
     
     public function saveMedia (MediaInterface $media)
@@ -70,23 +58,47 @@ abstract class AbstractProvider implements ProviderInterface
         
     }
     
-    public function prepareMedia (MediaInterface $media, $format = null)
+    public function prepareMedia (MediaInterface $media)
     {
         
+    }
+    
+    public function setFormats ($value) {
+        $this->formats = $value;
+    }
+    
+    public function getFormats () {
+        return $this->formats;
     }
     
     public function getUri (MediaInterface $media)
     {
-        $path = $this->getPathGenerator()->generatePath ($media);
+        $path = $this->getPath ($media);
         
         return $this->getContentDeliveryNetwork()->getPath($path);
     }
     
+    public function getFormat ($format) {
+        if (!array_key_exists($format, $this->formats)) {
+            throw new NotSupportedFormatException ($format);
+        }
+        
+        return $this->formats[$format];
+    }
+    
     public function getPath (MediaInterface $media)
     {
-        $path = $this->getPathGenerator()->generatePath ($media);
+        $path = $media->getMediaIdentifier();
         
-        throw new \Exception ("Implementation recquire");
+        if ($media instanceof FormatInterface) {
+            $format = $this->getFormat ($media->getFormat());            
+            $folder = $format["folder"];
+            
+            return sprintf ("%s/%s/%s", $this->namespace, $folder, $path);
+        }
+        
+        return sprintf ("%s/%s", $this->namespace, $path);
+        
     }
     
     public function getTemplate ()

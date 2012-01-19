@@ -29,7 +29,8 @@ class LeezyMediaExtension extends Extension
         $contextClass = $container->getParameter("leezy.media.context.class");
         $cdnClass = $container->getParameter("leezy.media.cdn.class");
         $pathGeneratorClass = $container->getParameter("leezy.media.generator.path.class");
-        $mediaProviderClass = $container->getParameter("leezy.media.provider.file.class");
+        $mediaFileProviderClass = $container->getParameter("leezy.media.provider.file.class");
+        $mediaImageProviderClass = $container->getParameter("leezy.media.provider.image.class");
 
         $manager = $container->getDefinition("leezy.media.manager");
         $storages = array();
@@ -62,6 +63,15 @@ class LeezyMediaExtension extends Extension
             
             if (array_key_exists("namespace", $provider))
                 $namespace = $provider["namespace"];
+            
+            switch ($provider["type"]) {
+                case "file" :
+                    $mediaProviderClass = $mediaFileProviderClass;
+                    break;
+                case "image" :
+                    $mediaProviderClass = $mediaImageProviderClass;
+                    break;
+            }
             
             $providers[$name] = new Definition ($mediaProviderClass, array ($filesystem, $cdn, $pathGeneratorClass, $namespace, $template));
         }

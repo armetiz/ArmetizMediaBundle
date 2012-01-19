@@ -15,19 +15,16 @@ class Context implements ContextInterface
     public function __construct($name, ProviderInterface $provider, array $managedClasses = array(), array $formats = array())
     {
         $this->name = $name;
-        $this->provider = $provider;
         $this->managedClasses = $managedClasses;
         $this->formats = $formats;
+        
+        $this->provider = $provider;
+        $this->provider->setFormats ($this->getFormats());
     }
     
     public function getName()
     {
         return $this->name;
-    }
-    
-    public function setName($value)
-    {
-        $this->name = $value;
     }
     
     public function getProvider()
@@ -65,11 +62,6 @@ class Context implements ContextInterface
         }
         
         return false;
-    }
-    
-    public function addManagedClass ($value)
-    {
-        $this->managedClasses[] = $value;
     }
     
     public function hasManagedClass ($value)
