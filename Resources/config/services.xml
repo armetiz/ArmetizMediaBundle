@@ -10,7 +10,6 @@
         <parameter key="leezy.media.provider.image.class">Leezy\MediaBundle\Provider\ImageProvider</parameter>
         <parameter key="leezy.media.context.class">Leezy\MediaBundle\Context\Context</parameter>
         <parameter key="leezy.media.cdn.class">Leezy\MediaBundle\CDN\Server</parameter>
-        <parameter key="leezy.media.generator.path.class">Leezy\MediaBundle\Generator\DefaultFilePathGenerator</parameter>
         <parameter key="gaufrette.filesystem.class">Gaufrette\Filesystem</parameter>
         <parameter key="gaufrette.adapter.class">Gaufrette\Adapter\Local</parameter>
         <parameter key="leezy.media.listener.doctrine.class">Leezy\MediaBundle\Listener\DoctrineListener</parameter>

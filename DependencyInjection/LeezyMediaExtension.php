@@ -28,7 +28,6 @@ class LeezyMediaExtension extends Extension
         
         $contextClass = $container->getParameter("leezy.media.context.class");
         $cdnClass = $container->getParameter("leezy.media.cdn.class");
-        $pathGeneratorClass = $container->getParameter("leezy.media.generator.path.class");
         $mediaFileProviderClass = $container->getParameter("leezy.media.provider.file.class");
         $mediaImageProviderClass = $container->getParameter("leezy.media.provider.image.class");
 
@@ -73,7 +72,7 @@ class LeezyMediaExtension extends Extension
                     break;
             }
             
-            $providers[$name] = new Definition ($mediaProviderClass, array ($filesystem, $cdn, $pathGeneratorClass, $namespace, $template));
+            $providers[$name] = new Definition ($mediaProviderClass, array ($filesystem, $cdn, $namespace, $template));
         }
         
         foreach ($config["contexts"] as $name => $context) {

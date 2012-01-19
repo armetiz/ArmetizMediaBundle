@@ -116,11 +116,6 @@ abstract class AbstractProvider implements ProviderInterface
         return $this->filesystem;
     }
     
-    public function getPathGenerator ()
-    {
-        return $this->pathGenerator;
-    }
-    
     public function getContentDeliveryNetwork ()
     {
         return $this->contentDeliveryNetwork;
