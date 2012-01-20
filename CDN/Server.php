@@ -4,7 +4,7 @@ namespace Leezy\MediaBundle\CDN;
 
 class Server implements CDNInterface
 {
-    protected $path;
+    private $path;
     
     public function __construct ($path)
     {

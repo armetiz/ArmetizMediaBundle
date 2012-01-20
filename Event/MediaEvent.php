@@ -11,7 +11,7 @@ class MediaEvent extends Event
     const UPDATE = "mediaUpdateEvent";
     const DELETE = "mediaDeleteEvent";
     
-    protected $media;
+    private $media;
     
     public function __construct (MediaInterface $media)
     {

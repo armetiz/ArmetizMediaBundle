@@ -11,7 +11,7 @@ use Leezy\MediaBundle\Models\MediaInterface;
 
 class MediaHelper extends Helper
 {
-    protected $container;
+    private $container;
 
     public function __construct(ContainerInterface $container)
     {

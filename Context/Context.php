@@ -7,10 +7,10 @@ use Leezy\SystemBundle\Exceptions\ArgumentException;
 
 class Context implements ContextInterface
 {
-    protected $name;
-    protected $provider;
-    protected $formats;
-    protected $managedClasses;
+    private $name;
+    private $provider;
+    private $formats;
+    private $managedClasses;
     
     public function __construct($name, ProviderInterface $provider, array $managedClasses = array(), array $formats = array())
     {

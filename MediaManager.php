@@ -11,8 +11,8 @@ use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
 class MediaManager 
 {
-    protected $contexts;
-    protected $dispatcher;
+    private $contexts;
+    private $dispatcher;
     
     public function __construct (EventDispatcherInterface $dispatcher = null)
     {
@@ -25,7 +25,7 @@ class MediaManager
         $this->contexts[$context->getName()] = $context;
     }
         
-    protected function getContext ($value) {
+    final protected function getContext ($value) {
         if ($value instanceof MediaInterface)
         {
             foreach ($this->contexts as $context) {
@@ -42,12 +42,12 @@ class MediaManager
         return null;
     }
     
-    protected function hasContext($name)
+    final protected function hasContext($name)
     {
         return array_key_exists($name, $this->contexts);
     }
     
-    protected function getProvider (MediaInterface $media)
+    final protected function getProvider (MediaInterface $media)
     {       
         return $this->getContext($media)->getProvider();
     }

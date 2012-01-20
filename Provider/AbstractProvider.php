@@ -15,29 +15,29 @@ abstract class AbstractProvider implements ProviderInterface
      *
      * @var Leezy\MediaBundle\Filesystem
      */
-    protected $filesystem;
+    private $filesystem;
     
     /**
      * @var Leezy\MediaBundle\CDN\CDNInterface
      */
-    protected $contentDeliveryNetwork;
+    private $contentDeliveryNetwork;
     
     /**
      * @var string
      */
-    protected $namespace;
-    
-    /**
-     *
-     * @var string
-     */
-    protected $template;
+    private $namespace;
     
     /**
      *
      * @var string
      */
-    protected $formats;
+    private $template;
+    
+    /**
+     *
+     * @var string
+     */
+    private $formats;
     
     public function __construct ($filesystem, CDNInterface $contentDeliveryNetwork, $namespace, $template = null)
     {

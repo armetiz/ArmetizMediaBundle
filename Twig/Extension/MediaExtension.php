@@ -15,7 +15,7 @@ class MediaExtension extends \Twig_Extension
     /**
      * @var MediaHelper
      */
-    protected $helper;
+    private $helper;
 
     public function __construct(MediaHelper $helper)
     {
