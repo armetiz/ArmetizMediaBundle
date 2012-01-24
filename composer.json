@@ -17,11 +17,6 @@
         "twig/twig": "1.*",
         "twig/extensions": "2.*"
     },
-    "suggest": {
-        "symfony/doctrine-bundle": "*",
-        "symfony/mongodb-odm-bundle": "*",
-        "doctrine/couchdb-odm-bundle": "*"
-    },
     "autoload": {
         "psr-0": { "Leezy\\Bundle\\MediaBundle": "" }
     },
