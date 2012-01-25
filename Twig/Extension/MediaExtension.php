@@ -44,20 +44,17 @@ class MediaExtension extends \Twig_Extension
 
     public function getMedia($value, $format = null, array $options = array())
     {
-        if (is_array($value)) {
-            foreach ($value as $media) {
-                if ($format == $media->getFormat()) break;
-            }
-        }
+        $media = $this->findMedia ($value, $format);
         
-        if ( !($media instanceof MediaInterface))
-            return "";
+        if (!$media)
+            return '';
         
         return $this->helper->getMedia($media, $format, $options);
     }
 
     public function getPath($value, $format = null)
     {
+        
         $media = $this->findMedia ($value, $format);
         
         if (!$media)
@@ -87,9 +84,13 @@ class MediaExtension extends \Twig_Extension
                 }
             }
         }
+        else {
+            $media = $value;
+        }
         
-        if ( !($media instanceof MediaInterface))
+        if ( !($media instanceof MediaInterface)) {
             return null;
+        }
         
         return $media;
     }
