@@ -32,16 +32,10 @@ class MediaExtension extends \Twig_Extension
         return array(
             'media' => new \Twig_Function_Method($this, 'getMedia', array('is_safe' => array('html'))),
             'mediaPath' => new \Twig_Function_Method($this, 'getPath'),
+            'mediaRaw' => new \Twig_Function_Method($this, 'getRaw'),
         );
     }
     
-    public function getFilters()
-    {
-        return array(
-            'mediaRaw' => new \Twig_Filter_Method($this, 'getRaw'),
-        );
-    }
-
     public function getMedia($value, $format = null, array $options = array())
     {
         $media = $this->findMedia ($value, $format);
@@ -63,7 +57,7 @@ class MediaExtension extends \Twig_Extension
         return $this->helper->getUri($media, $format);
     }
 
-    public function getRaw($media, $format = null)
+    public function getRaw($value, $format = null)
     {
         $media = $this->findMedia ($value, $format);
         
