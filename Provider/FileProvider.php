@@ -11,7 +11,7 @@ use Leezy\MediaBundle\Exceptions\MustPreparedException;
 use Leezy\MediaBundle\Exceptions\NotFileException;
 use Leezy\MediaBundle\Exceptions\UnknowMimeTypeException;
 
-use Leezy\SystemBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
+use Leezy\MediaBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 use Symfony\Component\HttpFoundation\File\File;
 
