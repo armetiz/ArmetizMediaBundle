@@ -15,6 +15,8 @@ use Leezy\MediaBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 use Symfony\Component\HttpFoundation\File\File;
 
+use Gaufrette\File as GaufretteFile;
+
 class FileProvider extends AbstractProvider
 {
     public function validate (MediaInterface $media) {}
@@ -33,8 +35,9 @@ class FileProvider extends AbstractProvider
                        
         $path = $this->getPath($media);
         
-        $gaufretteFile  = $this->getFilesystem()->get($path, true);
+        $gaufretteFile = new GaufretteFile($path, $this->getFilesystem());
         $gaufretteFile->setContent(file_get_contents($media->getMedia()->getRealPath()));
+        
     }
     
     public function deleteMedia (MediaInterface $media)
