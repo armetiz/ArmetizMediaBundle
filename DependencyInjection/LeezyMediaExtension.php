@@ -7,6 +7,7 @@ use Symfony\Component\Config\FileLocator;
 use Symfony\Component\HttpKernel\DependencyInjection\Extension;
 use Symfony\Component\DependencyInjection\Loader;
 use Symfony\Component\DependencyInjection\Definition;
+use Symfony\Component\DependencyInjection\Reference;
 
 /**
  * This is the class that loads and manages your bundle configuration
@@ -38,10 +39,8 @@ class LeezyMediaExtension extends Extension
         $contexts = array();
         
         foreach ($config["storages"] as $name => $storage) {
-            $folder = $storage["folder"];
-            $clazz = $storage["adapter"];
+            $adapter = new Reference($storage['service']);
             
-            $adapter = new Definition ($clazz, array ($folder));
             $storages[$name] = new Definition ("Gaufrette\Filesystem", array ($adapter));
         }
         
