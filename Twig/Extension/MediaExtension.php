@@ -5,7 +5,7 @@ namespace Leezy\MediaBundle\Twig\Extension;
 use Doctrine\Common\Collections\Collection;
 
 use Leezy\MediaBundle\Templating\Helper\MediaHelper;
-use Leezy\MediaBundle\Models\MediaInterface;
+use Leezy\MediaBundle\Entity\MediaInterface;
 
 /**
  * @author Benjamin Dulau <benjamin.dulau@anonymation.com>

@@ -4,7 +4,7 @@ namespace Leezy\MediaBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
-use Leezy\MediaBundle\Models\MediaInterface;
+use Leezy\MediaBundle\Entity\MediaInterface;
 
 class MediaEvent extends Event
 {

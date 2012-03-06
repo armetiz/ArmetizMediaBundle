@@ -1,8 +1,6 @@
 <?php
 
-namespace Leezy\MediaBundle\Models;
-
-use Leezy\MediaBundle\Models\MediaInterface;
+namespace Leezy\MediaBundle\Entity;
 
 interface MediaAdvancedInterface extends MediaInterface
 {   

@@ -7,7 +7,7 @@ use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
 use Leezy\MediaBundle\MediaManager;
-use Leezy\MediaBundle\Models\MediaInterface;
+use Leezy\MediaBundle\Entity\MediaInterface;
 
 class MediaHelper extends Helper
 {

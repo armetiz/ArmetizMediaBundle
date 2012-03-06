@@ -2,8 +2,8 @@
 
 namespace Leezy\MediaBundle\Provider;
 
-use Leezy\MediaBundle\Models\MediaAdvancedInterface;
-use Leezy\MediaBundle\Models\MediaInterface;
+use Leezy\MediaBundle\Entity\MediaAdvancedInterface;
+use Leezy\MediaBundle\Entity\MediaInterface;
 use Leezy\MediaBundle\CDN\CDNInterface;
 
 use Leezy\MediaBundle\Exceptions\IdentifierEmptyException;

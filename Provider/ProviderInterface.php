@@ -2,7 +2,7 @@
 
 namespace Leezy\MediaBundle\Provider;
 
-use Leezy\MediaBundle\Models\MediaInterface;
+use Leezy\MediaBundle\Entity\MediaInterface;
 use Leezy\MediaBundle\CDN\CDNInterface;
 
 interface ProviderInterface

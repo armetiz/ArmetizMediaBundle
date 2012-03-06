@@ -1,6 +1,6 @@
 <?php
 
-namespace Leezy\MediaBundle\Models;
+namespace Leezy\MediaBundle\Entity;
 
 interface FormatInterface
 {

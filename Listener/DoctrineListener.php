@@ -3,7 +3,7 @@
 namespace Leezy\MediaBundle\Listener;
 
 use Leezy\MediaBundle\MediaManager;
-use Leezy\MediaBundle\Models\MediaInterface;
+use Leezy\MediaBundle\Entity\MediaInterface;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;

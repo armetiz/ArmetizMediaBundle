@@ -5,8 +5,8 @@ namespace Leezy\MediaBundle\Provider;
 use Symfony\Component\HttpFoundation\File\File;
 
 use Leezy\MediaBundle\Exceptions\NotSupportedFormatException;
-use Leezy\MediaBundle\Models\FormatInterface;
-use Leezy\MediaBundle\Models\MediaInterface;
+use Leezy\MediaBundle\Entity\FormatInterface;
+use Leezy\MediaBundle\Entity\MediaInterface;
 use Leezy\MediaBundle\CDN\CDNInterface;
 
 abstract class AbstractProvider implements ProviderInterface

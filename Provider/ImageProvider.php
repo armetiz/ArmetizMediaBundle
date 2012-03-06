@@ -2,7 +2,7 @@
 
 namespace Leezy\MediaBundle\Provider;
 
-use Leezy\MediaBundle\Models\MediaInterface;
+use Leezy\MediaBundle\Entity\MediaInterface;
 use Leezy\MediaBundle\Exceptions\NotValidException;
 
 use Imagine\Gd\Imagine;

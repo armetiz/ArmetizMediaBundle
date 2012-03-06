@@ -2,8 +2,8 @@
 
 namespace Leezy\MediaBundle;
 
-use Leezy\MediaBundle\Models\MediaInterface;
-use Leezy\MediaBundle\Models\MediaAdvancedInterface;
+use Leezy\MediaBundle\Entity\MediaInterface;
+use Leezy\MediaBundle\Entity\MediaAdvancedInterface;
 use Leezy\MediaBundle\Context\ContextInterface;
 use Leezy\MediaBundle\Event\MediaEvent;
 
