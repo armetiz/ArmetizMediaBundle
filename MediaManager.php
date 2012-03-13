@@ -2,6 +2,8 @@
 
 namespace Leezy\MediaBundle;
 
+use Doctrine\Common\Collections\Collection;
+
 use Leezy\MediaBundle\Entity\MediaInterface;
 use Leezy\MediaBundle\Entity\MediaAdvancedInterface;
 use Leezy\MediaBundle\Context\ContextInterface;
@@ -93,5 +95,27 @@ class MediaManager
     public function getRaw (MediaInterface $media)
     {
         return $this->getProvider ($media)->getRaw ($media);
+    }
+    
+    public function findMedia ($value, $format = null) {
+        $media = null;
+        
+        if ($value instanceof Collection) {
+            foreach ($value as $mediaBlack) {
+                if ($format == $mediaBlack->getFormat()) {
+                    $media = $mediaBlack;
+                    break;
+                }
+            }
+        }
+        else {
+            $media = $value;
+        }
+        
+        if ( !($media instanceof MediaInterface)) {
+            return null;
+        }
+        
+        return $media;
     }
 }

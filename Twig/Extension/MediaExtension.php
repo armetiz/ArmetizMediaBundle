@@ -2,8 +2,6 @@
 
 namespace Leezy\MediaBundle\Twig\Extension;
 
-use Doctrine\Common\Collections\Collection;
-
 use Leezy\MediaBundle\Templating\Helper\MediaHelper;
 use Leezy\MediaBundle\Entity\MediaInterface;
 
@@ -68,25 +66,7 @@ class MediaExtension extends \Twig_Extension
     }
     
     private function findMedia ($value, $format = null) {
-        $media = null;
-        
-        if ($value instanceof Collection) {
-            foreach ($value as $mediaBlack) {
-                if ($format == $mediaBlack->getFormat()) {
-                    $media = $mediaBlack;
-                    break;
-                }
-            }
-        }
-        else {
-            $media = $value;
-        }
-        
-        if ( !($media instanceof MediaInterface)) {
-            return null;
-        }
-        
-        return $media;
+        return $this->helper->getMediaManager ()->findMedia($value, $format);
     }
 
     /**
