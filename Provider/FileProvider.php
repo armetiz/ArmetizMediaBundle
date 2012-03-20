@@ -102,14 +102,7 @@ class FileProvider extends AbstractProvider
     {
         $path = $this->getPath($media);
         $raw = null;
-        try
-        {
-            $raw = $this->getFilesystem()->read($path);
-        }
-        catch (\Exception $e)
-        {
-            
-        }
+        $raw = $this->getFilesystem()->read($path);
         
         return $raw;
     }
