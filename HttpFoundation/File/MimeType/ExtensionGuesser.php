@@ -2,8 +2,6 @@
 
 namespace Leezy\MediaBundle\HttpFoundation\File\MimeType;
 
-use Leezy\MediaBundle\Exceptions\UnknowMimeTypeException;
-
 /**
  * An extension guesser.
  *
@@ -405,6 +403,7 @@ class ExtensionGuesser {
         'video/dl' => 'dl',
         'video/gl' => 'gl',
         'video/mj2' => 'mj2',
+        'video/mp4' => 'mp4',
         'video/mpeg' => 'mpeg',
         'video/quicktime' => 'mov',
         'video/vdo' => 'vdo',

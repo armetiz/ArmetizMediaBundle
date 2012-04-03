@@ -8,6 +8,6 @@ class UnknowMimeTypeException extends Exception
 {
 	public function __construct()
     {
-        parent::__construct("Unknonw mime type.");
+        parent::__construct("Unknown mime type.");
     }
 }
