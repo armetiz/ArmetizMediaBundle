@@ -17,7 +17,7 @@
         "twig/twig": "1.*"
     },
     "autoload": {
-        "psr-0": { "Leezy\\Bundle\\MediaBundle": "" }
+        "psr-0": { "Leezy\\MediaBundle": "" }
     },
     "target-dir": "Leezy/MediaBundle"
 }
