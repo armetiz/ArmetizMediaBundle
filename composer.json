@@ -20,5 +20,5 @@
     "autoload": {
         "psr-0": { "Leezy\\Bundle\\MediaBundle": "" }
     },
-    "target-dir": "Leezy\MediaBundle"
+    "target-dir": "Leezy/MediaBundle"
 }
