@@ -13,7 +13,9 @@
     ],
     "require": {
         "php": ">=5.3.2",
+        "symfony/symfony": ">=2.0.17",
         "knplabs/gaufrette": "*",
+        "doctrine/orm": ">=2",
         "twig/twig": "1.*"
     },
     "autoload": {
