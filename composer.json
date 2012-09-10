@@ -21,5 +21,10 @@
     "autoload": {
         "psr-0": { "Leezy\\MediaBundle": "" }
     },
+    "extra": {
+        "branch-alias": {
+            "dev-master": "1.x-dev"
+        }
+    },
     "target-dir": "Leezy/MediaBundle"
 }
