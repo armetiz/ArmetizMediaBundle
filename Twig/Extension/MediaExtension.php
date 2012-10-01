@@ -29,7 +29,7 @@ class MediaExtension extends \Twig_Extension
     {
         return array(
             'media' => new \Twig_Function_Method($this, 'getMedia', array('is_safe' => array('html'))),
-            'mediaPath' => new \Twig_Function_Method($this, 'getPath'),
+            'mediaUri' => new \Twig_Function_Method($this, 'getUri'),
             'mediaRaw' => new \Twig_Function_Method($this, 'getRaw'),
         );
     }
@@ -44,7 +44,7 @@ class MediaExtension extends \Twig_Extension
         return $this->helper->getMedia($media, $format, $options);
     }
 
-    public function getPath($value, $format = null)
+    public function getUri($value, $format = null)
     {
         
         $media = $this->findMedia ($value, $format);
