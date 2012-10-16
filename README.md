@@ -18,7 +18,7 @@ Add ArmetizMediaBundle in your composer.json:
 ```js
 {
     "require": {
-        "Armetiz/media-bundle": "*"
+        "armetiz/media-bundle": "*"
     }
 }
 ```
@@ -26,10 +26,10 @@ Add ArmetizMediaBundle in your composer.json:
 Now tell composer to download the bundle by running the command:
 
 ``` bash
-$ php composer.phar update Armetiz/media-bundle
+$ php composer.phar update armetiz/media-bundle
 ```
 
-Composer will install the bundle to your project's `vendor/Armetiz` directory.
+Composer will install the bundle to your project's `vendor/armetiz` directory.
 
 ### Step 2: Enable the bundle
 
@@ -53,7 +53,7 @@ Finally, add the following to your config.yml
 
 ``` yaml
 # app/config/config.yml
-Armetiz_media:
+armetiz_media:
     storages:
         media:
             service: gaufrette.medias
