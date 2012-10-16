@@ -1,6 +1,6 @@
 <?php
 
-namespace Leezy\MediaBundle\DependencyInjection;
+namespace Armetiz\MediaBundle\DependencyInjection;
 
 use Symfony\Component\DependencyInjection\ContainerBuilder;
 use Symfony\Component\Config\FileLocator;
@@ -14,7 +14,7 @@ use Symfony\Component\DependencyInjection\Reference;
  *
  * To learn more see {@link http://symfony.com/doc/current/cookbook/bundles/extension.html}
  */
-class LeezyMediaExtension extends Extension
+class ArmetizMediaExtension extends Extension
 {
     /**
      * {@inheritDoc}
@@ -27,12 +27,12 @@ class LeezyMediaExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
         
-        $contextClass = $container->getParameter("leezy.media.context.class");
-        $cdnClass = $container->getParameter("leezy.media.cdn.class");
-        $mediaFileProviderClass = $container->getParameter("leezy.media.provider.file.class");
-        $mediaImageProviderClass = $container->getParameter("leezy.media.provider.image.class");
+        $contextClass = $container->getParameter("Armetiz.media.context.class");
+        $cdnClass = $container->getParameter("Armetiz.media.cdn.class");
+        $mediaFileProviderClass = $container->getParameter("Armetiz.media.provider.file.class");
+        $mediaImageProviderClass = $container->getParameter("Armetiz.media.provider.image.class");
 
-        $manager = $container->getDefinition("leezy.media.manager");
+        $manager = $container->getDefinition("Armetiz.media.manager");
         $storages = array();
         $cdns = array();
         $providers = array();

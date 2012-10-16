@@ -4,23 +4,22 @@
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
     <parameters>
-        <parameter key="leezy.media.cdn.class">Leezy\MediaBundle\CDN\Server</parameter>
-        <parameter key="leezy.media.manager.class">Leezy\MediaBundle\MediaManager</parameter>
-        <parameter key="leezy.media.provider.file.class">Leezy\MediaBundle\Provider\FileProvider</parameter>
-        <parameter key="leezy.media.provider.image.class">Leezy\MediaBundle\Provider\ImageProvider</parameter>
-        <parameter key="leezy.media.context.class">Leezy\MediaBundle\Context\Context</parameter>
-        <parameter key="leezy.media.cdn.class">Leezy\MediaBundle\CDN\Server</parameter>
+        <parameter key="armetiz.media.cdn.class">Armetiz\MediaBundle\CDN\Server</parameter>
+        <parameter key="armetiz.media.manager.class">Armetiz\MediaBundle\MediaManager</parameter>
+        <parameter key="armetiz.media.provider.file.class">Armetiz\MediaBundle\Provider\FileProvider</parameter>
+        <parameter key="armetiz.media.provider.image.class">Armetiz\MediaBundle\Provider\ImageProvider</parameter>
+        <parameter key="armetiz.media.context.class">Armetiz\MediaBundle\Context\Context</parameter>
+        <parameter key="armetiz.media.cdn.class">Armetiz\MediaBundle\CDN\Server</parameter>
         <parameter key="gaufrette.filesystem.class">Gaufrette\Filesystem</parameter>
-        <parameter key="gaufrette.adapter.class">Gaufrette\Adapter\Local</parameter>
-        <parameter key="leezy.media.listener.doctrine.class">Leezy\MediaBundle\Listener\DoctrineListener</parameter>
-        <parameter key="leezy.twig.extension.media.class">Leezy\MediaBundle\Twig\Extension\MediaExtension</parameter>
-        <parameter key="leezy.templating.helper.media.class">Leezy\MediaBundle\Templating\Helper\MediaHelper</parameter>
+        <parameter key="armetiz.media.listener.doctrine.class">Armetiz\MediaBundle\Listener\DoctrineListener</parameter>
+        <parameter key="armetiz.twig.extension.media.class">Armetiz\MediaBundle\Twig\Extension\MediaExtension</parameter>
+        <parameter key="armetiz.templating.helper.media.class">Armetiz\MediaBundle\Templating\Helper\MediaHelper</parameter>
         
-        <parameter key="leezy.media.twig.subtitle.view">LeezyMediaBundle:Subtitle:default.html.twig</parameter>
+        <parameter key="armetiz.media.twig.subtitle.view">ArmetizMediaBundle:Subtitle:default.html.twig</parameter>
     </parameters>
 
     <services>
-        <service id="leezy.media.manager" class="%leezy.media.manager.class%">
+        <service id="armetiz.media.manager" class="%armetiz.media.manager.class%">
             <argument type="service" id="event_dispatcher" on-invalid="ignore"/>
         </service>
         
@@ -28,8 +27,8 @@
             <argument type="service" id="gaufrette.adapter" />
         </service>
         
-        <service id="leezy.media.listener.doctrine" class="%leezy.media.listener.doctrine.class%" public="false">
-            <argument type="service" id="leezy.media.manager" />
+        <service id="armetiz.media.listener.doctrine" class="%armetiz.media.listener.doctrine.class%" public="false">
+            <argument type="service" id="armetiz.media.manager" />
             <tag name="doctrine.event_listener" event="prePersist" method="prePersist" />
             <tag name="doctrine.event_listener" event="preUpdate" method="preUpdate"/>
             <tag name="doctrine.event_listener" event="postPersist" method="postPersist"/>
@@ -37,14 +36,14 @@
             <tag name="doctrine.event_listener" event="preRemove" method="preRemove"/>
         </service>
         
-        <service id="leezy.templating.helper.media" class="%leezy.templating.helper.media.class%" public="false">
+        <service id="armetiz.templating.helper.media" class="%armetiz.templating.helper.media.class%" public="false">
             <tag name="templating.helper" alias="media" />
             <argument type="service" id="service_container" />
         </service>
         
-        <service id="leezy.twig.extension.media" class="%leezy.twig.extension.media.class%" public="false">
+        <service id="armetiz.twig.extension.media" class="%armetiz.twig.extension.media.class%" public="false">
             <tag name="twig.extension" alias="media" />
-            <argument type="service" id="leezy.templating.helper.media" />
+            <argument type="service" id="armetiz.templating.helper.media" />
         </service>
     </services>
 </container>

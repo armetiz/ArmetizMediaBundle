@@ -1,4 +1,4 @@
-LeezyMediaBundle
+ArmetizMediaBundle
 =====================
 
 A Media Manager Bundle
@@ -7,18 +7,18 @@ A Media Manager Bundle
 
 Installation is a quick 3 step process:
 
-1. Download LeezyMediaBundle using composer
+1. Download ArmetizMediaBundle using composer
 2. Enable the Bundle
 3. Configure your application's config.yml
 
-### Step 1: Download LeezyMediaBundle using composer
+### Step 1: Download ArmetizMediaBundle using composer
 
-Add LeezyMediaBundle in your composer.json:
+Add ArmetizMediaBundle in your composer.json:
 
 ```js
 {
     "require": {
-        "leezy/media-bundle": "*"
+        "Armetiz/media-bundle": "*"
     }
 }
 ```
@@ -26,10 +26,10 @@ Add LeezyMediaBundle in your composer.json:
 Now tell composer to download the bundle by running the command:
 
 ``` bash
-$ php composer.phar update leezy/media-bundle
+$ php composer.phar update Armetiz/media-bundle
 ```
 
-Composer will install the bundle to your project's `vendor/leezy` directory.
+Composer will install the bundle to your project's `vendor/Armetiz` directory.
 
 ### Step 2: Enable the bundle
 
@@ -43,7 +43,7 @@ public function registerBundles()
 {
     $bundles = array(
         // ...
-        new Leezy\MediaBundle\LeezyMediaBundle(),
+        new Armetiz\MediaBundle\ArmetizMediaBundle(),
     );
 }
 ```
@@ -53,7 +53,7 @@ Finally, add the following to your config.yml
 
 ``` yaml
 # app/config/config.yml
-leezy_media:
+Armetiz_media:
     storages:
         media:
             service: gaufrette.medias
@@ -64,7 +64,7 @@ leezy_media:
         subtitles:
             filesystem: media
             cdn: local
-            template: LeezyMediaBundle:Subtitle:default.html.twig
+            template: ArmetizMediaBundle:Subtitle:default.html.twig
         thumbnail:
             filesystem: media
             cdn: local

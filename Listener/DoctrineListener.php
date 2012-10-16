@@ -1,9 +1,9 @@
 <?php
 
-namespace Leezy\MediaBundle\Listener;
+namespace Armetiz\MediaBundle\Listener;
 
-use Leezy\MediaBundle\MediaManager;
-use Leezy\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\MediaManager;
+use Armetiz\MediaBundle\Entity\MediaInterface;
 
 use Doctrine\ORM\Event\LifecycleEventArgs;
 use Doctrine\ORM\Event\PreUpdateEventArgs;
@@ -12,7 +12,7 @@ class DoctrineListener
 {
     /**
      *
-     * @var Leezy\MediaBundle\MediaManager
+     * @var Armetiz\MediaBundle\MediaManager
      */
     private $mediaManager;
 

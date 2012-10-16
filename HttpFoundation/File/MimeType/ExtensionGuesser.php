@@ -1,6 +1,6 @@
 <?php
 
-namespace Leezy\MediaBundle\HttpFoundation\File\MimeType;
+namespace Armetiz\MediaBundle\HttpFoundation\File\MimeType;
 
 /**
  * An extension guesser.

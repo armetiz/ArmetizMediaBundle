@@ -1,8 +1,6 @@
 <?php
 
-namespace Leezy\MediaBundle\Context;
-
-use Leezy\MediaBundle\Provider\ProviderInterface;
+namespace Armetiz\MediaBundle\Context;
 
 interface ContextInterface
 {

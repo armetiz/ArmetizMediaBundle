@@ -1,9 +1,9 @@
 <?php
 
-namespace Leezy\MediaBundle\Provider;
+namespace Armetiz\MediaBundle\Provider;
 
-use Leezy\MediaBundle\Entity\MediaInterface;
-use Leezy\MediaBundle\Exceptions\NotValidException;
+use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Exceptions\NotValidException;
 
 use Imagine\Gd\Imagine;
 

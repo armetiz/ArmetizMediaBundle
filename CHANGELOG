@@ -1,3 +1,8 @@
+==1.0.3==
+* Code formatting
+* BC Break : Move get/setContentType from MediaAdvancedInterface to MediaInterface
+* Change name : Leezy become Armetiz
+
 ==1.0.2==
 * Remove getPath method.
 * Rename extension mediaPath to mediaUri.

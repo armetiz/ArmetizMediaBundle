@@ -1,9 +1,8 @@
 <?php
 
-namespace Leezy\MediaBundle\Twig\Extension;
+namespace Armetiz\MediaBundle\Twig\Extension;
 
-use Leezy\MediaBundle\Templating\Helper\MediaHelper;
-use Leezy\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Templating\Helper\MediaHelper;
 
 /**
  * @author Benjamin Dulau <benjamin.dulau@anonymation.com>

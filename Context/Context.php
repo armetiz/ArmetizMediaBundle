@@ -1,9 +1,9 @@
 <?php
 
-namespace Leezy\MediaBundle\Context;
+namespace Armetiz\MediaBundle\Context;
 
-use Leezy\MediaBundle\Provider\ProviderInterface;
-use Leezy\SystemBundle\Exceptions\ArgumentException;
+use Armetiz\MediaBundle\Provider\ProviderInterface;
+use Armetiz\SystemBundle\Exceptions\ArgumentException;
 
 class Context implements ContextInterface
 {

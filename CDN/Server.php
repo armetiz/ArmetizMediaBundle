@@ -1,6 +1,6 @@
 <?php
 
-namespace Leezy\MediaBundle\CDN;
+namespace Armetiz\MediaBundle\CDN;
 
 class Server implements CDNInterface
 {

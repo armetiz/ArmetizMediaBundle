@@ -1,6 +1,6 @@
 <?php
 
-namespace Leezy\MediaBundle\Entity;
+namespace Armetiz\MediaBundle\Entity;
 
 interface FormatInterface
 {

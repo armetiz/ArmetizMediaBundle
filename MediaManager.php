@@ -1,13 +1,12 @@
 <?php
 
-namespace Leezy\MediaBundle;
+namespace Armetiz\MediaBundle;
 
 use Doctrine\Common\Collections\Collection;
 
-use Leezy\MediaBundle\Entity\MediaInterface;
-use Leezy\MediaBundle\Entity\MediaAdvancedInterface;
-use Leezy\MediaBundle\Context\ContextInterface;
-use Leezy\MediaBundle\Event\MediaEvent;
+use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Context\ContextInterface;
+use Armetiz\MediaBundle\Event\MediaEvent;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 

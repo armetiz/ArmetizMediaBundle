@@ -1,17 +1,15 @@
 <?php
 
-namespace Leezy\MediaBundle\Provider;
+namespace Armetiz\MediaBundle\Provider;
 
-use Leezy\MediaBundle\Entity\MediaAdvancedInterface;
-use Leezy\MediaBundle\Entity\MediaInterface;
-use Leezy\MediaBundle\CDN\CDNInterface;
+use Armetiz\MediaBundle\Entity\MediaAdvancedInterface;
+use Armetiz\MediaBundle\Entity\MediaInterface;
 
-use Leezy\MediaBundle\Exceptions\IdentifierEmptyException;
-use Leezy\MediaBundle\Exceptions\MustPreparedException;
-use Leezy\MediaBundle\Exceptions\NotFileException;
-use Leezy\MediaBundle\Exceptions\UnknowMimeTypeException;
+use Armetiz\MediaBundle\Exceptions\MustPreparedException;
+use Armetiz\MediaBundle\Exceptions\NotFileException;
+use Armetiz\MediaBundle\Exceptions\UnknowMimeTypeException;
 
-use Leezy\MediaBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
+use Armetiz\MediaBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -93,17 +91,11 @@ class FileProvider extends AbstractProvider
             $media->setMediaIdentifierBase($identifierBase);
         }
         
-        if ( $media instanceof MediaAdvancedInterface) {
-            $media->setContentType($media->getMedia()->getMimeType());
-        }
+        $media->setContentType($media->getMedia()->getMimeType());
     }
     
     public function getRaw (MediaInterface $media)
     {
-        $path = $this->getPath($media);
-        $raw = null;
-        $raw = $this->getFilesystem()->read($path);
-        
-        return $raw;
+        return $this->getFilesystem()->read($this->getPath($media));
     }
 }

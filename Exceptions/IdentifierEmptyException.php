@@ -1,13 +1,13 @@
 <?php
 
-namespace Leezy\MediaBundle\Exceptions;
+namespace Armetiz\MediaBundle\Exceptions;
 
 use Exception;
 
-class IdentifierEmptyException extends Exception
-{
-	public function __construct()
-    {
+class IdentifierEmptyException extends Exception {
+
+    public function __construct() {
         parent::__construct("Media identifier is empty.");
     }
+
 }

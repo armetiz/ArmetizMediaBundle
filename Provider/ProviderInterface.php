@@ -1,9 +1,8 @@
 <?php
 
-namespace Leezy\MediaBundle\Provider;
+namespace Armetiz\MediaBundle\Provider;
 
-use Leezy\MediaBundle\Entity\MediaInterface;
-use Leezy\MediaBundle\CDN\CDNInterface;
+use Armetiz\MediaBundle\Entity\MediaInterface;
 
 interface ProviderInterface
 {

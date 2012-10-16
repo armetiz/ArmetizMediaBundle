@@ -1,6 +1,6 @@
 <?php
 
-namespace Leezy\MediaBundle\Entity;
+namespace Armetiz\MediaBundle\Entity;
 
 interface MediaInterface
 {
@@ -15,4 +15,10 @@ interface MediaInterface
      */
     public function getMediaIdentifier();
     public function setMediaIdentifier($value);
+    
+    /**
+     * Use to store the type/mime of the file
+     */
+    public function getContentType();
+    public function setContentType($value);
 }

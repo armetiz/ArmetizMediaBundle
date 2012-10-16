@@ -1,10 +1,10 @@
 <?php
 
-namespace Leezy\MediaBundle\Event;
+namespace Armetiz\MediaBundle\Event;
 
 use Symfony\Component\EventDispatcher\Event;
 
-use Leezy\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Entity\MediaInterface;
 
 class MediaEvent extends Event
 {

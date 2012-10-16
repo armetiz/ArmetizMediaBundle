@@ -1,13 +1,11 @@
 <?php
 
-namespace Leezy\MediaBundle\Templating\Helper;
+namespace Armetiz\MediaBundle\Templating\Helper;
 
-use Symfony\Bundle\TwigBundle\TwigEngine;
 use Symfony\Component\Templating\Helper\Helper;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
-use Leezy\MediaBundle\MediaManager;
-use Leezy\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Entity\MediaInterface;
 
 class MediaHelper extends Helper
 {
@@ -48,7 +46,7 @@ class MediaHelper extends Helper
     
     public function getMediaManager ()
     {
-        return $this->container->get('leezy.media.manager');
+        return $this->container->get('Armetiz.media.manager');
     }
     
     public function getTemplating ()

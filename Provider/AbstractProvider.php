@@ -1,24 +1,22 @@
 <?php
 
-namespace Leezy\MediaBundle\Provider;
+namespace Armetiz\MediaBundle\Provider;
 
-use Symfony\Component\HttpFoundation\File\File;
-
-use Leezy\MediaBundle\Exceptions\NotSupportedFormatException;
-use Leezy\MediaBundle\Entity\FormatInterface;
-use Leezy\MediaBundle\Entity\MediaInterface;
-use Leezy\MediaBundle\CDN\CDNInterface;
+use Armetiz\MediaBundle\Exceptions\NotSupportedFormatException;
+use Armetiz\MediaBundle\Entity\FormatInterface;
+use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\CDN\CDNInterface;
 
 abstract class AbstractProvider implements ProviderInterface
 {
     /**
      *
-     * @var Leezy\MediaBundle\Filesystem
+     * @var Armetiz\MediaBundle\Filesystem
      */
     private $filesystem;
     
     /**
-     * @var Leezy\MediaBundle\CDN\CDNInterface
+     * @var Armetiz\MediaBundle\CDN\CDNInterface
      */
     private $contentDeliveryNetwork;
     
