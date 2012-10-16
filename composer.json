@@ -1,5 +1,5 @@
 {
-    "name": "Armetiz/media-bundle",
+    "name": "armetiz/media-bundle",
     "type": "symfony-bundle",
     "description": "Symfony ArmetizMediaBundle",
     "keywords": ["Media management"],
