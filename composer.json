@@ -4,7 +4,7 @@
     "description": "Symfony ArmetizMediaBundle",
     "keywords": ["Media management"],
     "homepage": "",
-    "license": "",
+    "license": "BSD",
     "authors": [
         {
             "name": "Thomas Tourlourat",
