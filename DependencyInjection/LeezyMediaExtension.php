@@ -27,12 +27,12 @@ class ArmetizMediaExtension extends Extension
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
         
-        $contextClass = $container->getParameter("Armetiz.media.context.class");
-        $cdnClass = $container->getParameter("Armetiz.media.cdn.class");
-        $mediaFileProviderClass = $container->getParameter("Armetiz.media.provider.file.class");
-        $mediaImageProviderClass = $container->getParameter("Armetiz.media.provider.image.class");
+        $contextClass = $container->getParameter("armetiz.media.context.class");
+        $cdnClass = $container->getParameter("armetiz.media.cdn.class");
+        $mediaFileProviderClass = $container->getParameter("armetiz.media.provider.file.class");
+        $mediaImageProviderClass = $container->getParameter("armetiz.media.provider.image.class");
 
-        $manager = $container->getDefinition("Armetiz.media.manager");
+        $manager = $container->getDefinition("armetiz.media.manager");
         $storages = array();
         $cdns = array();
         $providers = array();

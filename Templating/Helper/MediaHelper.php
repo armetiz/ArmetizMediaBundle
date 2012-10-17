@@ -46,7 +46,7 @@ class MediaHelper extends Helper
     
     public function getMediaManager ()
     {
-        return $this->container->get('Armetiz.media.manager');
+        return $this->container->get('armetiz.media.manager');
     }
     
     public function getTemplating ()

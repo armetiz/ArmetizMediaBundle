@@ -5,6 +5,7 @@ namespace Armetiz\MediaBundle;
 use Doctrine\Common\Collections\Collection;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Entity\FormatInterface;
 use Armetiz\MediaBundle\Context\ContextInterface;
 use Armetiz\MediaBundle\Event\MediaEvent;
 
@@ -101,7 +102,7 @@ class MediaManager
         
         if ($value instanceof Collection) {
             foreach ($value as $mediaBlack) {
-                if ($format == $mediaBlack->getFormat()) {
+                if ($mediaBlack instanceof FormatInterface && $format == $mediaBlack->getFormat()) {
                     $media = $mediaBlack;
                     break;
                 }
