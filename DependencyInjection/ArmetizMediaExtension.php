@@ -30,7 +30,6 @@ class ArmetizMediaExtension extends Extension
         $contextClass = $container->getParameter("armetiz.media.context.class");
         $cdnClass = $container->getParameter("armetiz.media.cdn.class");
         $mediaFileProviderClass = $container->getParameter("armetiz.media.provider.file.class");
-        $mediaImageProviderClass = $container->getParameter("armetiz.media.provider.image.class");
 
         $manager = $container->getDefinition("armetiz.media.manager");
         $storages = array();
@@ -65,9 +64,6 @@ class ArmetizMediaExtension extends Extension
             switch ($provider["type"]) {
                 case "file" :
                     $mediaProviderClass = $mediaFileProviderClass;
-                    break;
-                case "image" :
-                    $mediaProviderClass = $mediaImageProviderClass;
                     break;
             }
             

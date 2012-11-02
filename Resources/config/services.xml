@@ -7,7 +7,6 @@
         <parameter key="armetiz.media.cdn.class">Armetiz\MediaBundle\CDN\Server</parameter>
         <parameter key="armetiz.media.manager.class">Armetiz\MediaBundle\MediaManager</parameter>
         <parameter key="armetiz.media.provider.file.class">Armetiz\MediaBundle\Provider\FileProvider</parameter>
-        <parameter key="armetiz.media.provider.image.class">Armetiz\MediaBundle\Provider\ImageProvider</parameter>
         <parameter key="armetiz.media.context.class">Armetiz\MediaBundle\Context\Context</parameter>
         <parameter key="armetiz.media.cdn.class">Armetiz\MediaBundle\CDN\Server</parameter>
         <parameter key="gaufrette.filesystem.class">Gaufrette\Filesystem</parameter>

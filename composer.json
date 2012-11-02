@@ -16,8 +16,7 @@
         "symfony/symfony": ">=2.0.17",
         "knplabs/gaufrette": "*",
         "doctrine/orm": ">=2",
-        "twig/twig": "1.*",
-        "imagine/Imagine": "0.3.0"
+        "twig/twig": "1.*"
     },
     "autoload": {
         "psr-0": { "Armetiz\\MediaBundle": "" }
