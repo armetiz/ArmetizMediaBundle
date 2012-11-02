@@ -39,6 +39,11 @@ class MediaHelper extends Helper
         return $this->getMediaManager()->getUri($media);
     }
 
+    public function getPath(MediaInterface $media, $format = null)
+    {        
+        return $this->getMediaManager()->getPath($media);
+    }
+
     public function getRaw(MediaInterface $media, $format = null)
     {        
         return $this->getMediaManager()->getRaw($media);
