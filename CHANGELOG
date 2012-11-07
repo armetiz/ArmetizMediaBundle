@@ -1,3 +1,20 @@
+==1.1.x==
+* Add some Unit Test
+* Add NotSupportedMediaException, throwable by Provider
+* Add NoContextException, throwable by MediaManager
+* ProviderInterface have a new function : canHandleMedia
+* ContextInterface has been updated : setName method
+* ContextInterface has been updated : getProvider take a media as argument
+* ContextInterface has been updated : getProviders
+* ContextInterface has been updated : setProviders
+* ContextInterface has been updated : setFormats
+* ContextInterface has been updated : setManagedClasses
+* Context take care of ContextInterface changes
+* Context have a constructor whithout argument
+* FileProvider take care of new Exception & canHandleMedia new function
+* MediaManager take care of context modification & new exception
+* Composer : dev-master is tag as 1.1.x
+
 ==1.0.5==
 * Remove dependency to Imagine
 
