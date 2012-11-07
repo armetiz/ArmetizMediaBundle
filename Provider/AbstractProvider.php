@@ -10,7 +10,6 @@ use Armetiz\MediaBundle\CDN\CDNInterface;
 abstract class AbstractProvider implements ProviderInterface
 {
     /**
-     *
      * @var Armetiz\MediaBundle\Filesystem
      */
     private $filesystem;
@@ -26,13 +25,11 @@ abstract class AbstractProvider implements ProviderInterface
     private $namespace;
     
     /**
-     *
      * @var string
      */
     private $template;
     
     /**
-     *
      * @var string
      */
     private $formats;
