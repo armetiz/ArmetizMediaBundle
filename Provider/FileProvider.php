@@ -6,8 +6,8 @@ use Armetiz\MediaBundle\Entity\MediaAdvancedInterface;
 use Armetiz\MediaBundle\Entity\MediaInterface;
 
 use Armetiz\MediaBundle\Exceptions\MustPreparedException;
-use Armetiz\MediaBundle\Exceptions\NotFileException;
 use Armetiz\MediaBundle\Exceptions\UnknowMimeTypeException;
+use Armetiz\MediaBundle\Exceptions\NotSupportedMediaException;
 
 use Armetiz\MediaBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
@@ -19,14 +19,20 @@ class FileProvider extends AbstractProvider
 {
     public function validate (MediaInterface $media) {}
     
+    public function canHandleMedia (MediaInterface $media)
+    {
+        return ($media->getMedia() && ($media->getMedia() instanceof File || is_file($media->getMedia())));
+    }
+    
     public function saveMedia (MediaInterface $media)
     {
-        if (null == $media->getMedia()){
-            return null;
-        }
-        
         if (!$media->getMedia() instanceof File) {
-            throw new MustPreparedException();
+            if (!$this->canHandleMedia($media)) {
+                throw new NotSupportedMediaException();
+            }
+            else {
+                throw new MustPreparedException();
+            }
         }
         
         $this->validate($media);
@@ -40,7 +46,9 @@ class FileProvider extends AbstractProvider
     
     public function deleteMedia (MediaInterface $media)
     {
-        //TODO: Check is media has been prepared.
+        if (!$this->canHandleMedia($media)) {
+            throw new NotSupportedMediaException();
+        }
         
         $path = $this->getPath($media);
         
@@ -51,19 +59,12 @@ class FileProvider extends AbstractProvider
     
     public function prepareMedia (MediaInterface $media)
     {
-        
-        $content = $media->getMedia();
-        
-        if (empty($content)) {
-            return;
+        if (!$this->canHandleMedia($media)) {
+            throw new NotSupportedMediaException();
         }
         
-        if (!$content instanceof File) {
-            if (!is_file($content)) {
-                throw new NotFileException();
-            }
-
-            $media->setMedia(new File($content));
+        if (!$media->getMedia() instanceof File && is_file($media->getMedia())) {
+            $media->setMedia(new File($media->getMedia()));
         }
         
         if (!$media->getMediaIdentifier()) {
