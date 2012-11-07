@@ -32,15 +32,18 @@ class ArmetizMediaExtension extends Extension
         $mediaFileProviderClass = $container->getParameter("armetiz.media.provider.file.class");
 
         $manager = $container->getDefinition("armetiz.media.manager");
-        $storages = array();
+        $filesystems = array();
         $cdns = array();
         $providers = array();
-        $contexts = array();
         
-        foreach ($config["storages"] as $name => $storage) {
-            $adapter = new Reference($storage['service']);
-            
-            $storages[$name] = new Definition ("Gaufrette\Filesystem", array ($adapter));
+        $filesystems["default"] = new Definition ("Gaufrette\Filesystem", array ("armetiz.media.storage.default"));
+        
+        if ($config["filesystems"]) {
+            foreach ($config["filesystems"] as $name => $filesystem) {
+                $adapter = new Reference($filesystem['id']);
+
+                $filesystems[$name] = new Definition ("Gaufrette\Filesystem", array ($adapter));
+            }
         }
         
         foreach ($config["cdns"] as $name => $cdn) {
@@ -50,7 +53,7 @@ class ArmetizMediaExtension extends Extension
         }
         
         foreach ($config["providers"] as $name => $provider) {
-            $filesystem = $storages[$provider["filesystem"]];
+            $filesystem = $filesystems[$provider["filesystem"]];
             $cdn = $cdns[$provider["cdn"]];
             $namespace = $name;
             $template = null;
@@ -67,17 +70,49 @@ class ArmetizMediaExtension extends Extension
                     break;
             }
             
-            $providers[$name] = new Definition ($mediaProviderClass, array ($filesystem, $cdn, $namespace, $template));
+            $provider = new Definition($mediaProviderClass);
+            $provider->addMethodCall("setFilesystem", array($filesystem));
+            $provider->addMethodCall("setContentDeliveryNetwork", array($cdn));
+            $provider->addMethodCall("setTemplate", array($template));
+            $provider->addMethodCall("setNamespace", array($namespace));
+            
+            $container->setDefinition("armetiz.media.providers." . $name, $provider);
+            
+            $providers[$name] = $provider;
         }
         
         foreach ($config["contexts"] as $name => $context) {
-            $provider = $providers[$context["provider"]];
             $managed = $context["managed"];
             $formats = $context["formats"];
+            $contextedProviders = array();
             
-            $contexts[$name] = new Definition ($contextClass, array ($name, $provider, array($managed), $formats));
+            foreach ($context["providers"] as $providerName) {
+                $contextedProvider = null;
+                
+                if (array_key_exists($providerName, $providers)) {
+                    $contextedProvider = $providers[$providerName];
+                }
+                
+                if ($container->hasDefinition($providerName)) {
+                    $contextedProvider = $container->getDefinition($providerName);
+                }
+                
+                if (null === $contextedProvider) {
+                    throw new \RuntimeException("Access to an undefined provider: " . $providerName);
+                }
+                
+                $contextedProviders[] = $contextedProvider;
+            }
             
-            $manager->addMethodCall("addContext", array($contexts[$name]));
+            $context = new Definition($contextClass, array ($name, $provider, array($managed), $formats));
+            $context->addMethodCall("setName", array($name));
+            $context->addMethodCall("setProviders", array($contextedProviders));
+            $context->addMethodCall("setManagedClasses", array(array($managed)));
+            $context->addMethodCall("setFormats", array($formats));
+
+            //TODO:: setProviders to context
+            
+            $manager->addMethodCall("addContext", array($context));
         }
     }
 }
