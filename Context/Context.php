@@ -2,24 +2,23 @@
 
 namespace Armetiz\MediaBundle\Context;
 
-use Armetiz\MediaBundle\Provider\ProviderInterface;
 use Armetiz\SystemBundle\Exceptions\ArgumentException;
+use Armetiz\MediaBundle\Entity\MediaInterface;
 
 class Context implements ContextInterface
 {
     private $name;
-    private $provider;
+    private $providers;
     private $formats;
     private $managedClasses;
     
-    public function __construct($name, ProviderInterface $provider, array $managedClasses = array(), array $formats = array())
+    public function __construct()
     {
-        $this->name = $name;
-        $this->managedClasses = $managedClasses;
-        $this->formats = $formats;
+        $this->name = uniqid("media_context_");
         
-        $this->provider = $provider;
-        $this->provider->setFormats ($this->getFormats());
+        $this->providers = array();
+        $this->managedClasses = array();
+        $this->formats = array();
     }
     
     public function getName()
@@ -27,19 +26,56 @@ class Context implements ContextInterface
         return $this->name;
     }
     
-    public function getProvider()
+    public function setName($value)
     {
-        return $this->provider;
+        $this->name = $value;
     }
     
-    public function setProvider(ProviderInterface $value)
+    public function getProvider(MediaInterface $media)
     {
-        $this->provider = $value;
+        foreach($this->providers as $provider)
+        {
+            if ($provider->canHandleMedia($media))
+            {
+                return $provider;
+            }
+        }
+        
+        return null;
+    }
+    
+    public function getProviders()
+    {
+        return $this->providers;
+    }
+    
+    public function setProviders(array $value)
+    {
+        $formats = $this->formats;
+        array_walk($value, function(&$provider) use ($formats) { 
+            $provider->setFormats($formats);
+        });
+        
+        $this->providers = $value;
+    }
+    
+    public function setFormats(array $value)
+    {
+        $this->formats = $value;
+        
+        array_walk($value, function(&$provider) { 
+            $provider->setFormats($this->formats);
+        });
     }
     
     public function getFormats()
     {
         return $this->formats;
+    }
+    
+    public function setManagedClasses(array $value) 
+    {
+        $this->managedClasses = $value;
     }
     
     public function isManaged ($value) {
