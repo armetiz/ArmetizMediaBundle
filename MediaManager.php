@@ -4,10 +4,11 @@ namespace Armetiz\MediaBundle;
 
 use Doctrine\Common\Collections\Collection;
 
+use Armetiz\MediaBundle\Event\MediaEvent;
 use Armetiz\MediaBundle\Entity\MediaInterface;
 use Armetiz\MediaBundle\Entity\FormatInterface;
 use Armetiz\MediaBundle\Context\ContextInterface;
-use Armetiz\MediaBundle\Event\MediaEvent;
+use Armetiz\MediaBundle\Exceptions\NoContextException;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -35,7 +36,7 @@ class MediaManager
                     return $context;
             }
             
-            throw new \InvalidArgumentException(sprintf("Context for class '%s' doesn't exist", get_class($value)));
+            throw new NoContextException($value);
         }
         elseif (is_string($value) && $this->hasContext($value)) {
             return $this->contexts[$value];
@@ -51,7 +52,7 @@ class MediaManager
     
     final protected function getProvider (MediaInterface $media)
     {       
-        return $this->getContext($media)->getProvider();
+        return $this->getContext($media)->getProvider($media);
     }
     
     public function saveMedia (MediaInterface $media)
