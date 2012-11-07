@@ -9,6 +9,7 @@ use Armetiz\MediaBundle\Entity\MediaInterface;
 use Armetiz\MediaBundle\Entity\FormatInterface;
 use Armetiz\MediaBundle\Context\ContextInterface;
 use Armetiz\MediaBundle\Exceptions\NoContextException;
+use Armetiz\MediaBundle\Exceptions\NoProviderException;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -55,8 +56,16 @@ class MediaManager
         return $this->getContext($media)->getProvider($media);
     }
     
+    final protected function checkProvider(MediaInterface $media)
+    {
+        if(!$this->getProvider($media)) {
+            throw new NoProviderException($media, $this->getContext($media));
+        }
+    }
+    
     public function saveMedia (MediaInterface $media)
     {
+        $this->checkProvider($media);
         $this->getProvider ($media)->saveMedia ($media);
                
         if ( $this->dispatcher )
@@ -65,6 +74,7 @@ class MediaManager
     
     public function deleteMedia (MediaInterface $media)
     {
+        $this->checkProvider($media);
         $provider = $this->getProvider ($media);
         $provider->prepareMedia ($media);
         $provider->deleteMedia ($media);
@@ -75,26 +85,31 @@ class MediaManager
     
     public function prepareMedia (MediaInterface $media)
     {
+        $this->checkProvider($media);
         return $this->getProvider ($media)->prepareMedia ($media);
     }
     
     public function getUri (MediaInterface $media)
     {
+        $this->checkProvider($media);
         return $this->getProvider ($media)->getUri ($media);
     }
     
     public function getPath (MediaInterface $media)
     {
+        $this->checkProvider($media);
         return $this->getProvider ($media)->getPath ($media);
     }
     
     public function getRaw (MediaInterface $media)
     {
+        $this->checkProvider($media);
         return $this->getProvider ($media)->getRaw ($media);
     }
     
     public function getTemplate (MediaInterface $media)
     {
+        $this->checkProvider($media);
         return $this->getProvider ($media)->getTemplate ();
     }
     
