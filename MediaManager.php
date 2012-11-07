@@ -88,14 +88,14 @@ class MediaManager
         return $this->getProvider ($media)->getPath ($media);
     }
     
-    public function getTemplate (MediaInterface $media)
-    {
-        return $this->getProvider ($media)->getTemplate ();
-    }
-    
     public function getRaw (MediaInterface $media)
     {
         return $this->getProvider ($media)->getRaw ($media);
+    }
+    
+    public function getTemplate (MediaInterface $media)
+    {
+        return $this->getProvider ($media)->getTemplate ();
     }
     
     public function findMedia ($value, $format = null) {
