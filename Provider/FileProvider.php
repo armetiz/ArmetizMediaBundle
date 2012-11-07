@@ -4,6 +4,7 @@ namespace Armetiz\MediaBundle\Provider;
 
 use Armetiz\MediaBundle\Entity\MediaAdvancedInterface;
 use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Entity\FormatInterface;
 
 use Armetiz\MediaBundle\Exceptions\MustPreparedException;
 use Armetiz\MediaBundle\Exceptions\UnknowMimeTypeException;
@@ -98,5 +99,26 @@ class FileProvider extends AbstractProvider
     public function getRaw (MediaInterface $media)
     {
         return $this->getFilesystem()->read($this->getPath($media));
+    }
+    
+    public function getUri (MediaInterface $media)
+    {
+        $path = $this->getPath ($media);
+        
+        return $this->getContentDeliveryNetwork()->getPath($path);
+    }
+    
+    public function getPath (MediaInterface $media)
+    {
+        $path = $media->getMediaIdentifier();
+        
+        if ($media instanceof FormatInterface) {
+            $format = $this->getFormat ($media->getFormat());            
+            $folder = $format["folder"];
+            
+            return sprintf ("%s/%s/%s", $this->getNamespace(), $folder, $path);
+        }
+        
+        return sprintf ("%s/%s", $this->getNamespace(), $path);
     }
 }

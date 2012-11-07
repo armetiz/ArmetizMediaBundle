@@ -10,4 +10,8 @@ interface ProviderInterface
     public function deleteMedia (MediaInterface $media);
     public function prepareMedia (MediaInterface $media);
     public function canHandleMedia (MediaInterface $media);
+    
+    public function getRaw (MediaInterface $media);
+    public function getUri (MediaInterface $media);
+    public function getPath (MediaInterface $media);
 }
