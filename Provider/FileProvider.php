@@ -22,7 +22,9 @@ class FileProvider extends AbstractProvider
     
     public function canHandleMedia (MediaInterface $media)
     {
-        return ($media->getMedia() && ($media->getMedia() instanceof File || is_file($media->getMedia())));
+        $extension = ExtensionGuesser::guess($media->getContentType());
+        
+        return ((null !== $extension) || $media->getMedia() && ($media->getMedia() instanceof File || is_file($media->getMedia())));
     }
     
     public function saveMedia (MediaInterface $media)
@@ -42,7 +44,6 @@ class FileProvider extends AbstractProvider
         
         $gaufretteFile = new GaufretteFile($path, $this->getFilesystem());
         $gaufretteFile->setContent(file_get_contents($media->getMedia()->getRealPath()));
-        
     }
     
     public function deleteMedia (MediaInterface $media)
@@ -60,9 +61,7 @@ class FileProvider extends AbstractProvider
     
     public function prepareMedia (MediaInterface $media)
     {
-        if (!$this->canHandleMedia($media)) {
-            throw new NotSupportedMediaException();
-        }
+        parent::prepareMedia($media);
         
         if (!$media->getMedia() instanceof File && is_file($media->getMedia())) {
             $media->setMedia(new File($media->getMedia()));

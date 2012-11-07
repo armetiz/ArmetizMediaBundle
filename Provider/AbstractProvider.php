@@ -44,7 +44,15 @@ abstract class AbstractProvider implements ProviderInterface
     
     abstract public function deleteMedia (MediaInterface $media);
     
-    abstract public function prepareMedia (MediaInterface $media);
+    public function prepareMedia (MediaInterface $media) {
+        if (!$this->canHandleMedia($media)) {
+            throw new NotSupportedMediaException();
+        }
+        
+        if (null === $media->getMeta()) {
+            $media->setMeta(array());
+        }
+    }
     
     abstract public function getRaw (MediaInterface $media);
     

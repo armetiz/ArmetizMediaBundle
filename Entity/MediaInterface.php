@@ -5,20 +5,26 @@ namespace Armetiz\MediaBundle\Entity;
 interface MediaInterface
 {
     /**
-     * Use to store the File or the path to temporary file.
+     * Use to store the File or the path to temporary media.
      */
     public function getMedia();
     public function setMedia($value);
 
     /**
-     * Use to store the name of the file.
+     * Use to store the name of the media.
      */
     public function getMediaIdentifier();
     public function setMediaIdentifier($value);
     
     /**
-     * Use to store the type/mime of the file
+     * Use to store the type/mime of the media
      */
     public function getContentType();
     public function setContentType($value);
+    
+    /**
+     * Use to store any time of scalar meta
+     */
+    public function getMeta();
+    public function setMeta(array $value);
 }
