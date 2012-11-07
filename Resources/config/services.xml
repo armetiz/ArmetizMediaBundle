@@ -15,9 +15,15 @@
         <parameter key="armetiz.templating.helper.media.class">Armetiz\MediaBundle\Templating\Helper\MediaHelper</parameter>
         
         <parameter key="armetiz.media.twig.subtitle.view">ArmetizMediaBundle:Subtitle:default.html.twig</parameter>
+        
+        <parameter key="armetiz.media.storage.adapter.class">Gaufrette\Adapter\Local</parameter>
     </parameters>
 
     <services>
+        <service id="armetiz.media.storage.default" class="%armetiz.media.storage.adapter.class%">
+            <argument>%kernel.root_dir%/../web/medias</argument>
+        </service>
+        
         <service id="armetiz.media.manager" class="%armetiz.media.manager.class%">
             <argument type="service" id="event_dispatcher" on-invalid="ignore"/>
         </service>
