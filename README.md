@@ -1,7 +1,15 @@
 ArmetizMediaBundle
 =====================
 
-A Media Manager Bundle
+[![Build Status](https://secure.travis-ci.org/armetiz/ArmetizMediaBundle.png)](http://travis-ci.org/armetiz/ArmetizMediaBundle)
+
+A Media Manager Bundle.
+
+## Todo
+For FileProvider. Do not use the provider name to chose the folder. Maybe use the storage ?
+Use a PathGenerator. Inject the Provider, the Context? & the Media to the PathGenerator.
+
+Think about how to remove MediaManager::prepareMedia. It's something that can be easily forgotten.
 
 ## Installation
 
@@ -62,6 +70,7 @@ armetiz_media:
             base_url: %website_url%/medias
     providers:
         subtitles:
+            type: file
             filesystem: media
             cdn: local
             template: ArmetizMediaBundle:Subtitle:default.html.twig
@@ -93,3 +102,9 @@ This bundle can be configured, and this is the list of what you can do :
 -
 
 **Note:**
+
+## Context
+A context is a simple mapping between an Media & Providers.
+
+## Provider
+A provider is the specific manager for a specific Media. It can be a FileProvider, YoutubeProvider, FlickrProvider, ImageProvider...
