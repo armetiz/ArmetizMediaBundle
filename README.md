@@ -11,6 +11,10 @@ Use a PathGenerator. Inject the Provider, the Context? & the Media to the PathGe
 
 Think about how to remove MediaManager::prepareMedia. It's something that can be easily forgotten.
 
+Do something to provide an automatic CDN http://domain.tld/medias/
+
+Clearly define the "format" feature.
+
 ## Installation
 
 Installation is a quick 3 step process:
