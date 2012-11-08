@@ -3,6 +3,7 @@
 namespace Armetiz\MediaBundle\Twig\Extension;
 
 use Armetiz\MediaBundle\Templating\Helper\MediaHelper;
+use Armetiz\MediaBundle\Exceptions\NotFoundException;
 
 /**
  * @author Benjamin Dulau <benjamin.dulau@anonymation.com>
@@ -39,7 +40,7 @@ class MediaExtension extends \Twig_Extension
         $media = $this->findMedia ($value, $format);
         
         if (!$media)
-            return '';
+            throw new NotFoundException();
         
         return $this->helper->getMedia($media, $format, $options);
     }
@@ -50,7 +51,7 @@ class MediaExtension extends \Twig_Extension
         $media = $this->findMedia ($value, $format);
         
         if (!$media)
-            return '';
+            throw new NotFoundException();
         
         return $this->helper->getUri($media, $format);
     }
@@ -61,7 +62,7 @@ class MediaExtension extends \Twig_Extension
         $media = $this->findMedia ($value, $format);
         
         if (!$media)
-            return '';
+            throw new NotFoundException();
         
         return $this->helper->getPath($media, $format);
     }
@@ -71,7 +72,7 @@ class MediaExtension extends \Twig_Extension
         $media = $this->findMedia ($value, $format);
         
         if (!$media)
-            return '';
+            throw new NotFoundException();
         
         return $this->helper->getRaw($media, $format);
     }
