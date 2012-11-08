@@ -19,7 +19,14 @@ class MediaHelper extends Helper
 
     public function getMedia(MediaInterface $media, $format = null, array $options = array())
     {
-        $template = $this->getMediaManager()->getTemplate($media);
+        if(array_key_exists("template", $options)) {
+            $templateName = $options["template"];
+        }
+        else {
+            $templateName = "default";
+        }
+        
+        $template = $this->getMediaManager()->getTemplate($media, $templateName);
         
         if (empty($template)) {
             throw new NoTemplateException($media);

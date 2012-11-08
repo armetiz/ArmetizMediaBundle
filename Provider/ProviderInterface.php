@@ -14,4 +14,8 @@ interface ProviderInterface
     public function getRaw (MediaInterface $media);
     public function getUri (MediaInterface $media);
     public function getPath (MediaInterface $media);
+    
+    public function setTemplates (array $value);
+    public function getTemplates ();
+    public function getTemplate ($name = "default");
 }

@@ -107,10 +107,10 @@ class MediaManager
         return $this->getProvider ($media)->getRaw ($media);
     }
     
-    public function getTemplate (MediaInterface $media)
+    public function getTemplate (MediaInterface $media, $name = "default")
     {
         $this->checkProvider($media);
-        return $this->getProvider ($media)->getTemplate ();
+        return $this->getProvider ($media)->getTemplate ($name);
     }
     
     public function findMedia ($value, $format = null) {

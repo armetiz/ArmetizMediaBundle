@@ -32,7 +32,11 @@ class ArmetizMediaExtensionTest extends \PHPUnit_Framework_TestCase {
                 ),
                 "providers" => array (
                     "provider_fake" => array (
-                        "cdn" => "local"
+                        "cdn" => "local",
+                        "templates" => array (
+                            "default" => "FakeTemplate",
+                            "foo" => "FooTemplate"
+                        )
                     )
                 )
             )

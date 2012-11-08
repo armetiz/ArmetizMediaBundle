@@ -62,28 +62,37 @@ Finally, add the following to your config.yml
 ``` yaml
 # app/config/config.yml
 armetiz_media:
-    storages:
-        media:
-            service: gaufrette.medias
+    filesystems:
+        fake:
+            id: fake.service
     cdns: 
         local:
             base_url: %website_url%/medias
-    providers:
+    providers:  //use this section to configure pre-defined provider
         subtitles:
             type: file
-            filesystem: media
             cdn: local
             template: ArmetizMediaBundle:Subtitle:default.html.twig
         thumbnail:
-            filesystem: media
+            filesystem: fake
             cdn: local
     contexts:
         subtitles:
+            managed: Acme\FileBundle\Entity\File
+            templates:
+                default: AcmeSiteBundle:Media:subtitles.html.twig
+                foo: AcmeSiteBundle:Media:subtitles_foo.html.twig
+            providers: 
+                - app.media.provider_foo
+                - app.media.provider_bar
+        subtitles:
             managed: Acme\SubtitleBundle\Entity\Subtitle
-            provider: subtitles
+            providers: 
+                - subtitles
         thumbnail:
             managed: Acme\PosterBundle\Entity\Thumbnail
-            provider: thumbnail
+            providers: 
+                - thumbnail
             default_media: default.jpg
             formats:
                 128x72:
@@ -98,8 +107,9 @@ armetiz_media:
 
 ## Configuration
 This bundle can be configured, and this is the list of what you can do :
--
--
+- A default storage exists. The path is "web/medias".
+- Context can take provider defined anywhere (see above: app.media.provider_foo)
+- Context can take many provider. Each one handle a specific media. Is many provider can handle a media, the defined first will be choosen
 
 **Note:**
 

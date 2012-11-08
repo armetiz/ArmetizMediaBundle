@@ -29,14 +29,13 @@ class ArmetizMediaExtension extends Extension
         
         $contextClass = $container->getParameter("armetiz.media.context.class");
         $cdnClass = $container->getParameter("armetiz.media.cdn.class");
-        $mediaFileProviderClass = $container->getParameter("armetiz.media.provider.file.class");
 
         $manager = $container->getDefinition("armetiz.media.manager");
         $filesystems = array();
         $cdns = array();
         $providers = array();
         
-        $filesystems["default"] = new Definition ("Gaufrette\Filesystem", array ("armetiz.media.storage.default"));
+        $filesystems["default"] = new Definition ("Gaufrette\Filesystem", array (new Reference("armetiz.media.storage.default")));
         
         if ($config["filesystems"]) {
             foreach ($config["filesystems"] as $name => $filesystem) {
@@ -52,14 +51,21 @@ class ArmetizMediaExtension extends Extension
             $cdns[$name] = new Definition ($cdnClass, array ($baseUrl));
         }
         
+        $mediaFileProviderClass = $container->getParameter("armetiz.media.provider.file.class");
+        $mediaYoutubeProviderClass = $container->getParameter("armetiz.media.provider.youtube.class");
+        
         foreach ($config["providers"] as $name => $provider) {
+            if (!array_key_exists($provider["filesystem"], $filesystems)) {
+                throw new \RuntimeException("Access to an undefined filesystem: " . $provider["filesystem"]);
+            }
+            
             $filesystem = $filesystems[$provider["filesystem"]];
             $cdn = $cdns[$provider["cdn"]];
             $namespace = $name;
-            $template = null;
+            $templates = array();
             
-            if (array_key_exists("template", $provider))
-                $template = $provider["template"];
+            if (array_key_exists("templates", $provider))
+                $templates = $provider["templates"];
             
             if (array_key_exists("namespace", $provider))
                 $namespace = $provider["namespace"];
@@ -68,12 +74,15 @@ class ArmetizMediaExtension extends Extension
                 case "file" :
                     $mediaProviderClass = $mediaFileProviderClass;
                     break;
+                case "youtube" :
+                    $mediaProviderClass = $mediaYoutubeProviderClass;
+                    break;
             }
             
             $provider = new Definition($mediaProviderClass);
             $provider->addMethodCall("setFilesystem", array($filesystem));
             $provider->addMethodCall("setContentDeliveryNetwork", array($cdn));
-            $provider->addMethodCall("setTemplate", array($template));
+            $provider->addMethodCall("setTemplates", array($templates));
             $provider->addMethodCall("setNamespace", array($namespace));
             
             $container->setDefinition("armetiz.media.providers." . $name, $provider);

@@ -28,7 +28,7 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @var string
      */
-    private $template;
+    private $templates;
     
     /**
      * @var string
@@ -88,16 +88,26 @@ abstract class AbstractProvider implements ProviderInterface
     public function getNamespace ()
     {      
         return $this->namespace;
-    }    
-    
-    public function setTemplate($value)
-    {
-        $this->template = $value;
     }
     
-    public function getTemplate ()
-    {      
-        return $this->template;
+    public function setTemplates(array $value)
+    {
+        $this->templates = $value;
+    }
+    
+    public function getTemplates()
+    {
+        return $this->templates;
+    }
+    
+    public function getTemplate ($name = "default")
+    {
+        if(array_key_exists($name, $this->templates)) {
+            return $this->templates[$name];
+        }
+        else {
+            return null;
+        }
     }
     
     public function setFormats ($value) {

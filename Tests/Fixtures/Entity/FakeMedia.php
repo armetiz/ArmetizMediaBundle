@@ -20,6 +20,11 @@ class FakeMedia implements MediaInterface {
      */
     protected $mediaIdentifier = null;
 
+    /**
+     * @var array
+     */
+    protected $meta = null;
+
     public function getDateCreation() {
         return $this->dateCreation;
     }
@@ -50,5 +55,13 @@ class FakeMedia implements MediaInterface {
 
     public function setContentType($value) {
         $this->contentType = $value;
+    }
+    
+    public function getMeta() {
+        return $this->meta;
+    }
+
+    public function setMeta(array $value) {
+        $this->meta = $value;
     }
 }
