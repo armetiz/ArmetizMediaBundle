@@ -9,9 +9,9 @@ A Media Manager Bundle.
 For FileProvider. Do not use the provider name to chose the folder. Maybe use the storage ?
 Use a PathGenerator. Inject the Provider, the Context? & the Media to the PathGenerator.
 
-Think about how to remove MediaManager::prepareMedia. It's something that can be easily forgotten.
-
 Do something to provide an automatic CDN http://domain.tld/medias/
+Add "base_folder: medias/"
+Use it to Gaufrette Adapter & CDN
 
 Clearly define the "format" feature.
 
@@ -82,7 +82,8 @@ armetiz_media:
             cdn: local
     contexts:
         subtitles:
-            managed: Acme\FileBundle\Entity\File
+            managed: 
+                - Acme\FileBundle\Entity\File
             templates:
                 default: AcmeSiteBundle:Media:subtitles.html.twig
                 foo: AcmeSiteBundle:Media:subtitles_foo.html.twig
@@ -90,11 +91,13 @@ armetiz_media:
                 - app.media.provider_foo
                 - app.media.provider_bar
         subtitles:
-            managed: Acme\SubtitleBundle\Entity\Subtitle
+            managed: 
+                - Acme\SubtitleBundle\Entity\Subtitle
             providers: 
                 - subtitles
         thumbnail:
-            managed: Acme\PosterBundle\Entity\Thumbnail
+            managed: 
+                - Acme\PosterBundle\Entity\Thumbnail
             providers: 
                 - thumbnail
             default_media: default.jpg
@@ -116,6 +119,18 @@ This bundle can be configured, and this is the list of what you can do :
 - Context can take many provider. Each one handle a specific media. Is many provider can handle a media, the defined first will be choosen
 
 **Note:**
+
+## Usage
+#Twig
+Some helpers have been created to Twig. In fact, you can : render the media using templates, get the raw media, and uri or a simple path. 
+
+``` yaml
+{{ media(thumbnail) }}
+{{ media(thumbnail, null, {template: foo}) }}
+{{ mediaPath(thumbnail) }}
+{{ mediaUri(thumbnail) }}
+{{ mediaRaw(thumbnail) }}
+```
 
 ## Context
 A context is a simple mapping between an Media & Providers.

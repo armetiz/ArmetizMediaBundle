@@ -38,6 +38,19 @@ class ArmetizMediaExtensionTest extends \PHPUnit_Framework_TestCase {
                             "foo" => "FooTemplate"
                         )
                     )
+                ),
+                "contexts" => array (
+                    "fake" => array (
+                        "managed" => array (
+                            "FakeMedia",
+                            "FooMedia",
+                            "BarMedia"
+                        ),
+                        "providers" => array (
+                            "provider_fake"
+                        )
+                        
+                    )
                 )
             )
         );
