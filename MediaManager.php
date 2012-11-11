@@ -51,7 +51,7 @@ class MediaManager
         return array_key_exists($name, $this->contexts);
     }
     
-    final protected function getProvider (MediaInterface $media)
+    final public function getProvider (MediaInterface $media)
     {       
         return $this->getContext($media)->getProvider($media);
     }

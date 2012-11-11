@@ -35,7 +35,7 @@ class ArmetizMediaExtension extends Extension
         $cdns = array();
         $providers = array();
         
-        $filesystems["default"] = new Definition ("Gaufrette\Filesystem", array (new Reference("armetiz.media.storage.default")));
+        $filesystems["default"] = new Reference("armetiz.media.filesystem.default");
         
         if ($config["filesystems"]) {
             foreach ($config["filesystems"] as $name => $filesystem) {
@@ -45,6 +45,8 @@ class ArmetizMediaExtension extends Extension
             }
         }
         
+        $cdns["default"] = new Reference("armetiz.media.cdn.default");
+        
         foreach ($config["cdns"] as $name => $cdn) {
             $baseUrl = $cdn["base_url"];
             
@@ -53,6 +55,10 @@ class ArmetizMediaExtension extends Extension
         
         $mediaFileProviderClass = $container->getParameter("armetiz.media.provider.file.class");
         $mediaYoutubeProviderClass = $container->getParameter("armetiz.media.provider.youtube.class");
+        $mediaDailymotionProviderClass = $container->getParameter("armetiz.media.provider.dailymotion.class");
+        $mediaVimeoProviderClass = $container->getParameter("armetiz.media.provider.vimeo.class");
+        $mediaGMapProviderClass = $container->getParameter("armetiz.media.provider.gmap.class");
+        $mediaUrlProviderClass = $container->getParameter("armetiz.media.provider.url.class");
         
         foreach ($config["providers"] as $name => $provider) {
             if (!array_key_exists($provider["filesystem"], $filesystems)) {
@@ -77,6 +83,20 @@ class ArmetizMediaExtension extends Extension
                 case "youtube" :
                     $mediaProviderClass = $mediaYoutubeProviderClass;
                     break;
+                case "dailymotion" :
+                    $mediaProviderClass = $mediaDailymotionProviderClass;
+                    break;
+                case "vimeo" :
+                    $mediaProviderClass = $mediaVimeoProviderClass;
+                    break;
+                case "gmap" :
+                    $mediaProviderClass = $mediaGMapProviderClass;
+                    break;
+                case "url" :
+                    $mediaProviderClass = $mediaUrlProviderClass;
+                    break;
+                default: 
+                    throw new \RuntimeException("Unknown type: '" . $provider["type"] . "'");
             }
             
             $provider = new Definition($mediaProviderClass);
@@ -112,12 +132,8 @@ class ArmetizMediaExtension extends Extension
                     $contextedProvider = $providers[$providerName];
                 }
                 
-                if ($container->hasDefinition($providerName)) {
-                    $contextedProvider = $container->getDefinition($providerName);
-                }
-                
                 if (null === $contextedProvider) {
-                    throw new \RuntimeException("Access to an undefined provider: " . $providerName);
+                    $contextedProvider = new Reference($providerName);
                 }
                 
                 $contextedProviders[] = $contextedProvider;

@@ -6,10 +6,10 @@ use Armetiz\MediaBundle\Entity\MediaInterface;
 
 use Armetiz\MediaBundle\Exceptions\NotSupportedMediaException;
 
-class YoutubeProvider extends AbstractProvider
+class VimeoProvider extends AbstractProvider
 {
-    const TYPE_MIME = "x-armetiz/youtube";
-    const PATTERN = "/youtube\/([A-Za-z0-9_\-]+)/";
+    const TYPE_MIME = "x-armetiz/vimeo";
+    const PATTERN = "/vimeo\/([A-Za-z0-9_\-]+)/";
     
     public function validate (MediaInterface $media) {}
     

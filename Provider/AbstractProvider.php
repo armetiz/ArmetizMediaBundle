@@ -38,6 +38,7 @@ abstract class AbstractProvider implements ProviderInterface
     public function __construct ()
     {
         $this->formats = array();
+        $this->templates = array();
     }
     
     abstract public function saveMedia (MediaInterface $media);

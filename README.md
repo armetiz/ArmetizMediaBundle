@@ -13,7 +13,9 @@ Do something to provide an automatic CDN http://domain.tld/medias/
 Add "base_folder: medias/"
 Use it to Gaufrette Adapter & CDN
 
-Clearly define the "format" feature.
+Clearly define the "format" feature. Or remove it.
+
+Add options to configure existing Provider types.
 
 ## Installation
 
@@ -76,7 +78,9 @@ armetiz_media:
         subtitles:
             type: file
             cdn: local
-            template: ArmetizMediaBundle:Subtitle:default.html.twig
+            templates:
+                default: AcmeSiteBundle:Media:subtitles.html.twig
+                foo: AcmeSiteBundle:Media:subtitles_foo.html.twig
         thumbnail:
             filesystem: fake
             cdn: local
@@ -84,9 +88,6 @@ armetiz_media:
         subtitles:
             managed: 
                 - Acme\FileBundle\Entity\File
-            templates:
-                default: AcmeSiteBundle:Media:subtitles.html.twig
-                foo: AcmeSiteBundle:Media:subtitles_foo.html.twig
             providers: 
                 - app.media.provider_foo
                 - app.media.provider_bar
@@ -137,3 +138,7 @@ A context is a simple mapping between an Media & Providers.
 
 ## Provider
 A provider is the specific manager for a specific Media. It can be a FileProvider, YoutubeProvider, FlickrProvider, ImageProvider...
+Existing type :
+* file (which is the default)
+* youtube
+* dailymotion

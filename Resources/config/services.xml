@@ -8,9 +8,11 @@
         <parameter key="armetiz.media.manager.class">Armetiz\MediaBundle\MediaManager</parameter>
         <parameter key="armetiz.media.provider.file.class">Armetiz\MediaBundle\Provider\FileProvider</parameter>
         <parameter key="armetiz.media.provider.youtube.class">Armetiz\MediaBundle\Provider\YoutubeProvider</parameter>
+        <parameter key="armetiz.media.provider.dailymotion.class">Armetiz\MediaBundle\Provider\DailymotionProvider</parameter>
+        <parameter key="armetiz.media.provider.vimeo.class">Armetiz\MediaBundle\Provider\VimeoProvider</parameter>
+        <parameter key="armetiz.media.provider.gmap.class">Armetiz\MediaBundle\Provider\GMapProvider</parameter>
+        <parameter key="armetiz.media.provider.url.class">Armetiz\MediaBundle\Provider\UrlProvider</parameter>
         <parameter key="armetiz.media.context.class">Armetiz\MediaBundle\Context\Context</parameter>
-        <parameter key="armetiz.media.cdn.class">Armetiz\MediaBundle\CDN\Server</parameter>
-        <parameter key="gaufrette.filesystem.class">Gaufrette\Filesystem</parameter>
         <parameter key="armetiz.media.listener.doctrine.class">Armetiz\MediaBundle\Listener\DoctrineListener</parameter>
         <parameter key="armetiz.twig.extension.media.class">Armetiz\MediaBundle\Twig\Extension\MediaExtension</parameter>
         <parameter key="armetiz.templating.helper.media.class">Armetiz\MediaBundle\Templating\Helper\MediaHelper</parameter>
@@ -18,6 +20,7 @@
         <parameter key="armetiz.media.twig.subtitle.view">ArmetizMediaBundle:Subtitle:default.html.twig</parameter>
         
         <parameter key="armetiz.media.storage.adapter.class">Gaufrette\Adapter\Local</parameter>
+        <parameter key="armetiz.media.filesystem.class">Gaufrette\Filesystem</parameter>
     </parameters>
 
     <services>
@@ -25,12 +28,16 @@
             <argument>%kernel.root_dir%/../web/medias</argument>
         </service>
         
-        <service id="armetiz.media.manager" class="%armetiz.media.manager.class%">
-            <argument type="service" id="event_dispatcher" on-invalid="ignore"/>
+        <service id="armetiz.media.filesystem.default" class="%armetiz.media.filesystem.class%">
+            <argument type="service" id="armetiz.media.storage.default" />
         </service>
         
-        <service id="gaufrette.filesystem" class="%gaufrette.filesystem.class%" public="false">
-            <argument type="service" id="gaufrette.adapter" />
+        <service id="armetiz.media.cdn.default" class="%armetiz.media.cdn.class%">
+            <argument>%website_url%/medias</argument>
+        </service>
+        
+        <service id="armetiz.media.manager" class="%armetiz.media.manager.class%">
+            <argument type="service" id="event_dispatcher" on-invalid="ignore"/>
         </service>
         
         <service id="armetiz.media.listener.doctrine" class="%armetiz.media.listener.doctrine.class%" public="false">

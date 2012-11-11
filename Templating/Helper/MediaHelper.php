@@ -29,18 +29,20 @@ class MediaHelper extends Helper
         $template = $this->getMediaManager()->getTemplate($media, $templateName);
         
         if (empty($template)) {
-            throw new NoTemplateException($media);
+            throw new NoTemplateException($media, $this->getMediaManager()->getProvider($media));
         }
         
         $uri = $this->getMediaManager()->getUri($media);
         $raw = $this->getMediaManager()->getRaw($media);
+        $path = $this->getMediaManager()->getPath($media);
         
         return $this->getTemplating()->render($template, array(
             'media' => $media,
             'format' => $format,
             'options' => $options,
             'raw' => $raw,
-            'uri' => $uri
+            'uri' => $uri,
+            'path' => $path
         ));
     }
 

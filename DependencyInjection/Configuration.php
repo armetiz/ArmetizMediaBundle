@@ -56,7 +56,7 @@ class Configuration implements ConfigurationInterface
                             ->end()
                             ->scalarNode('cdn')
                                 ->cannotBeEmpty()
-                                ->isRequired()
+                                ->defaultValue("default")
                             ->end()
                             ->scalarNode('namespace')
                                 ->cannotBeEmpty()
