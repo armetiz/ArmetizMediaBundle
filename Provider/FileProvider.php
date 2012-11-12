@@ -2,6 +2,7 @@
 
 namespace Armetiz\MediaBundle\Provider;
 
+use Armetiz\MediaBundle\Entity\MediaTimestampableInterface;
 use Armetiz\MediaBundle\Entity\MediaAdvancedInterface;
 use Armetiz\MediaBundle\Entity\MediaInterface;
 
@@ -108,8 +109,13 @@ class FileProvider extends AbstractProvider
     
     public function getPath (MediaInterface $media)
     {
-        $path = $media->getMediaIdentifier();
+        $path = $this->getNamespace();
         
-        return sprintf ("%s/%s", $this->getNamespace(), $path);
+        if ($media instanceof MediaTimestampableInterface) {
+            $dateCreation = $media->getDateCreation();
+            $path = $path . "/" . $dateCreation->format("Y-m");
+        }
+        
+        return $path . "/" . $media->getMediaIdentifier();
     }
 }
