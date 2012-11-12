@@ -4,7 +4,6 @@ namespace Armetiz\MediaBundle\Provider;
 
 use Armetiz\MediaBundle\Entity\MediaAdvancedInterface;
 use Armetiz\MediaBundle\Entity\MediaInterface;
-use Armetiz\MediaBundle\Entity\FormatInterface;
 
 use Armetiz\MediaBundle\Exceptions\MustPreparedException;
 use Armetiz\MediaBundle\Exceptions\UnknowMimeTypeException;
