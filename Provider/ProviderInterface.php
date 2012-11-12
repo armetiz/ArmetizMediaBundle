@@ -18,4 +18,5 @@ interface ProviderInterface
     public function setTemplates (array $value);
     public function getTemplates ();
     public function getTemplate ($name = "default");
+    public function getDefaultTemplate ();
 }

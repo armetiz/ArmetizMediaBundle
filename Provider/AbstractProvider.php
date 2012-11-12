@@ -107,8 +107,12 @@ abstract class AbstractProvider implements ProviderInterface
             return $this->templates[$name];
         }
         else {
-            return null;
+            return $this->getDefaultTemplate();
         }
+    }
+    
+    public function getDefaultTemplate() {
+        return null;
     }
     
     public function setFormats ($value) {

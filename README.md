@@ -1,6 +1,6 @@
 ArmetizMediaBundle
 =====================
-
+[![project status](http://stillmaintained.com/armetiz/ArmetizMediaBundle.png)](http://stillmaintained.com/armetiz/ArmetizMediaBundle)
 [![Build Status](https://secure.travis-ci.org/armetiz/ArmetizMediaBundle.png)](http://travis-ci.org/armetiz/ArmetizMediaBundle)
 
 A Media Manager Bundle.
@@ -81,9 +81,7 @@ armetiz_media:
             templates:
                 default: AcmeSiteBundle:Media:subtitles.html.twig
                 foo: AcmeSiteBundle:Media:subtitles_foo.html.twig
-        thumbnail:
-            filesystem: fake
-            cdn: local
+        thumbnail: ~
     contexts:
         subtitles:
             managed: 

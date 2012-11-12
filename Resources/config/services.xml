@@ -6,12 +6,6 @@
     <parameters>
         <parameter key="armetiz.media.cdn.class">Armetiz\MediaBundle\CDN\Server</parameter>
         <parameter key="armetiz.media.manager.class">Armetiz\MediaBundle\MediaManager</parameter>
-        <parameter key="armetiz.media.provider.file.class">Armetiz\MediaBundle\Provider\FileProvider</parameter>
-        <parameter key="armetiz.media.provider.youtube.class">Armetiz\MediaBundle\Provider\YoutubeProvider</parameter>
-        <parameter key="armetiz.media.provider.dailymotion.class">Armetiz\MediaBundle\Provider\DailymotionProvider</parameter>
-        <parameter key="armetiz.media.provider.vimeo.class">Armetiz\MediaBundle\Provider\VimeoProvider</parameter>
-        <parameter key="armetiz.media.provider.gmap.class">Armetiz\MediaBundle\Provider\GMapProvider</parameter>
-        <parameter key="armetiz.media.provider.url.class">Armetiz\MediaBundle\Provider\UrlProvider</parameter>
         <parameter key="armetiz.media.context.class">Armetiz\MediaBundle\Context\Context</parameter>
         <parameter key="armetiz.media.listener.doctrine.class">Armetiz\MediaBundle\Listener\DoctrineListener</parameter>
         <parameter key="armetiz.twig.extension.media.class">Armetiz\MediaBundle\Twig\Extension\MediaExtension</parameter>

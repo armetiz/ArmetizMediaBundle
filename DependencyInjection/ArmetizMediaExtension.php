@@ -53,12 +53,6 @@ class ArmetizMediaExtension extends Extension
             $cdns[$name] = new Definition ($cdnClass, array ($baseUrl));
         }
         
-        $mediaFileProviderClass = $container->getParameter("armetiz.media.provider.file.class");
-        $mediaYoutubeProviderClass = $container->getParameter("armetiz.media.provider.youtube.class");
-        $mediaDailymotionProviderClass = $container->getParameter("armetiz.media.provider.dailymotion.class");
-        $mediaVimeoProviderClass = $container->getParameter("armetiz.media.provider.vimeo.class");
-        $mediaGMapProviderClass = $container->getParameter("armetiz.media.provider.gmap.class");
-        
         foreach ($config["providers"] as $name => $provider) {
             if (!array_key_exists($provider["filesystem"], $filesystems)) {
                 throw new \RuntimeException("Access to an undefined filesystem: " . $provider["filesystem"]);
@@ -77,19 +71,22 @@ class ArmetizMediaExtension extends Extension
             
             switch ($provider["type"]) {
                 case "file" :
-                    $mediaProviderClass = $mediaFileProviderClass;
+                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\FileProvider";
                     break;
                 case "youtube" :
-                    $mediaProviderClass = $mediaYoutubeProviderClass;
+                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\YoutubeProvider";
                     break;
                 case "dailymotion" :
-                    $mediaProviderClass = $mediaDailymotionProviderClass;
+                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\DailymotionProvider";
                     break;
                 case "vimeo" :
-                    $mediaProviderClass = $mediaVimeoProviderClass;
+                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\VimeoProvider";
                     break;
                 case "gmap" :
-                    $mediaProviderClass = $mediaGMapProviderClass;
+                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\GMapProvider";
+                    break;
+                case "image" :
+                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\ImageProvider";
                     break;
                 default: 
                     throw new \RuntimeException("ArmetizMediaBundle, unknown type: '" . $provider["type"] . "' for provider: '" . $name . "'");
