@@ -107,7 +107,6 @@ class ArmetizMediaExtension extends Extension
         
         foreach ($config["contexts"] as $name => $context) {
             $managedClasses = $context["managed"];
-            $formats = $context["formats"];
             $contextedProviders = array();
             
             foreach ($managedClasses as $managedClass) {
@@ -136,7 +135,6 @@ class ArmetizMediaExtension extends Extension
             $context->addMethodCall("setName", array($name));
             $context->addMethodCall("setProviders", array($contextedProviders));
             $context->addMethodCall("setManagedClasses", array($managedClasses));
-            $context->addMethodCall("setFormats", array($formats));
 
             //TODO:: setProviders to context
             

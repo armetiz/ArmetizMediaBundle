@@ -112,26 +112,4 @@ class MediaManager
         $this->checkProvider($media);
         return $this->getProvider ($media)->getTemplate ($name);
     }
-    
-    public function findMedia ($value, $format = null) {
-        $media = null;
-        
-        if ($value instanceof Collection) {
-            foreach ($value as $mediaBlack) {
-                if ($mediaBlack instanceof FormatInterface && $format == $mediaBlack->getFormat()) {
-                    $media = $mediaBlack;
-                    break;
-                }
-            }
-        }
-        else {
-            $media = $value;
-        }
-        
-        if ( !($media instanceof MediaInterface)) {
-            return null;
-        }
-        
-        return $media;
-    }
 }

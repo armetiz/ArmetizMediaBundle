@@ -2,7 +2,6 @@
 
 namespace Armetiz\MediaBundle\Provider;
 
-use Armetiz\MediaBundle\Exceptions\NotSupportedFormatException;
 use Armetiz\MediaBundle\Entity\MediaInterface;
 use Armetiz\MediaBundle\CDN\CDNInterface;
 
@@ -30,14 +29,8 @@ abstract class AbstractProvider implements ProviderInterface
      */
     private $templates;
     
-    /**
-     * @var string
-     */
-    private $formats;
-    
     public function __construct ()
     {
-        $this->formats = array();
         $this->templates = array();
     }
     
@@ -113,21 +106,5 @@ abstract class AbstractProvider implements ProviderInterface
     
     public function getDefaultTemplate() {
         return null;
-    }
-    
-    public function setFormats ($value) {
-        $this->formats = $value;
-    }
-    
-    public function getFormats () {
-        return $this->formats;
-    }
-    
-    public function getFormat ($format) {
-        if (!array_key_exists($format, $this->formats)) {
-            throw new NotSupportedFormatException ($format);
-        }
-        
-        return $this->formats[$format];
     }
 }

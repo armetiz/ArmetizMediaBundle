@@ -9,7 +9,6 @@ class Context implements ContextInterface
 {
     private $name;
     private $providers;
-    private $formats;
     private $managedClasses;
     
     public function __construct()
@@ -18,7 +17,6 @@ class Context implements ContextInterface
         
         $this->providers = array();
         $this->managedClasses = array();
-        $this->formats = array();
     }
     
     public function getName()
@@ -51,26 +49,7 @@ class Context implements ContextInterface
     
     public function setProviders(array $value)
     {
-        $formats = $this->formats;
-        array_walk($value, function(&$provider) use ($formats) { 
-            $provider->setFormats($formats);
-        });
-        
         $this->providers = $value;
-    }
-    
-    public function setFormats(array $value)
-    {
-        $this->formats = $value;
-        
-        array_walk($value, function(&$provider) { 
-            $provider->setFormats($this->formats);
-        });
-    }
-    
-    public function getFormats()
-    {
-        return $this->formats;
     }
     
     public function setManagedClasses(array $value) 

@@ -3,7 +3,7 @@
 namespace Armetiz\MediaBundle\Twig\Extension;
 
 use Armetiz\MediaBundle\Templating\Helper\MediaHelper;
-use Armetiz\MediaBundle\Exceptions\NotFoundException;
+use Armetiz\MediaBundle\Entity\MediaInterface;
 
 /**
  * @author Benjamin Dulau <benjamin.dulau@anonymation.com>
@@ -35,52 +35,26 @@ class MediaExtension extends \Twig_Extension
         );
     }
     
-    public function getMedia($value, $format = null, array $options = array())
+    public function getMedia(MediaInterface $media, array $options = array())
     {
-        $media = $this->findMedia ($value, $format);
-        
-        if (!$media)
-            throw new NotFoundException();
-        
-        return $this->helper->getMedia($media, $format, $options);
+        return $this->helper->getMedia($media, $options);
     }
 
-    public function getUri($value, $format = null)
+    public function getUri(MediaInterface $media)
     {
-        
-        $media = $this->findMedia ($value, $format);
-        
-        if (!$media)
-            throw new NotFoundException();
-        
-        return $this->helper->getUri($media, $format);
+        return $this->helper->getUri($media);
     }
     
-    public function getPath($value, $format = null)
+    public function getPath(MediaInterface $media)
     {
-        
-        $media = $this->findMedia ($value, $format);
-        
-        if (!$media)
-            throw new NotFoundException();
-        
-        return $this->helper->getPath($media, $format);
+        return $this->helper->getPath($media);
     }
 
-    public function getRaw($value, $format = null)
+    public function getRaw(MediaInterface $media)
     {
-        $media = $this->findMedia ($value, $format);
-        
-        if (!$media)
-            throw new NotFoundException();
-        
-        return $this->helper->getRaw($media, $format);
+        return $this->helper->getRaw($medi);
     }
     
-    private function findMedia ($value, $format = null) {
-        return $this->helper->getMediaManager ()->findMedia($value, $format);
-    }
-
     /**
      * Returns the name of the extension.
      *

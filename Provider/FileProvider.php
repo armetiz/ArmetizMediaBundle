@@ -111,13 +111,6 @@ class FileProvider extends AbstractProvider
     {
         $path = $media->getMediaIdentifier();
         
-        if ($media instanceof FormatInterface) {
-            $format = $this->getFormat ($media->getFormat());            
-            $folder = $format["folder"];
-            
-            return sprintf ("%s/%s/%s", $this->getNamespace(), $folder, $path);
-        }
-        
         return sprintf ("%s/%s", $this->getNamespace(), $path);
     }
 }

@@ -17,7 +17,7 @@ class MediaHelper extends Helper
         $this->container = $container;
     }
 
-    public function getMedia(MediaInterface $media, $format = null, array $options = array())
+    public function getMedia(MediaInterface $media, array $options = array())
     {
         if(array_key_exists("template", $options)) {
             $templateName = $options["template"];
@@ -38,7 +38,6 @@ class MediaHelper extends Helper
         
         return $this->getTemplating()->render($template, array(
             'media' => $media,
-            'format' => $format,
             'options' => $options,
             'raw' => $raw,
             'uri' => $uri,
@@ -46,17 +45,17 @@ class MediaHelper extends Helper
         ));
     }
 
-    public function getUri(MediaInterface $media, $format = null)
+    public function getUri(MediaInterface $media)
     {        
         return $this->getMediaManager()->getUri($media);
     }
 
-    public function getPath(MediaInterface $media, $format = null)
+    public function getPath(MediaInterface $media)
     {        
         return $this->getMediaManager()->getPath($media);
     }
 
-    public function getRaw(MediaInterface $media, $format = null)
+    public function getRaw(MediaInterface $media)
     {        
         return $this->getMediaManager()->getRaw($media);
     }

@@ -8,12 +8,11 @@ A Media Manager Bundle.
 ## Todo
 For FileProvider. Do not use the provider name to chose the folder. Maybe use the storage ?
 Use a PathGenerator. Inject the Provider, the Context? & the Media to the PathGenerator.
+getRelativePath & getAbsolutePath
 
 Do something to provide an automatic CDN http://domain.tld/medias/
 Add "base_folder: medias/"
 Use it to Gaufrette Adapter & CDN
-
-Clearly define the "format" feature. Or remove it.
 
 Add options to configure existing Provider types.
 
@@ -100,15 +99,6 @@ armetiz_media:
             providers: 
                 - thumbnail
             default_media: default.jpg
-            formats:
-                128x72:
-                    folder: thumbnail_128_72
-                    width: 128
-                    height: 72
-                256x144:
-                    folder: thumbnail_256_144
-                    width: 256
-                    height: 144
 ```
 
 ## Configuration
@@ -138,5 +128,10 @@ A context is a simple mapping between an Media & Providers.
 A provider is the specific manager for a specific Media. It can be a FileProvider, YoutubeProvider, FlickrProvider, ImageProvider...
 Existing type :
 * file (which is the default)
+* image
 * youtube
 * dailymotion
+* vimeo
+* google maps
+
+Note: If you define more than one provider for a single context. Put the more restrictive on top !
