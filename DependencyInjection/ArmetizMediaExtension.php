@@ -58,7 +58,6 @@ class ArmetizMediaExtension extends Extension
         $mediaDailymotionProviderClass = $container->getParameter("armetiz.media.provider.dailymotion.class");
         $mediaVimeoProviderClass = $container->getParameter("armetiz.media.provider.vimeo.class");
         $mediaGMapProviderClass = $container->getParameter("armetiz.media.provider.gmap.class");
-        $mediaUrlProviderClass = $container->getParameter("armetiz.media.provider.url.class");
         
         foreach ($config["providers"] as $name => $provider) {
             if (!array_key_exists($provider["filesystem"], $filesystems)) {
@@ -92,11 +91,8 @@ class ArmetizMediaExtension extends Extension
                 case "gmap" :
                     $mediaProviderClass = $mediaGMapProviderClass;
                     break;
-                case "url" :
-                    $mediaProviderClass = $mediaUrlProviderClass;
-                    break;
                 default: 
-                    throw new \RuntimeException("Unknown type: '" . $provider["type"] . "'");
+                    throw new \RuntimeException("ArmetizMediaBundle, unknown type: '" . $provider["type"] . "' for provider: '" . $name . "'");
             }
             
             $provider = new Definition($mediaProviderClass);
