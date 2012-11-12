@@ -14,6 +14,9 @@
 * FileProvider take care of new Exception & canHandleMedia new function
 * MediaManager take care of context modification & new exception
 * Composer : dev-master is tag as 1.1.x
+* Remove "format" feature.
+* Add a generic AbstractServiceProvider to manager media with external services.
+* Add a method to AbstractProvider to define a default template
 
 ==1.0.5==
 * Remove dependency to Imagine
