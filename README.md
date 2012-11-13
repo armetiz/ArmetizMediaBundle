@@ -6,10 +6,6 @@ ArmetizMediaBundle
 A Media Manager Bundle.
 
 ## Todo
-For FileProvider. Do not use the provider name to chose the folder. Maybe use the storage ?
-Use a PathGenerator. Inject the Provider, the Context? & the Media to the PathGenerator.
-getRelativePath & getAbsolutePath
-
 Do something to provide an automatic CDN http://domain.tld/medias/
 Add "base_folder: medias/"
 Use it to Gaufrette Adapter & CDN
