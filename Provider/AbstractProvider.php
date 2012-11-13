@@ -96,8 +96,13 @@ abstract class AbstractProvider implements ProviderInterface
     
     public function getTemplate ($name = "default")
     {
-        if(array_key_exists($name, $this->templates)) {
-            return $this->templates[$name];
+        $templates = $this->getTemplates();
+        
+        if(array_key_exists($name, $templates)) {
+            return $templates[$name];
+        }
+        elseif (array_key_exists("default", $templates)) {
+            return $templates["default"];
         }
         else {
             return $this->getDefaultTemplate();
