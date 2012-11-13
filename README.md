@@ -111,7 +111,7 @@ Some helpers have been created to Twig. In fact, you can : render the media usin
 
 ``` yaml
 {{ media(thumbnail) }}
-{{ media(thumbnail, null, {template: foo}) }}
+{{ media(thumbnail, {template: foo}) }}
 {{ mediaPath(thumbnail) }}
 {{ mediaUri(thumbnail) }}
 {{ mediaRaw(thumbnail) }}
