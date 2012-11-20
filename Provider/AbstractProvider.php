@@ -46,6 +46,8 @@ abstract class AbstractProvider implements ProviderInterface
         if (null === $media->getMeta()) {
             $media->setMeta(array());
         }
+        
+        return $this;
     }
     
     abstract public function getRaw (MediaInterface $media);
@@ -57,6 +59,8 @@ abstract class AbstractProvider implements ProviderInterface
     public function setFilesystem(Filesystem $value)
     {
         $this->filesystem = $value;
+        
+        return $this;
     }
     
     public function getFilesystem()
@@ -67,6 +71,8 @@ abstract class AbstractProvider implements ProviderInterface
     public function setContentDeliveryNetwork (CDNInterface $value)
     {
         $this->contentDeliveryNetwork = $value;
+        
+        return $this;
     }
     
     public function getContentDeliveryNetwork ()
@@ -77,6 +83,8 @@ abstract class AbstractProvider implements ProviderInterface
     public function setNamespace($value)
     {
         $this->namespace = $value;
+        
+        return $this;
     }
     
     public function getNamespace ()
@@ -87,6 +95,8 @@ abstract class AbstractProvider implements ProviderInterface
     public function setTemplates(array $value)
     {
         $this->templates = $value;
+        
+        return $this;
     }
     
     public function getTemplates()

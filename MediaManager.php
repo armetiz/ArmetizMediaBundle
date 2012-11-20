@@ -2,11 +2,8 @@
 
 namespace Armetiz\MediaBundle;
 
-use Doctrine\Common\Collections\Collection;
-
 use Armetiz\MediaBundle\Event\MediaEvent;
 use Armetiz\MediaBundle\Entity\MediaInterface;
-use Armetiz\MediaBundle\Entity\FormatInterface;
 use Armetiz\MediaBundle\Context\ContextInterface;
 use Armetiz\MediaBundle\Exceptions\NoContextException;
 use Armetiz\MediaBundle\Exceptions\NoProviderException;
@@ -75,9 +72,10 @@ class MediaManager
     public function deleteMedia (MediaInterface $media)
     {
         $this->checkProvider($media);
-        $provider = $this->getProvider ($media);
-        $provider->prepareMedia ($media);
-        $provider->deleteMedia ($media);
+        
+        $this->getProvider ($media)
+            ->prepareMedia ($media)
+            ->deleteMedia ($media);
         
         if ( $this->dispatcher )
             $this->dispatcher->dispatch (MediaEvent::DELETE, new MediaEvent(($media)));

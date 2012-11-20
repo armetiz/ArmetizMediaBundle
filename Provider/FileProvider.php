@@ -44,6 +44,8 @@ class FileProvider extends AbstractProvider
         
         $gaufretteFile = new GaufretteFile($path, $this->getFilesystem());
         $gaufretteFile->setContent(file_get_contents($media->getMedia()->getRealPath()));
+        
+        return $this;
     }
     
     public function deleteMedia (MediaInterface $media)
@@ -57,6 +59,8 @@ class FileProvider extends AbstractProvider
         if ($this->getFilesystem()->has($path)) {
             $this->getFilesystem()->delete($path);
         }
+        
+        return $this;
     }
     
     public function prepareMedia (MediaInterface $media)
@@ -93,6 +97,8 @@ class FileProvider extends AbstractProvider
         }
         
         $media->setContentType($media->getMedia()->getMimeType());
+        
+        return $this;
     }
     
     public function getRaw (MediaInterface $media)

@@ -26,6 +26,8 @@ abstract class AbstractServiceProvider extends AbstractProvider
         }
         
         $this->validate($media);
+        
+        return $this;
     }
     
     public function deleteMedia (MediaInterface $media)
@@ -33,6 +35,8 @@ abstract class AbstractServiceProvider extends AbstractProvider
         if (!$this->canHandleMedia($media)) {
             throw new NotSupportedMediaException();
         }
+        
+        return $this;
     }
     
     public function prepareMedia (MediaInterface $media)
@@ -41,6 +45,8 @@ abstract class AbstractServiceProvider extends AbstractProvider
         
         $media->setMediaIdentifier($media->getMedia());
         $media->setContentType($this->getMimeType());
+        
+        return $this;
     }
     
     public function getRaw (MediaInterface $media)

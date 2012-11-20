@@ -17,6 +17,7 @@
 * Remove "format" feature.
 * Add a generic AbstractServiceProvider to manager media with external services.
 * Add a method to AbstractProvider to define a default template
+* Provider support chainning
 
 ==1.0.5==
 * Remove dependency to Imagine
