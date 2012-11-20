@@ -12,7 +12,7 @@
         }
     ],
     "require": {
-        "php": ">=5.3.2",
+        "php": ">=5.3.9",
         "symfony/symfony": ">=2.0.17",
         "knplabs/gaufrette": "*",
         "doctrine/orm": ">=2",
