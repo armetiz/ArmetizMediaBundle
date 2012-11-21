@@ -108,6 +108,7 @@ class ArmetizMediaExtension extends Extension
         foreach ($config["contexts"] as $name => $context) {
             $managedClasses = $context["managed"];
             $contextedProviders = array();
+            $contextedFormats = array();
             
             foreach ($managedClasses as $managedClass) {
                 if(in_array($managedClass, $managedClassesMapped)) {
@@ -117,7 +118,7 @@ class ArmetizMediaExtension extends Extension
                 $managedClassesMapped[] = $managedClass;
             }
             
-            foreach ($context["providers"] as $providerName) {
+            foreach ($context["providers"] as $providerName => $providerOptions) {
                 $contextedProvider = null;
                 
                 if (array_key_exists($providerName, $providers)) {
@@ -128,12 +129,13 @@ class ArmetizMediaExtension extends Extension
                     $contextedProvider = new Reference($providerName);
                 }
                 
-                $contextedProviders[] = $contextedProvider;
+                $contextedProviders[$providerName] = $contextedProvider;
+                $contextedFormats[$providerName] = $providerOptions["formats"];
             }
             
             $context = new Definition($contextClass);
             $context->addMethodCall("setName", array($name));
-            $context->addMethodCall("setProviders", array($contextedProviders));
+            $context->addMethodCall("setProviders", array($contextedProviders, $contextedFormats));
             $context->addMethodCall("setManagedClasses", array($managedClasses));
 
             //TODO:: setProviders to context

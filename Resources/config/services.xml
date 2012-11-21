@@ -11,8 +11,6 @@
         <parameter key="armetiz.twig.extension.media.class">Armetiz\MediaBundle\Twig\Extension\MediaExtension</parameter>
         <parameter key="armetiz.templating.helper.media.class">Armetiz\MediaBundle\Templating\Helper\MediaHelper</parameter>
         
-        <parameter key="armetiz.media.twig.subtitle.view">ArmetizMediaBundle:Subtitle:default.html.twig</parameter>
-        
         <parameter key="armetiz.media.storage.adapter.class">Gaufrette\Adapter\Local</parameter>
         <parameter key="armetiz.media.filesystem.class">Gaufrette\Filesystem</parameter>
     </parameters>

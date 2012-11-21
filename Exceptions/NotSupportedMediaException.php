@@ -2,9 +2,7 @@
 
 namespace Armetiz\MediaBundle\Exceptions;
 
-use Exception;
-
-class NotSupportedMediaException extends Exception {
+class NotSupportedMediaException extends MediaException {
 
     public function __construct() {
         parent::__construct("Media is not supported");

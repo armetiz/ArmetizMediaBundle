@@ -2,9 +2,7 @@
 
 namespace Armetiz\MediaBundle\Exceptions;
 
-use Exception;
-
-class NotFoundException extends Exception {
+class NotFoundException extends MediaException {
 
     public function __construct() {
         parent::__construct("Media not found");

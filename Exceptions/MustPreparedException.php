@@ -2,9 +2,7 @@
 
 namespace Armetiz\MediaBundle\Exceptions;
 
-use Exception;
-
-class MustPreparedException extends Exception {
+class MustPreparedException extends MediaException {
 
     public function __construct() {
         parent::__construct("Use AbstractProvider::prepareMedia before save.");

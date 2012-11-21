@@ -7,9 +7,7 @@ use Armetiz\MediaBundle\Context\ContextInterface;
 
 use Symfony\Component\HttpFoundation\File\File;
 
-use Exception;
-
-class NoProviderException extends Exception {
+class NoProviderException extends MediaException {
 
     public function __construct(MediaInterface $media, ContextInterface $context = null) {
         $file = null;

@@ -2,9 +2,7 @@
 
 namespace Armetiz\MediaBundle\Exceptions;
 
-use Exception;
-
-class UnknowMimeTypeException extends Exception {
+class UnknowMimeTypeException extends MediaException {
 
     public function __construct() {
         parent::__construct("Unknown mime type.");

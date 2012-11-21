@@ -2,9 +2,7 @@
 
 namespace Armetiz\MediaBundle\Exceptions;
 
-use Exception;
-
-class IdentifierEmptyException extends Exception {
+class IdentifierEmptyException extends MediaException {
 
     public function __construct() {
         parent::__construct("Media identifier is empty.");

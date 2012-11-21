@@ -10,7 +10,7 @@ Do something to provide an automatic CDN http://domain.tld/medias/
 Add "base_folder: medias/"
 Use it to Gaufrette Adapter & CDN
 
-Add options to configure existing Provider types.
+Move "namespaceé from Provider to Context. Tell the MediaManager to use Context params on selected Provider
 
 ## Installation
 
@@ -70,25 +70,14 @@ armetiz_media:
         local:
             base_url: %website_url%/medias
     providers:  //use this section to configure pre-defined provider
-        subtitles:
-            type: file
-            cdn: local
-            templates:
-                default: AcmeSiteBundle:Media:subtitles.html.twig
-                foo: AcmeSiteBundle:Media:subtitles_foo.html.twig
         thumbnail: ~
     contexts:
-        subtitles:
+        foo:
             managed: 
                 - Acme\FileBundle\Entity\File
             providers: 
                 - app.media.provider_foo
                 - app.media.provider_bar
-        subtitles:
-            managed: 
-                - Acme\SubtitleBundle\Entity\Subtitle
-            providers: 
-                - subtitles
         thumbnail:
             managed: 
                 - Acme\PosterBundle\Entity\Thumbnail

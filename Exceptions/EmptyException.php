@@ -2,9 +2,7 @@
 
 namespace Armetiz\MediaBundle\Exceptions;
 
-use Exception;
-
-class EmptyException extends Exception {
+class EmptyException extends MediaException {
 
     public function __construct() {
         parent::__construct("Media is empty.");

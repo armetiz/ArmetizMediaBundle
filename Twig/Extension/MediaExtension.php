@@ -5,9 +5,6 @@ namespace Armetiz\MediaBundle\Twig\Extension;
 use Armetiz\MediaBundle\Templating\Helper\MediaHelper;
 use Armetiz\MediaBundle\Entity\MediaInterface;
 
-/**
- * @author Benjamin Dulau <benjamin.dulau@anonymation.com>
- */
 class MediaExtension extends \Twig_Extension
 {
     /**
@@ -30,29 +27,17 @@ class MediaExtension extends \Twig_Extension
         return array(
             'media' => new \Twig_Function_Method($this, 'getMedia', array('is_safe' => array('html'))),
             'mediaUri' => new \Twig_Function_Method($this, 'getUri'),
-            'mediaRaw' => new \Twig_Function_Method($this, 'getRaw'),
-            'mediaPath' => new \Twig_Function_Method($this, 'getPath'),
         );
     }
     
-    public function getMedia(MediaInterface $media, array $options = array())
+    public function getMedia(MediaInterface $media, $format, array $options = array())
     {
-        return $this->helper->getMedia($media, $options);
+        return $this->helper->getMedia($media, $format, $options);
     }
 
-    public function getUri(MediaInterface $media)
+    public function getUri(MediaInterface $media, $format = "original")
     {
-        return $this->helper->getUri($media);
-    }
-    
-    public function getPath(MediaInterface $media)
-    {
-        return $this->helper->getPath($media);
-    }
-
-    public function getRaw(MediaInterface $media)
-    {
-        return $this->helper->getRaw($medi);
+        return $this->helper->getUri($media, $format);
     }
     
     /**

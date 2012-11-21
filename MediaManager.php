@@ -7,6 +7,7 @@ use Armetiz\MediaBundle\Entity\MediaInterface;
 use Armetiz\MediaBundle\Context\ContextInterface;
 use Armetiz\MediaBundle\Exceptions\NoContextException;
 use Armetiz\MediaBundle\Exceptions\NoProviderException;
+use Armetiz\MediaBundle\Exceptions\NotSupportedFormatException;
 
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 
@@ -48,9 +49,14 @@ class MediaManager
         return array_key_exists($name, $this->contexts);
     }
     
-    final public function getProvider (MediaInterface $media)
+    final protected function getProvider (MediaInterface $media)
     {       
         return $this->getContext($media)->getProvider($media);
+    }
+    
+    final protected function getFormats (MediaInterface $media)
+    {
+        return $this->getContext($media)->getProviderFormats($this->getProvider($media));
     }
     
     final protected function checkProvider(MediaInterface $media)
@@ -60,10 +66,25 @@ class MediaManager
         }
     }
     
+    final protected function checkFormat(MediaInterface $media, $format)
+    {
+        $formats = $this->getContext($media)->getFormats($media);
+        
+        if (null === $formats) {
+            throw new NotSupportedFormatException($media, $format);
+        }
+        
+        if(!array_key_exists($format, $formats)) {
+            throw new NotSupportedFormatException($media, $format);
+        }
+    }
+    
     public function saveMedia (MediaInterface $media)
     {
         $this->checkProvider($media);
-        $this->getProvider ($media)->saveMedia ($media);
+        $this->getProvider ($media)
+            ->setFormats($this->getFormats($media))
+            ->saveMedia ($media);
                
         if ( $this->dispatcher )
             $this->dispatcher->dispatch (MediaEvent::UPDATE, new MediaEvent(($media)));
@@ -74,6 +95,7 @@ class MediaManager
         $this->checkProvider($media);
         
         $this->getProvider ($media)
+            ->setFormats($this->getFormats($media))
             ->prepareMedia ($media)
             ->deleteMedia ($media);
         
@@ -84,30 +106,35 @@ class MediaManager
     public function prepareMedia (MediaInterface $media)
     {
         $this->checkProvider($media);
+        
         return $this->getProvider ($media)->prepareMedia ($media);
     }
     
-    public function getUri (MediaInterface $media)
+    public function getUri (MediaInterface $media, $format)
     {
         $this->checkProvider($media);
-        return $this->getProvider ($media)->getUri ($media);
+        $this->checkFormat($media, $format);
+        
+        return $this->getProvider ($media)
+            ->setFormats($this->getFormats($media))
+            ->getUri ($media, $format);
     }
     
-    public function getPath (MediaInterface $media)
+    public function getRenderOptions (MediaInterface $media, $format)
     {
         $this->checkProvider($media);
-        return $this->getProvider ($media)->getPath ($media);
-    }
-    
-    public function getRaw (MediaInterface $media)
-    {
-        $this->checkProvider($media);
-        return $this->getProvider ($media)->getRaw ($media);
+        $this->checkFormat($media, $format);
+        
+        return $this->getProvider ($media)
+            ->setFormats($this->getFormats($media))
+            ->getRenderOptions ($media, $format);
     }
     
     public function getTemplate (MediaInterface $media, $name = "default")
     {
         $this->checkProvider($media);
-        return $this->getProvider ($media)->getTemplate ($name);
+        return $this->getProvider ($media)
+            ->setFormats($this->getFormats($media))
+            ->getTemplate ($name);
     }
 }

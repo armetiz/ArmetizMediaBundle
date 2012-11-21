@@ -18,8 +18,6 @@ use Gaufrette\File as GaufretteFile;
 
 class FileProvider extends AbstractProvider
 {
-    public function validate (MediaInterface $media) {}
-    
     public function canHandleMedia (MediaInterface $media)
     {
         $extension = ExtensionGuesser::guess($media->getContentType());
@@ -38,9 +36,7 @@ class FileProvider extends AbstractProvider
             }
         }
         
-        $this->validate($media);
-                       
-        $path = $this->getPath($media);
+        $path = $this->getPath($media, "original");
         
         $gaufretteFile = new GaufretteFile($path, $this->getFilesystem());
         $gaufretteFile->setContent(file_get_contents($media->getMedia()->getRealPath()));
@@ -101,19 +97,14 @@ class FileProvider extends AbstractProvider
         return $this;
     }
     
-    public function getRaw (MediaInterface $media)
+    public function getUri (MediaInterface $media, $format)
     {
-        return $this->getFilesystem()->read($this->getPath($media));
-    }
-    
-    public function getUri (MediaInterface $media)
-    {
-        $path = $this->getPath ($media);
+        $path = $this->getPath ($media, $format);
         
         return $this->getContentDeliveryNetwork()->getPath($path);
     }
     
-    public function getPath (MediaInterface $media)
+    protected function getPath (MediaInterface $media, $format)
     {
         $path = $this->getNamespace();
         
@@ -122,6 +113,18 @@ class FileProvider extends AbstractProvider
             $path = $path . "/" . $dateCreation->format("Y-m");
         }
         
-        return $path . "/" . $media->getMediaIdentifier();
+        $pathInfo = pathinfo($media->getMediaIdentifier());
+        
+        return $path . "/" . $pathInfo["filename"] . "_" . $format . "." . $pathInfo["extension"];
+    }
+    
+    public function getOriginalFile(MediaInterface $media)
+    {
+        return $this->getFilesystem()->get($this->getPath($media, "original"), true);
+    }
+    
+    public function getDefaultFormats()
+    {
+        return array("original" => null);
     }
 }

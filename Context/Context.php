@@ -10,11 +10,12 @@ class Context implements ContextInterface
     private $name;
     private $providers;
     private $managedClasses;
+    private $formats;
     
     public function __construct()
     {
         $this->name = uniqid("media_context_");
-        
+        $this->formats = array("origin" => null);
         $this->providers = array();
         $this->managedClasses = array();
     }
@@ -27,14 +28,43 @@ class Context implements ContextInterface
     public function setName($value)
     {
         $this->name = $value;
+        
+        return $this;
+    }
+    
+    
+    public function getFormats(MediaInterface $media)
+    {
+        $provider = $this->getProvider($media);
+        
+        return $this->getProviderFormats($provider);
+    }
+    
+    public function getProviderFormats($provider)
+    {
+        if (!in_array($provider, $this->providers)) {
+            return null;
+        }
+        
+        $providerName = array_search($provider, $this->providers, true);
+
+        if(array_key_exists($providerName, $this->formats)) {
+            if ($provider->getDefaultFormats()) {
+                return array_merge($this->formats[$providerName], $provider->getDefaultFormats());
+            }
+            else {
+                return $this->formats[$providerName];
+            }
+        }
+        else {
+            return null;
+        }
     }
     
     public function getProvider(MediaInterface $media)
     {
-        foreach($this->providers as $provider)
-        {
-            if ($provider->canHandleMedia($media))
-            {
+        foreach($this->providers as $provider) {
+            if ($provider->canHandleMedia($media)) {
                 return $provider;
             }
         }
@@ -47,14 +77,19 @@ class Context implements ContextInterface
         return $this->providers;
     }
     
-    public function setProviders(array $value)
+    public function setProviders(array $providers, array $formats = array())
     {
-        $this->providers = $value;
+        $this->providers = $providers;
+        $this->formats = $formats;
+        
+        return $this;
     }
     
     public function setManagedClasses(array $value) 
     {
         $this->managedClasses = $value;
+        
+        return $this;
     }
     
     public function isManaged ($value) {

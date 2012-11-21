@@ -12,8 +12,6 @@ abstract class AbstractServiceProvider extends AbstractProvider
     
     abstract public function getMediaPattern();
     
-    public function validate (MediaInterface $media) {}
-    
     public function canHandleMedia (MediaInterface $media)
     {
         return (($this->getMimeType() === $media->getContentType()) || $media->getMedia() && (preg_match($this->getMediaPattern(), $media->getMedia()) > 0));
@@ -24,8 +22,6 @@ abstract class AbstractServiceProvider extends AbstractProvider
         if (!$this->canHandleMedia($media)) {
             throw new NotSupportedMediaException();
         }
-        
-        $this->validate($media);
         
         return $this;
     }
@@ -49,19 +45,21 @@ abstract class AbstractServiceProvider extends AbstractProvider
         return $this;
     }
     
-    public function getRaw (MediaInterface $media)
+    public function getRenderOptions (MediaInterface $media, $format, array $options = array())
     {
         preg_match($this->getMediaPattern(), $media->getMediaIdentifier(), $matches);
-        return $matches[1];
+        
+        $defaultOptions = array(
+            "code" => $matches[1],
+            "mime_type" => $this->getMimeType(),
+        );
+        
+        return array_merge(parent::getRenderOptions($media, $format, $options), $defaultOptions);
     }
     
-    public function getUri (MediaInterface $media)
+    public function getUri (MediaInterface $media, $format)
     {
-        return $media->getMediaIdentifier();
-    }
-    
-    public function getPath (MediaInterface $media)
-    {
+        //Use some specific CDN ?
         return $media->getMediaIdentifier();
     }
 }

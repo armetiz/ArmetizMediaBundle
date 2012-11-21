@@ -17,7 +17,7 @@ class MediaHelper extends Helper
         $this->container = $container;
     }
 
-    public function getMedia(MediaInterface $media, array $options = array())
+    public function getMedia(MediaInterface $media, $format, array $options = array())
     {
         if(array_key_exists("template", $options)) {
             $templateName = $options["template"];
@@ -29,37 +29,25 @@ class MediaHelper extends Helper
         $template = $this->getMediaManager()->getTemplate($media, $templateName);
         
         if (empty($template)) {
-            throw new NoTemplateException($media, $this->getMediaManager()->getProvider($media));
+            throw new NoTemplateException($media);
         }
         
-        $uri = $this->getMediaManager()->getUri($media);
-        $raw = $this->getMediaManager()->getRaw($media);
-        $path = $this->getMediaManager()->getPath($media);
+        $uri = $this->getMediaManager()->getUri($media, $format);
+        $options = $this->getMediaManager()->getRenderOptions($media, $format);
         
         return $this->getTemplating()->render($template, array(
             'media' => $media,
+            'format' => $format,
             'options' => $options,
-            'raw' => $raw,
             'uri' => $uri,
-            'path' => $path
         ));
     }
 
-    public function getUri(MediaInterface $media)
+    public function getUri(MediaInterface $media, $format)
     {        
-        return $this->getMediaManager()->getUri($media);
+        return $this->getMediaManager()->getUri($media, $format);
     }
 
-    public function getPath(MediaInterface $media)
-    {        
-        return $this->getMediaManager()->getPath($media);
-    }
-
-    public function getRaw(MediaInterface $media)
-    {        
-        return $this->getMediaManager()->getRaw($media);
-    }
-    
     public function getMediaManager ()
     {
         return $this->container->get('armetiz.media.manager');

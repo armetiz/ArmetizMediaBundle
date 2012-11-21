@@ -11,9 +11,12 @@ interface ProviderInterface
     public function prepareMedia (MediaInterface $media);
     public function canHandleMedia (MediaInterface $media);
     
-    public function getRaw (MediaInterface $media);
-    public function getUri (MediaInterface $media);
-    public function getPath (MediaInterface $media);
+    public function setFormats (array $formats);
+    public function getFormats ();
+    public function getDefaultFormats();
+
+    public function getUri (MediaInterface $media, $format);
+    public function getRenderOptions (MediaInterface $media, $format, array $options = array());
     
     public function setTemplates (array $value);
     public function getTemplates ();

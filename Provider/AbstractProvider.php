@@ -29,6 +29,11 @@ abstract class AbstractProvider implements ProviderInterface
      */
     private $templates;
     
+    /**
+     * @var array
+     */
+    private $formats;
+    
     public function __construct ()
     {
         $this->templates = array();
@@ -50,11 +55,7 @@ abstract class AbstractProvider implements ProviderInterface
         return $this;
     }
     
-    abstract public function getRaw (MediaInterface $media);
-    
-    abstract public function getUri (MediaInterface $media);
-    
-    abstract public function getPath (MediaInterface $media);
+    abstract public function getUri (MediaInterface $media, $format);
     
     public function setFilesystem(Filesystem $value)
     {
@@ -117,6 +118,28 @@ abstract class AbstractProvider implements ProviderInterface
         else {
             return $this->getDefaultTemplate();
         }
+    }
+    
+    public function setFormats (array $value)
+    {
+        $this->formats = $value;
+        
+        return $this;
+    }
+    
+    public function getFormats ()
+    {
+        return $this->formats;
+    }
+    
+    public function getDefaultFormats()
+    {
+        return array();
+    }
+    
+    public function getRenderOptions (MediaInterface $media, $format, array $options = array())
+    {
+        return array();
     }
     
     public function getDefaultTemplate() {
