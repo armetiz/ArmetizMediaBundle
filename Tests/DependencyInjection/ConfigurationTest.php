@@ -44,18 +44,22 @@ class ConfigurationText extends \PHPUnit_Framework_TestCase {
                             "provider_foo" => array (
                                 "formats" => array (
                                     "format_foo" => array (
-                                        "template" => "foo",
-                                        "height" => "auto",
-                                        "width" => 512
+                                        "generator" => "foo",
+                                        "options" => array (
+                                            "height" => "auto",
+                                            "width" => 512,
+                                        )
                                     )
                                 )
                             ),
                             "provider_bar" => array (
                                 "formats" => array (
                                     "format_foo" => array (
-                                        "template" => "default",
-                                        "height" => "auto",
-                                        "width" => 512
+                                        "generator" => "foo",
+                                        "options" => array (
+                                            "height" => "auto",
+                                            "width" => 512,
+                                        )
                                     )
                                 )
                             )
@@ -80,14 +84,16 @@ class ConfigurationText extends \PHPUnit_Framework_TestCase {
         $this->assertArrayHasKey("provider_foo", $config["contexts"]["context_foo"]["providers"]);
         $this->assertArrayHasKey("formats", $config["contexts"]["context_foo"]["providers"]["provider_foo"]);
         $this->assertArrayHasKey("format_foo", $config["contexts"]["context_foo"]["providers"]["provider_foo"]["formats"]);
-        $this->assertArrayHasKey("template", $config["contexts"]["context_foo"]["providers"]["provider_foo"]["formats"]["format_foo"]);
-        $this->assertArrayHasKey("height", $config["contexts"]["context_foo"]["providers"]["provider_foo"]["formats"]["format_foo"]);
-        $this->assertArrayHasKey("width", $config["contexts"]["context_foo"]["providers"]["provider_foo"]["formats"]["format_foo"]);
+        $this->assertArrayHasKey("generator", $config["contexts"]["context_foo"]["providers"]["provider_foo"]["formats"]["format_foo"]);
+        $this->assertArrayHasKey("options", $config["contexts"]["context_foo"]["providers"]["provider_foo"]["formats"]["format_foo"]);
+        $this->assertArrayHasKey("height", $config["contexts"]["context_foo"]["providers"]["provider_foo"]["formats"]["format_foo"]["options"]);
+        $this->assertArrayHasKey("width", $config["contexts"]["context_foo"]["providers"]["provider_foo"]["formats"]["format_foo"]["options"]);
         
         $this->assertArrayHasKey("provider_bar", $config["contexts"]["context_foo"]["providers"]);
         $this->assertArrayHasKey("format_foo", $config["contexts"]["context_foo"]["providers"]["provider_bar"]["formats"]);
-        $this->assertArrayHasKey("template", $config["contexts"]["context_foo"]["providers"]["provider_bar"]["formats"]["format_foo"]);
-        $this->assertArrayHasKey("height", $config["contexts"]["context_foo"]["providers"]["provider_bar"]["formats"]["format_foo"]);
-        $this->assertArrayHasKey("width", $config["contexts"]["context_foo"]["providers"]["provider_bar"]["formats"]["format_foo"]);
+        $this->assertArrayHasKey("generator", $config["contexts"]["context_foo"]["providers"]["provider_bar"]["formats"]["format_foo"]);
+        $this->assertArrayHasKey("options", $config["contexts"]["context_foo"]["providers"]["provider_bar"]["formats"]["format_foo"]);
+        $this->assertArrayHasKey("height", $config["contexts"]["context_foo"]["providers"]["provider_bar"]["formats"]["format_foo"]["options"]);
+        $this->assertArrayHasKey("width", $config["contexts"]["context_foo"]["providers"]["provider_bar"]["formats"]["format_foo"]["options"]);
     }
 }

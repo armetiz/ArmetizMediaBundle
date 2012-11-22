@@ -3,14 +3,14 @@
 namespace Armetiz\MediaBundle\Context;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Provider\ProviderInterface;
 
 interface ContextInterface
 {
     public function setName($value);
     public function getName();
     
-    public function getFormats(MediaInterface $media);
-    public function getProviderFormats($provider);
+    public function getFormats(ProviderInterface $provider);
     
     public function getProvider(MediaInterface $media);
     public function getProviders();

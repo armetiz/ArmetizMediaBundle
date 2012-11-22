@@ -2,7 +2,6 @@
 
 namespace Armetiz\MediaBundle\Provider;
 
-use Armetiz\MediaBundle\Entity\MediaTimestampableInterface;
 use Armetiz\MediaBundle\Entity\MediaAdvancedInterface;
 use Armetiz\MediaBundle\Entity\MediaInterface;
 
@@ -25,6 +24,17 @@ class FileProvider extends AbstractProvider
         return ((null !== $extension) || $media->getMedia() && ($media->getMedia() instanceof File || is_file($media->getMedia())));
     }
     
+    public function generateFormats(MediaInterface $media)
+    {
+        $originalFile = $this->getOriginalFile($media);
+        
+        foreach($this->getFormats() as $format) {
+            $format->getGenerator()->create($media, $format->getOptions(), $originalFile);
+        }
+        
+        return $this;
+    }
+    
     public function saveMedia (MediaInterface $media)
     {
         if (!$media->getMedia() instanceof File) {
@@ -36,10 +46,12 @@ class FileProvider extends AbstractProvider
             }
         }
         
-        $path = $this->getPath($media, "original");
+        $path = $this->getPath($media);
         
         $gaufretteFile = new GaufretteFile($path, $this->getFilesystem());
         $gaufretteFile->setContent(file_get_contents($media->getMedia()->getRealPath()));
+        
+        $this->generateFormats($media);
         
         return $this;
     }
@@ -55,6 +67,8 @@ class FileProvider extends AbstractProvider
         if ($this->getFilesystem()->has($path)) {
             $this->getFilesystem()->delete($path);
         }
+        
+        //TODO: Delete also formats
         
         return $this;
     }
@@ -104,27 +118,20 @@ class FileProvider extends AbstractProvider
         return $this->getContentDeliveryNetwork()->getPath($path);
     }
     
-    protected function getPath (MediaInterface $media, $format)
+    protected function getPath (MediaInterface $media, $format = null)
     {
-        $path = $this->getNamespace();
-        
-        if ($media instanceof MediaTimestampableInterface) {
-            $dateCreation = $media->getDateCreation();
-            $path = $path . "/" . $dateCreation->format("Y-m");
+        if (null === $format) {
+            return $this->getPathGenerator()->getPath($media, null);
+        }
+        elseif($this->hasFormat($format)) {
+            return $this->getFormat($format)->getGenerator()->getPathGenerator()->getPath($media, $format);
         }
         
-        $pathInfo = pathinfo($media->getMediaIdentifier());
-        
-        return $path . "/" . $pathInfo["filename"] . "_" . $format . "." . $pathInfo["extension"];
+        throw new \RuntimeException(sprintf("Needed format is not defined '%s'", $format));
     }
     
     public function getOriginalFile(MediaInterface $media)
     {
-        return $this->getFilesystem()->get($this->getPath($media, "original"), true);
-    }
-    
-    public function getDefaultFormats()
-    {
-        return array("original" => null);
+        return $this->getFilesystem()->get($this->getPath($media), true);
     }
 }

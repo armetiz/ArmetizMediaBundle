@@ -56,7 +56,7 @@ class MediaManager
     
     final protected function getFormats (MediaInterface $media)
     {
-        return $this->getContext($media)->getProviderFormats($this->getProvider($media));
+        return $this->getContext($media)->getFormats($this->getProvider($media));
     }
     
     final protected function checkProvider(MediaInterface $media)
@@ -66,28 +66,39 @@ class MediaManager
         }
     }
     
-    final protected function checkFormat(MediaInterface $media, $format)
+    final protected function checkFormat(MediaInterface $media, $formatName)
     {
-        $formats = $this->getContext($media)->getFormats($media);
+        $formats = $this->getFormats($media);
         
         if (null === $formats) {
-            throw new NotSupportedFormatException($media, $format);
+            throw new NotSupportedFormatException($media, $formatName);
         }
         
-        if(!array_key_exists($format, $formats)) {
-            throw new NotSupportedFormatException($media, $format);
+        $found = false;
+        
+        foreach ($formats as $format) {
+            if ($format->getName() === $formatName) {
+                $found = true;
+                break;
+            }
+        }
+        
+        if(!$found) {
+            throw new NotSupportedFormatException($media, $formatName);
         }
     }
     
     public function saveMedia (MediaInterface $media)
     {
         $this->checkProvider($media);
+        
         $this->getProvider ($media)
             ->setFormats($this->getFormats($media))
             ->saveMedia ($media);
                
-        if ( $this->dispatcher )
+        if ( $this->dispatcher ) {
             $this->dispatcher->dispatch (MediaEvent::UPDATE, new MediaEvent(($media)));
+        }
     }
     
     public function deleteMedia (MediaInterface $media)
@@ -99,42 +110,44 @@ class MediaManager
             ->prepareMedia ($media)
             ->deleteMedia ($media);
         
-        if ( $this->dispatcher )
+        if ( $this->dispatcher ) {
             $this->dispatcher->dispatch (MediaEvent::DELETE, new MediaEvent(($media)));
+        }
     }
     
     public function prepareMedia (MediaInterface $media)
     {
         $this->checkProvider($media);
         
-        return $this->getProvider ($media)->prepareMedia ($media);
+        return $this->getProvider($media)->prepareMedia($media);
     }
     
-    public function getUri (MediaInterface $media, $format)
+    public function getUri (MediaInterface $media, $formatName)
     {
         $this->checkProvider($media);
-        $this->checkFormat($media, $format);
+        $this->checkFormat($media, $formatName);
         
         return $this->getProvider ($media)
             ->setFormats($this->getFormats($media))
-            ->getUri ($media, $format);
+            ->getUri($media, $formatName);
     }
     
-    public function getRenderOptions (MediaInterface $media, $format)
+    public function getRenderOptions (MediaInterface $media, $formatName)
     {
         $this->checkProvider($media);
-        $this->checkFormat($media, $format);
+        $this->checkFormat($media, $formatName);
         
         return $this->getProvider ($media)
             ->setFormats($this->getFormats($media))
-            ->getRenderOptions ($media, $format);
+            ->getRenderOptions($media, $formatName);
     }
     
-    public function getTemplate (MediaInterface $media, $name = "default")
+    public function getTemplate (MediaInterface $media, $formatName)
     {
         $this->checkProvider($media);
+        
         return $this->getProvider ($media)
             ->setFormats($this->getFormats($media))
-            ->getTemplate ($name);
+            ->getTemplate($formatName);
     }
 }

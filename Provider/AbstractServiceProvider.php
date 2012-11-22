@@ -62,4 +62,9 @@ abstract class AbstractServiceProvider extends AbstractProvider
         //Use some specific CDN ?
         return $media->getMediaIdentifier();
     }
+    
+    public function generateFormats(MediaInterface $media)
+    {
+        //TODO
+    }
 }

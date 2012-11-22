@@ -4,6 +4,8 @@ namespace Armetiz\MediaBundle\Context;
 
 use Armetiz\SystemBundle\Exceptions\ArgumentException;
 use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Provider\ProviderInterface;
+use Armetiz\MediaBundle\Format;
 
 class Context implements ContextInterface
 {
@@ -15,7 +17,7 @@ class Context implements ContextInterface
     public function __construct()
     {
         $this->name = uniqid("media_context_");
-        $this->formats = array("origin" => null);
+        $this->formats = array();
         $this->providers = array();
         $this->managedClasses = array();
     }
@@ -32,15 +34,7 @@ class Context implements ContextInterface
         return $this;
     }
     
-    
-    public function getFormats(MediaInterface $media)
-    {
-        $provider = $this->getProvider($media);
-        
-        return $this->getProviderFormats($provider);
-    }
-    
-    public function getProviderFormats($provider)
+    public function getFormats(ProviderInterface $provider)
     {
         if (!in_array($provider, $this->providers)) {
             return null;
@@ -49,12 +43,7 @@ class Context implements ContextInterface
         $providerName = array_search($provider, $this->providers, true);
 
         if(array_key_exists($providerName, $this->formats)) {
-            if ($provider->getDefaultFormats()) {
-                return array_merge($this->formats[$providerName], $provider->getDefaultFormats());
-            }
-            else {
-                return $this->formats[$providerName];
-            }
+            return $this->formats[$providerName];
         }
         else {
             return null;
@@ -79,6 +68,26 @@ class Context implements ContextInterface
     
     public function setProviders(array $providers, array $formats = array())
     {
+        //TODO: Do something more simple!!
+        
+        foreach($providers as $provider) {
+            if (!($provider instanceof ProviderInterface)) {
+                throw new \InvalidArgumentException("Formats have to be a collection of Armetiz\MediaBundle\Provider\ProviderInterface");
+            }
+        }
+        
+        foreach($formats as $formatsByProvider) {
+            if (!is_array($formatsByProvider)) {
+                throw new \InvalidArgumentException("Formats by provider have to be an array");
+            }
+            
+            foreach($formatsByProvider as $format) {
+                if (!($format instanceof Format)) {
+                    throw new \InvalidArgumentException("Formats by provider have to be a collection of Armetiz\MediaBundle\Format");
+                }
+            }
+        }
+        
         $this->providers = $providers;
         $this->formats = $formats;
         

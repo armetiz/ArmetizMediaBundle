@@ -4,6 +4,9 @@ namespace Armetiz\MediaBundle\Provider;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
 use Armetiz\MediaBundle\CDN\CDNInterface;
+use Armetiz\MediaBundle\Formats\FormatInterface;
+use Armetiz\MediaBundle\Generator\Path\PathGeneratorInterface;
+use Armetiz\MediaBundle\Generator\Path\DefaultPathGenerator;
 
 use Gaufrette\Filesystem;
 
@@ -22,11 +25,6 @@ abstract class AbstractProvider implements ProviderInterface
     /**
      * @var string
      */
-    private $namespace;
-    
-    /**
-     * @var string
-     */
     private $templates;
     
     /**
@@ -34,10 +32,19 @@ abstract class AbstractProvider implements ProviderInterface
      */
     private $formats;
     
+    /**
+     * @var
+     */
+    private $pathGenerator;
+    
     public function __construct ()
     {
         $this->templates = array();
+        $this->formats = array();
+        $this->pathGenerator = new DefaultPathGenerator();
     }
+    
+    abstract function generateFormats(MediaInterface $media);
     
     abstract public function saveMedia (MediaInterface $media);
     
@@ -81,68 +88,76 @@ abstract class AbstractProvider implements ProviderInterface
         return $this->contentDeliveryNetwork;
     }
     
-    public function setNamespace($value)
+    public function setPathGenerator (PathGeneratorInterface $value)
     {
-        $this->namespace = $value;
+        $this->pathGenerator = $value;
         
         return $this;
     }
     
-    public function getNamespace ()
-    {      
-        return $this->namespace;
+    public function getPathGenerator ()
+    {
+        return $this->pathGenerator;
     }
     
-    public function setTemplates(array $value)
+    final public function setFormats (array $formats)
     {
-        $this->templates = $value;
+        foreach ($formats as $format) {
+            $format->getGenerator()->setFilesystem($this->getFilesystem());
+            $format->getGenerator()->setPathGenerator($this->getPathGenerator());
+        }
+        
+        $this->formats = $formats;
         
         return $this;
     }
     
-    public function getTemplates()
-    {
-        return $this->templates;
-    }
-    
-    public function getTemplate ($name = "default")
-    {
-        $templates = $this->getTemplates();
-        
-        if(array_key_exists($name, $templates)) {
-            return $templates[$name];
-        }
-        elseif (array_key_exists("default", $templates)) {
-            return $templates["default"];
-        }
-        else {
-            return $this->getDefaultTemplate();
-        }
-    }
-    
-    public function setFormats (array $value)
-    {
-        $this->formats = $value;
-        
-        return $this;
-    }
-    
-    public function getFormats ()
+    final public function getFormats ()
     {
         return $this->formats;
     }
     
-    public function getDefaultFormats()
+    final public function hasFormat($name)
     {
-        return array();
+        foreach($this->getFormats() as $format) {
+            if ($name === $format->getName()) {
+                return true;
+            }
+        }
+        
+        return false;
+    }
+    
+    final public function getFormat($name)
+    {
+        foreach($this->getFormats() as $format) {
+            if ($name === $format->getName()) {
+                return $format;
+            }
+        }
+        
+        return null;
     }
     
     public function getRenderOptions (MediaInterface $media, $format, array $options = array())
     {
+        $format = $this->getFormat($format);
+        
+        if ($format) {
+            return $format->getGenerator()->getRenderOptions($media, $options);
+        }
+        
         return array();
     }
     
-    public function getDefaultTemplate() {
-        return null;
+    final public function getTemplate ($formatName)
+    {
+        $format = $this->getFormat($formatName);
+        
+        if ($format) {
+            return $format->getGenerator()->getTemplate();
+        }
+        
+        return array();
     }
 }

@@ -44,8 +44,18 @@ class ArmetizMediaExtensionTest extends \PHPUnit_Framework_TestCase {
                             "provider_fake" => array (
                                 "formats" => array(
                                     "format_foo" => array (
-                                        "width" => 512,
-                                        "height" => 288
+                                        "generator" => "foo",
+                                        "options" => array (
+                                            "width" => 512,
+                                            "height" => 288,
+                                        )
+                                    ),
+                                    "format_bar" => array (
+                                        "generator" => "foo",
+                                        "options" => array (
+                                            "width" => 512,
+                                            "height" => 288,
+                                        )
                                     )
                                 )
                             )
@@ -84,9 +94,11 @@ class ArmetizMediaExtensionTest extends \PHPUnit_Framework_TestCase {
                             "provider_fake" => array (
                                 "formats" => array (
                                     "format_foo" => array (
-                                        "template" => "foo",
-                                        "height" => "auto",
-                                        "width" => 512
+                                        "generator" => "foo",
+                                        "options" => array (
+                                            "width" => 512,
+                                            "height" => 288,
+                                        )
                                     )
                                 )
                             )

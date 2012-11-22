@@ -1,8 +1,7 @@
 <?php
 
-namespace Armetiz\MediaBundle\Generators\Formats;
+namespace Armetiz\MediaBundle\Generator\Format;
 
-use Armetiz\MediaBundle\Generators\FormatGeneratorInterface;
 use Armetiz\MediaBundle\Entity\MediaInterface;
 
 use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
@@ -12,14 +11,28 @@ use Imagine\Image\Box;
 
 use Gaufrette\File;
 
-class FromImageToThumbnailGenerator implements FormatGeneratorInterface
+class FromImageToThumbnailGenerator extends AbstractFormat
 {
     const RESIZE_MODE_OUTBOUND = 'outbound';
     const RESIZE_MODE_INSET = 'inset';
     
-    private $imagine;
+    public function getTemplate()
+    {
+        return "ArmetizMediaBundle:Image:default.html.twig";
+    }
     
-    public function create(MediaInterface $media, array $options = array(), File $fileTarget = null, File $fileOrigin = null)
+    public function getRenderOptions(MediaInterface $media, array $options = array())
+    {
+        return array();
+    }
+    
+    public function delete(MediaInterface $media)
+    {
+        //TODO
+        return $this;
+    }
+    
+    public function create(MediaInterface $media, array $options = array(), File $fileOrigin = null)
     {
         switch ($options["engine_image"]) {
             case "gd":
@@ -47,7 +60,12 @@ class FromImageToThumbnailGenerator implements FormatGeneratorInterface
             throw new \InvalidArgumentException('You must specify at least a width and/or an height value');
         }
         
-        $image = $imagine->load($fileOrigin->getContent());
+        try {
+            $image = $imagine->load($fileOrigin->getContent());
+        }
+        catch (\Exception $e) {
+            return $this;
+        }
 
         if (null == $width) {
             $image = $image->resize($image->getSize()->heighten($height));
@@ -71,6 +89,13 @@ class FromImageToThumbnailGenerator implements FormatGeneratorInterface
         }
 
         $outputContent = $image->get(ExtensionGuesser::getInstance()->guess($media->getContentType()), $options);
+        
+        $path = $this->getPathGenerator()->getPath($media, $this->getName(), $options);
+        var_dump($this->getName());
+        var_dump($path); exit;
+        $fileTarget = $this->getFilesystem()->get($path, true);
         $fileTarget->setContent($outputContent);
+        
+        return $this;
     }
 }

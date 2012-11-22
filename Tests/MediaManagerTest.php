@@ -5,6 +5,7 @@ namespace Armetiz\MediaBundle\Tests\Context;
 use Armetiz\MediaBundle\Context\Context;
 use Armetiz\MediaBundle\MediaManager;
 use Armetiz\MediaBundle\Tests\Fixtures\Entity\FakeMedia;
+use Armetiz\MediaBundle\Format;
 
 use ReflectionClass;
 
@@ -66,12 +67,12 @@ class MediaManagerTest  extends \PHPUnit_Framework_TestCase {
             "provider_foo" => $provider
         );
         
-        $formats = array(
-            "provider_foo" => array(
-                "foo" => array(),
-                "bar" => array(),
-            )
-        );
+        $formats = array (
+            "provider_foo" => 
+                array (
+                    new Format("format_foo", "generator_foo", array("option_foo" => "value_foo"))
+                ),
+            );
         
         $managedClasses = array(
             "Armetiz\MediaBundle\Tests\Fixtures\Entity\FakeMedia"
@@ -103,12 +104,12 @@ class MediaManagerTest  extends \PHPUnit_Framework_TestCase {
             "provider_foo" => $provider
         );
         
-        $formats = array(
-            "provider_foo" => array(
-                "foo" => array(),
-                "bar" => array(),
-            )
-        );
+        $formats = array (
+            "provider_foo" => 
+                array (
+                    new Format("format_foo", "generator_foo", array("option_foo" => "value_foo"))
+                ),
+            );
         
         $managedClasses = array(
             "Armetiz\MediaBundle\Tests\Fixtures\Entity\FakeMedia"
@@ -127,6 +128,6 @@ class MediaManagerTest  extends \PHPUnit_Framework_TestCase {
         
         $methodGetContext = $mediaManagerClass->getMethod("checkFormat");
         $methodGetContext->setAccessible(true);
-        $methodGetContext->invokeArgs($mediaManager, array($media, "foo"));
+        $methodGetContext->invokeArgs($mediaManager, array($media, "format_foo"));
     }
 }

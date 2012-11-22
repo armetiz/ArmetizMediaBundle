@@ -95,8 +95,6 @@ class ArmetizMediaExtension extends Extension
             $provider = new Definition($mediaProviderClass);
             $provider->addMethodCall("setFilesystem", array($filesystem));
             $provider->addMethodCall("setContentDeliveryNetwork", array($cdn));
-            $provider->addMethodCall("setTemplates", array($templates));
-            $provider->addMethodCall("setNamespace", array($namespace));
             
             $container->setDefinition("armetiz.media.providers." . $name, $provider);
             
@@ -120,6 +118,7 @@ class ArmetizMediaExtension extends Extension
             
             foreach ($context["providers"] as $providerName => $providerOptions) {
                 $contextedProvider = null;
+                $contextedFormat = array();
                 
                 if (array_key_exists($providerName, $providers)) {
                     $contextedProvider = $providers[$providerName];
@@ -129,8 +128,12 @@ class ArmetizMediaExtension extends Extension
                     $contextedProvider = new Reference($providerName);
                 }
                 
+                foreach($providerOptions["formats"] as $formatName => $format) {
+                    $contextedFormat[] = new Definition("Armetiz\MediaBundle\Format", array($formatName, $format["generator"], $format["options"]));
+                }
+                
                 $contextedProviders[$providerName] = $contextedProvider;
-                $contextedFormats[$providerName] = $providerOptions["formats"];
+                $contextedFormats[$providerName] = $contextedFormat;
             }
             
             $context = new Definition($contextClass);
