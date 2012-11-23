@@ -4,7 +4,6 @@ namespace Armetiz\MediaBundle\Provider;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
 use Armetiz\MediaBundle\CDN\CDNInterface;
-use Armetiz\MediaBundle\Formats\FormatInterface;
 use Armetiz\MediaBundle\Generator\Path\PathGeneratorInterface;
 use Armetiz\MediaBundle\Generator\Path\DefaultPathGenerator;
 
@@ -103,8 +102,7 @@ abstract class AbstractProvider implements ProviderInterface
     final public function setFormats (array $formats)
     {
         foreach ($formats as $format) {
-            $format->getGenerator()->setFilesystem($this->getFilesystem());
-            $format->getGenerator()->setPathGenerator($this->getPathGenerator());
+            $format->getTransformer()->setPathGenerator($this->getPathGenerator());
         }
         
         $this->formats = $formats;
@@ -144,7 +142,7 @@ abstract class AbstractProvider implements ProviderInterface
         $format = $this->getFormat($format);
         
         if ($format) {
-            return $format->getGenerator()->getRenderOptions($media, $options);
+            return $format->getTransformer()->getRenderOptions($media, $options);
         }
         
         return array();
@@ -152,12 +150,21 @@ abstract class AbstractProvider implements ProviderInterface
     
     final public function getTemplate ($formatName)
     {
+        if (null === $formatName) {
+            return $this->getDefaultTemplate();
+        }
+        
         $format = $this->getFormat($formatName);
         
         if ($format) {
-            return $format->getGenerator()->getTemplate();
+            return $format->getTransformer()->getTemplate();
         }
         
         return array();
+    }
+    
+    public function getDefaultTemplate()
+    {
+        return null;
     }
 }

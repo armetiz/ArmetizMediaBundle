@@ -1,6 +1,6 @@
 <?php
 
-namespace Armetiz\MediaBundle\Generator\Format;
+namespace Armetiz\MediaBundle\Transformer;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
 
@@ -11,10 +11,15 @@ use Imagine\Image\Box;
 
 use Gaufrette\File;
 
-class FromImageToThumbnailGenerator extends AbstractFormat
+class FromImageToThumbnailTransformer extends AbstractTransformer
 {
     const RESIZE_MODE_OUTBOUND = 'outbound';
     const RESIZE_MODE_INSET = 'inset';
+    
+    public function getName()
+    {
+        return "thumbnail";
+    }
     
     public function getTemplate()
     {
@@ -34,6 +39,10 @@ class FromImageToThumbnailGenerator extends AbstractFormat
     
     public function create(MediaInterface $media, array $options = array(), File $fileOrigin = null)
     {
+        if (!array_key_exists("filesystem", $options)) {
+            throw new \RuntimeException("Filesystem options is needed");
+        }
+        
         switch ($options["engine_image"]) {
             case "gd":
                 $imagine = new \Imagine\Gd\Imagine();
@@ -87,13 +96,13 @@ class FromImageToThumbnailGenerator extends AbstractFormat
 
             $image = $image->thumbnail(new Box($width, $height), $mode);
         }
+        
+        $filesystem = $options["filesystem"];
 
         $outputContent = $image->get(ExtensionGuesser::getInstance()->guess($media->getContentType()), $options);
         
-        $path = $this->getPathGenerator()->getPath($media, $this->getName(), $options);
-        var_dump($this->getName());
-        var_dump($path); exit;
-        $fileTarget = $this->getFilesystem()->get($path, true);
+        $path = $this->getPath($media);
+        $fileTarget = $filesystem->get($path, true);
         $fileTarget->setContent($outputContent);
         
         return $this;

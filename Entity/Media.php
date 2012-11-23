@@ -1,10 +1,10 @@
 <?php
 
-namespace Armetiz\MediaBundle\Tests\Fixtures\Entity;
+namespace Armetiz\MediaBundle\Entity;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
 
-class FakeMedia implements MediaInterface {
+class Media implements MediaInterface {
     /**
      * @var string
      */
@@ -19,17 +19,23 @@ class FakeMedia implements MediaInterface {
      * @var string
      */
     protected $mediaIdentifier = null;
+    
+    /**
+     * @var string
+     */
+    protected $meta;
 
     /**
-     * @var array
+     * @var Date
      */
-    protected $meta = null;
-
-    /**
-     * @var array
-     */
-    protected $dateCreation = null;
-
+    protected $dateCreation;
+    
+    protected $annexe;
+    
+    public function __construct() {
+        $this->dateCreation = new \DateTime ();
+    }
+    
     public function getDateCreation() {
         return $this->dateCreation;
     }
@@ -65,7 +71,7 @@ class FakeMedia implements MediaInterface {
     public function getMeta() {
         return $this->meta;
     }
-
+    
     public function setMeta(array $value) {
         $this->meta = $value;
     }

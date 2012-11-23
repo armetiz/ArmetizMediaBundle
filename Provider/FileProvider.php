@@ -2,7 +2,6 @@
 
 namespace Armetiz\MediaBundle\Provider;
 
-use Armetiz\MediaBundle\Entity\MediaAdvancedInterface;
 use Armetiz\MediaBundle\Entity\MediaInterface;
 
 use Armetiz\MediaBundle\Exceptions\MustPreparedException;
@@ -24,12 +23,22 @@ class FileProvider extends AbstractProvider
         return ((null !== $extension) || $media->getMedia() && ($media->getMedia() instanceof File || is_file($media->getMedia())));
     }
     
+    public function getProviderOptions()
+    {
+        return array (
+            "filesystem" => $this->getFilesystem(),
+        );
+    }
+    
     public function generateFormats(MediaInterface $media)
     {
         $originalFile = $this->getOriginalFile($media);
         
         foreach($this->getFormats() as $format) {
-            $format->getGenerator()->create($media, $format->getOptions(), $originalFile);
+            $format->getTransformer()->create(
+                $media, 
+                array_merge($this->getProviderOptions(), $format->getOptions()),
+                $originalFile);
         }
         
         return $this;
@@ -82,12 +91,7 @@ class FileProvider extends AbstractProvider
         }
         
         if (!$media->getMediaIdentifier()) {
-            if ($media instanceof MediaAdvancedInterface && $media->getMediaIdentifierBase()) {
-                $identifierBase = $media->getMediaIdentifierBase();
-            }
-            else {
-                $identifierBase = uniqid();
-            }
+            $identifierBase = uniqid();
             
             $extension = ExtensionGuesser::guess($media->getMedia()->getMimeType());
 
@@ -98,14 +102,6 @@ class FileProvider extends AbstractProvider
             $media->setMediaIdentifier($identifierBase . "." . $extension);
         }
         
-        if ($media instanceof MediaAdvancedInterface && !$media->getMediaIdentifierBase()) {
-            $extension = strrchr($media->getMediaIdentifier(), '.');  
-            if($extension) {  
-                $identifierBase = substr($media->getMediaIdentifier(), 0, -strlen($extension));  
-            }  
-            $media->setMediaIdentifierBase($identifierBase);
-        }
-        
         $media->setContentType($media->getMedia()->getMimeType());
         
         return $this;
@@ -113,7 +109,7 @@ class FileProvider extends AbstractProvider
     
     public function getUri (MediaInterface $media, $format)
     {
-        $path = $this->getPath ($media, $format);
+        $path = $this->getPath($media, $format);
         
         return $this->getContentDeliveryNetwork()->getPath($path);
     }
@@ -124,10 +120,11 @@ class FileProvider extends AbstractProvider
             return $this->getPathGenerator()->getPath($media, null);
         }
         elseif($this->hasFormat($format)) {
-            return $this->getFormat($format)->getGenerator()->getPathGenerator()->getPath($media, $format);
+            return $this->getFormat($format)->getTransformer()->getPath($media);
         }
-        
-        throw new \RuntimeException(sprintf("Needed format is not defined '%s'", $format));
+        else {
+            throw new \RuntimeException(sprintf("Needed format is not defined '%s'", $format));
+        }
     }
     
     public function getOriginalFile(MediaInterface $media)

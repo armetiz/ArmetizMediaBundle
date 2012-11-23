@@ -52,7 +52,7 @@ class MappingContextTest extends \PHPUnit_Framework_TestCase {
         $formats = array (
             "provider_foo" => 
                 array (
-                    new Format("format_foo", "generator_foo", array("option_foo" => "value_foo"))
+                    $this->getMockBuilder("Armetiz\MediaBundle\Format")->disableOriginalConstructor()->getMock(),
                 ),
             );
         

@@ -2,17 +2,18 @@
 
 namespace Armetiz\MediaBundle;
 
+use Armetiz\MediaBundle\Transformer\TransformerInterface;
+
 class Format 
 {
     private $name;
-    private $generator;
+    private $transformer;
     private $options;
     
-    public function __construct ($name, $generator, array $options = array())
+    public function __construct ($name, TransformerInterface $transformer, array $options = array())
     {
         $this->name = $name;
-        //TODO !
-        $this->generator = new \Armetiz\MediaBundle\Generator\Format\FromImageToThumbnailGenerator();
+        $this->transformer = $transformer;
         $this->options = $options;
     }
     
@@ -21,9 +22,9 @@ class Format
         return $this->name;
     }
     
-    public function getGenerator()
+    public function getTransformer()
     {
-        return $this->generator;
+        return $this->transformer;
     }
     
     public function getOptions()

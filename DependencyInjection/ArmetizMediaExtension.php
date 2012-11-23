@@ -129,7 +129,7 @@ class ArmetizMediaExtension extends Extension
                 }
                 
                 foreach($providerOptions["formats"] as $formatName => $format) {
-                    $contextedFormat[] = new Definition("Armetiz\MediaBundle\Format", array($formatName, $format["generator"], $format["options"]));
+                    $contextedFormat[] = new Definition("Armetiz\MediaBundle\Format", array($formatName, new Reference($format["transformer"]), $format["options"]));
                 }
                 
                 $contextedProviders[$providerName] = $contextedProvider;

@@ -95,7 +95,7 @@ class Configuration implements ConfigurationInterface
                                             ->useAttributeAsKey('name')
                                             ->prototype('array')
                                                 ->children()
-                                                    ->scalarNode('generator')
+                                                    ->scalarNode('transformer')
                                                         ->cannotBeEmpty()
                                                         ->isRequired()
                                                     ->end()

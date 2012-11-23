@@ -30,13 +30,4 @@ class ImageProvider extends FileProvider
             return ((preg_match(self::TYPE_MIME_PATTERN, $file->getMimeType()) > 0));
         }
     }
-    
-    public function saveMedia (MediaInterface $media)
-    {
-        parent::saveMedia($media);
-        
-        $this->generateFormats($media);
-        
-        return $this;
-    }
 }

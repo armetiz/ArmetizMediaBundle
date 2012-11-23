@@ -27,4 +27,7 @@ interface MediaInterface
      */
     public function getMeta();
     public function setMeta(array $value);
+    
+    public function setDateCreation(\DateTime $value);
+    public function getDateCreation();
 }

@@ -3,7 +3,6 @@
 namespace Armetiz\MediaBundle\Generator\Path;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
-use Armetiz\MediaBundle\Entity\MediaTimestampableInterface;
 
 class DefaultPathGenerator implements PathGeneratorInterface
 {
@@ -11,18 +10,20 @@ class DefaultPathGenerator implements PathGeneratorInterface
     {
         $path = "";
         
-        if ($media instanceof MediaTimestampableInterface) {
-            $dateCreation = $media->getDateCreation();
-            $path = $path . "/" . $dateCreation->format("Y-m");
+        if (array_key_exists("namespace", $options)) {
+            $path .= $options["namespace"] . "/";
         }
+        
+        $dateCreation = $media->getDateCreation();
+        $path .= $dateCreation->format("Y-m") . "/";
         
         $pathInfo = pathinfo($media->getMediaIdentifier());
         
         if ($format) {
-            return $path . "/" . $pathInfo["filename"] . "_" . $format . "." . $pathInfo["extension"];
+            return $path . $pathInfo["filename"] . "_" . $format . "." . $pathInfo["extension"];
         }
         else {
-            return $path . "/" . $pathInfo["filename"] . "." . $pathInfo["extension"];
+            return $path . $pathInfo["filename"] . "." . $pathInfo["extension"];
         }
     }
 }

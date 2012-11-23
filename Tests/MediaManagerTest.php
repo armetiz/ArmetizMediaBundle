@@ -70,7 +70,7 @@ class MediaManagerTest  extends \PHPUnit_Framework_TestCase {
         $formats = array (
             "provider_foo" => 
                 array (
-                    new Format("format_foo", "generator_foo", array("option_foo" => "value_foo"))
+                    $this->getMockBuilder("Armetiz\MediaBundle\Format")->disableOriginalConstructor()->getMock(),
                 ),
             );
         
@@ -104,10 +104,12 @@ class MediaManagerTest  extends \PHPUnit_Framework_TestCase {
             "provider_foo" => $provider
         );
         
+        $transformer = $this->getMock("Armetiz\MediaBundle\Transformer\TransformerInterface");
+                
         $formats = array (
             "provider_foo" => 
                 array (
-                    new Format("format_foo", "generator_foo", array("option_foo" => "value_foo"))
+                    new Format("format_foo", $transformer, array()),
                 ),
             );
         
