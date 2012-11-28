@@ -2,12 +2,17 @@
 
 namespace Armetiz\MediaBundle\Exceptions;
 
-use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Provider\ProviderInterface;
+use Armetiz\MediaBundle\Format;
 
 class NotSupportedFormatException extends MediaException {
 
-    public function __construct(MediaInterface $media, $format) {
-        parent::__construct(sprintf("Format is not supported '%s' for media '%s'", $format, get_class($media)));
+    public function __construct(ProviderInterface $provider, array $formatSupported, Format $format) {
+        foreach($formatSupported as $formatAvailable) {
+            $formatsAvailable[] = $formatAvailable->getName();
+        }
+        
+        parent::__construct(sprintf("Format '%s' is not supported on provider '%s'. Supported formats are '%s'", $format->getName(), get_class($provider), implode(", ", $formatsAvailable)));
     }
 
 }

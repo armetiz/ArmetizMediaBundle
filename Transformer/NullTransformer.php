@@ -3,13 +3,7 @@
 namespace Armetiz\MediaBundle\Transformer;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
-
-use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
-
-use Imagine\Image\ImageInterface;
-use Imagine\Image\Box;
-
-use Gaufrette\File;
+use Armetiz\MediaBundle\Format;
 
 class NullTransformer extends AbstractTransformer
 {
@@ -20,20 +14,20 @@ class NullTransformer extends AbstractTransformer
     
     public function getTemplate()
     {
-        return null;
+        return "ArmetizMediaBundle:Null:default.html.twig";
     }
     
-    public function getRenderOptions(MediaInterface $media, array $options = array())
+    public function getRenderOptions(MediaInterface $media, Format $format)
     {
         return array();
     }
     
-    public function delete(MediaInterface $media)
+    public function delete(MediaInterface $media, Format $format)
     {
         return $this;
     }
     
-    public function create(MediaInterface $media, array $options = array(), File $fileOrigin = null)
+    public function create(MediaInterface $media, Format $format)
     {
         return $this;
     }

@@ -5,6 +5,7 @@ namespace Armetiz\MediaBundle\Provider;
 use Armetiz\MediaBundle\Generator\Path\PathGeneratorInterface;
 use Armetiz\MediaBundle\CDN\CDNInterface;
 use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Format;
 
 use Gaufrette\Filesystem;
 
@@ -17,13 +18,13 @@ interface ProviderInterface
     
     public function setFormats(array $formats);
     public function getFormats();
-    public function getFormat($name);
-    public function hasFormat($name);
+    public function getFormat(Format $format);
+    public function hasFormat(Format $format);
 
-    public function getUri (MediaInterface $media, $format);
-    public function getRenderOptions (MediaInterface $media, $format, array $options = array());
+    public function getUri (MediaInterface $media, Format $format = null);
+    public function getRenderOptions (MediaInterface $media, Format $format = null);
     
-    public function getTemplate ($format);
+    public function getTemplate (Format $format = null);
     
     public function setFilesystem(Filesystem $value);
     public function getFilesystem();

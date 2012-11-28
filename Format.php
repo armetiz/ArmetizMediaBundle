@@ -14,7 +14,7 @@ class Format
     {
         $this->name = $name;
         $this->transformer = $transformer;
-        $this->options = $options;
+        $this->options = array_merge(array("namespace" => $name), $options);
     }
     
     public function getName()

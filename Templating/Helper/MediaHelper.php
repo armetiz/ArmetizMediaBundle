@@ -17,28 +17,28 @@ class MediaHelper extends Helper
         $this->container = $container;
     }
 
-    public function getMedia(MediaInterface $media, $format, array $options = array())
+    public function getMedia(MediaInterface $media, $formatName)
     {
-        $template = $this->getMediaManager()->getTemplate($media, $format);
+        $template = $this->getMediaManager()->getTemplate($media, $formatName);
         
         if (empty($template)) {
-            throw new NoTemplateException($media);
+            throw new NoTemplateException($media, $formatName);
         }
         
-        $uri = $this->getMediaManager()->getUri($media, $format);
-        $options = $this->getMediaManager()->getRenderOptions($media, $format);
+        $uri = $this->getMediaManager()->getUri($media, $formatName);
+        $options = $this->getMediaManager()->getRenderOptions($media, $formatName);
         
         return $this->getTemplating()->render($template, array(
             'media' => $media,
-            'format' => $format,
+            'format' => $formatName,
             'options' => $options,
             'uri' => $uri,
         ));
     }
 
-    public function getUri(MediaInterface $media, $format)
+    public function getUri(MediaInterface $media, $formatName)
     {        
-        return $this->getMediaManager()->getUri($media, $format);
+        return $this->getMediaManager()->getUri($media, $formatName);
     }
 
     public function getMediaManager ()

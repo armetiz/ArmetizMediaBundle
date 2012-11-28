@@ -3,13 +3,12 @@
 namespace Armetiz\MediaBundle\Transformer;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
+use Armetiz\MediaBundle\Format;
 
 use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Box;
-
-use Gaufrette\File;
 
 class FromImageToThumbnailTransformer extends AbstractTransformer
 {
@@ -26,22 +25,20 @@ class FromImageToThumbnailTransformer extends AbstractTransformer
         return "ArmetizMediaBundle:Image:default.html.twig";
     }
     
-    public function getRenderOptions(MediaInterface $media, array $options = array())
+    public function getRenderOptions(MediaInterface $media, Format $format)
     {
         return array();
     }
     
-    public function delete(MediaInterface $media)
+    public function delete(MediaInterface $media, Format $format)
     {
         //TODO
         return $this;
     }
     
-    public function create(MediaInterface $media, array $options = array(), File $fileOrigin = null)
+    public function create(MediaInterface $media, Format $format)
     {
-        if (!array_key_exists("filesystem", $options)) {
-            throw new \RuntimeException("Filesystem options is needed");
-        }
+        $options = $format->getOptions();
         
         switch ($options["engine_image"]) {
             case "gd":
@@ -70,7 +67,7 @@ class FromImageToThumbnailTransformer extends AbstractTransformer
         }
         
         try {
-            $image = $imagine->load($fileOrigin->getContent());
+            $image = $imagine->load(file_get_contents($media->getMedia()->getRealPath()));
         }
         catch (\Exception $e) {
             return $this;
@@ -97,11 +94,11 @@ class FromImageToThumbnailTransformer extends AbstractTransformer
             $image = $image->thumbnail(new Box($width, $height), $mode);
         }
         
-        $filesystem = $options["filesystem"];
+        $filesystem = $this->getFilesystem();
 
         $outputContent = $image->get(ExtensionGuesser::getInstance()->guess($media->getContentType()), $options);
         
-        $path = $this->getPath($media);
+        $path = $this->getPath($media, $format);
         $fileTarget = $filesystem->get($path, true);
         $fileTarget->setContent($outputContent);
         

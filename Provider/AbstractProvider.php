@@ -2,6 +2,7 @@
 
 namespace Armetiz\MediaBundle\Provider;
 
+use Armetiz\MediaBundle\Format;
 use Armetiz\MediaBundle\Entity\MediaInterface;
 use Armetiz\MediaBundle\CDN\CDNInterface;
 use Armetiz\MediaBundle\Generator\Path\PathGeneratorInterface;
@@ -61,7 +62,7 @@ abstract class AbstractProvider implements ProviderInterface
         return $this;
     }
     
-    abstract public function getUri (MediaInterface $media, $format);
+    abstract public function getUri (MediaInterface $media, Format $format = null);
     
     public function setFilesystem(Filesystem $value)
     {
@@ -102,6 +103,7 @@ abstract class AbstractProvider implements ProviderInterface
     final public function setFormats (array $formats)
     {
         foreach ($formats as $format) {
+            $format->getTransformer()->setFilesystem($this->getFilesystem());
             $format->getTransformer()->setPathGenerator($this->getPathGenerator());
         }
         
@@ -115,10 +117,10 @@ abstract class AbstractProvider implements ProviderInterface
         return $this->formats;
     }
     
-    final public function hasFormat($name)
+    final public function hasFormat(Format $format)
     {
-        foreach($this->getFormats() as $format) {
-            if ($name === $format->getName()) {
+        foreach($this->getFormats() as $formatAvailable) {
+            if ($formatAvailable === $format) {
                 return true;
             }
         }
@@ -126,10 +128,10 @@ abstract class AbstractProvider implements ProviderInterface
         return false;
     }
     
-    final public function getFormat($name)
+    final public function getFormat(Format $format)
     {
-        foreach($this->getFormats() as $format) {
-            if ($name === $format->getName()) {
+        foreach($this->getFormats() as $formatAvailable) {
+            if ($formatAvailable === $format) {
                 return $format;
             }
         }
@@ -137,30 +139,23 @@ abstract class AbstractProvider implements ProviderInterface
         return null;
     }
     
-    public function getRenderOptions (MediaInterface $media, $format, array $options = array())
+    public function getRenderOptions (MediaInterface $media, Format $format = null)
     {
-        $format = $this->getFormat($format);
-        
         if ($format) {
-            return $format->getTransformer()->getRenderOptions($media, $options);
+            return $format->getTransformer()->getRenderOptions($media, $format);
         }
         
-        return array();
+        throw array();
     }
     
-    final public function getTemplate ($formatName)
+    final public function getTemplate (Format $format = null)
     {
-        if (null === $formatName) {
+        if (null === $format) {
             return $this->getDefaultTemplate();
         }
-        
-        $format = $this->getFormat($formatName);
-        
-        if ($format) {
+        else {        
             return $format->getTransformer()->getTemplate();
         }
-        
-        return array();
     }
     
     public function getDefaultTemplate()

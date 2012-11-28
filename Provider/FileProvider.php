@@ -4,10 +4,10 @@ namespace Armetiz\MediaBundle\Provider;
 
 use Armetiz\MediaBundle\Entity\MediaInterface;
 
+use Armetiz\MediaBundle\Format;
 use Armetiz\MediaBundle\Exceptions\MustPreparedException;
-use Armetiz\MediaBundle\Exceptions\UnknowMimeTypeException;
 use Armetiz\MediaBundle\Exceptions\NotSupportedMediaException;
-
+use Armetiz\MediaBundle\Exceptions\NotSupportedFormatException;
 use Armetiz\MediaBundle\HttpFoundation\File\MimeType\ExtensionGuesser;
 
 use Symfony\Component\HttpFoundation\File\File;
@@ -32,13 +32,8 @@ class FileProvider extends AbstractProvider
     
     public function generateFormats(MediaInterface $media)
     {
-        $originalFile = $this->getOriginalFile($media);
-        
         foreach($this->getFormats() as $format) {
-            $format->getTransformer()->create(
-                $media, 
-                array_merge($this->getProviderOptions(), $format->getOptions()),
-                $originalFile);
+            $format->getTransformer()->create($media, $format);
         }
         
         return $this;
@@ -91,15 +86,7 @@ class FileProvider extends AbstractProvider
         }
         
         if (!$media->getMediaIdentifier()) {
-            $identifierBase = uniqid();
-            
-            $extension = ExtensionGuesser::guess($media->getMedia()->getMimeType());
-
-            if (!$extension) {
-                throw new UnknowMimeTypeException();
-            }
-
-            $media->setMediaIdentifier($identifierBase . "." . $extension);
+            $media->setMediaIdentifier(uniqid());
         }
         
         $media->setContentType($media->getMedia()->getMimeType());
@@ -107,28 +94,23 @@ class FileProvider extends AbstractProvider
         return $this;
     }
     
-    public function getUri (MediaInterface $media, $format)
+    public function getUri (MediaInterface $media, Format $format = null)
     {
         $path = $this->getPath($media, $format);
         
         return $this->getContentDeliveryNetwork()->getPath($path);
     }
     
-    protected function getPath (MediaInterface $media, $format = null)
+    protected function getPath (MediaInterface $media, Format $format = null)
     {
         if (null === $format) {
             return $this->getPathGenerator()->getPath($media, null);
         }
         elseif($this->hasFormat($format)) {
-            return $this->getFormat($format)->getTransformer()->getPath($media);
+            return $this->getFormat($format)->getTransformer()->getPath($media, $format);
         }
         else {
-            throw new \RuntimeException(sprintf("Needed format is not defined '%s'", $format));
+            throw new NotSupportedFormatException($this, $this->getFormats(), $format);
         }
-    }
-    
-    public function getOriginalFile(MediaInterface $media)
-    {
-        return $this->getFilesystem()->get($this->getPath($media), true);
     }
 }

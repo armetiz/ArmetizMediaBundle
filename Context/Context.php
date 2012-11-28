@@ -34,6 +34,21 @@ class Context implements ContextInterface
         return $this;
     }
     
+    public function getFormat(MediaInterface $media, $formatName)
+    {
+        $provider = $this->getProvider($media);
+        
+        $formats = $this->getFormats($provider);
+        
+        foreach($formats as $format) {
+            if ($format->getName() === $formatName) {
+                return $format;
+            }
+        }
+        
+        return null;
+    }
+    
     public function getFormats(ProviderInterface $provider)
     {
         if (!in_array($provider, $this->providers)) {

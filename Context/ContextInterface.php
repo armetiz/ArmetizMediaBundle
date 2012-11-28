@@ -10,6 +10,7 @@ interface ContextInterface
     public function setName($value);
     public function getName();
     
+    public function getFormat(MediaInterface $media, $formatName);
     public function getFormats(ProviderInterface $provider);
     
     public function getProvider(MediaInterface $media);

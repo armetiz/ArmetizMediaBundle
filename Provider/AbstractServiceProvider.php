@@ -2,8 +2,8 @@
 
 namespace Armetiz\MediaBundle\Provider;
 
+use Armetiz\MediaBundle\Format;
 use Armetiz\MediaBundle\Entity\MediaInterface;
-
 use Armetiz\MediaBundle\Exceptions\NotSupportedMediaException;
 
 abstract class AbstractServiceProvider extends AbstractProvider
@@ -45,7 +45,7 @@ abstract class AbstractServiceProvider extends AbstractProvider
         return $this;
     }
     
-    public function getRenderOptions (MediaInterface $media, $format, array $options = array())
+    public function getRenderOptions (MediaInterface $media, Format $format = null, array $options = array())
     {
         preg_match($this->getMediaPattern(), $media->getMediaIdentifier(), $matches);
         
@@ -57,7 +57,7 @@ abstract class AbstractServiceProvider extends AbstractProvider
         return array_merge(parent::getRenderOptions($media, $format, $options), $defaultOptions);
     }
     
-    public function getUri (MediaInterface $media, $format)
+    public function getUri (MediaInterface $media, Format $format = null)
     {
         //Use some specific CDN ?
         return $media->getMediaIdentifier();
@@ -65,6 +65,6 @@ abstract class AbstractServiceProvider extends AbstractProvider
     
     public function generateFormats(MediaInterface $media)
     {
-        //TODO
+        return $this;
     }
 }

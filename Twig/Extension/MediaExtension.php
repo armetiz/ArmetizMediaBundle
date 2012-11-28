@@ -30,14 +30,14 @@ class MediaExtension extends \Twig_Extension
         );
     }
     
-    public function getMedia(MediaInterface $media, $format, array $options = array())
+    public function getMedia(MediaInterface $media, $formatName)
     {
-        return $this->helper->getMedia($media, $format, $options);
+        return $this->helper->getMedia($media, $formatName);
     }
 
-    public function getUri(MediaInterface $media, $format = "original")
+    public function getUri(MediaInterface $media, $formatName = null)
     {
-        return $this->helper->getUri($media, $format);
+        return $this->helper->getUri($media, $formatName);
     }
     
     /**
