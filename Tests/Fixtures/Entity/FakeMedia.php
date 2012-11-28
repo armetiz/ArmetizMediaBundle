@@ -8,7 +8,7 @@ class FakeMedia implements MediaInterface {
     /**
      * @var string
      */
-    protected $contentType = null;
+    protected $mimeType = null;
 
     /**
      * @var binary
@@ -54,12 +54,12 @@ class FakeMedia implements MediaInterface {
         $this->mediaIdentifier = $value;
     }
 
-    public function getContentType() {
-        return $this->contentType;
+    public function getMimeType() {
+        return $this->mimeType;
     }
 
-    public function setContentType($value) {
-        $this->contentType = $value;
+    public function setMimeType($value) {
+        $this->mimeType = $value;
     }
     
     public function getMeta() {

@@ -13,7 +13,7 @@ class ImageProvider extends FileProvider
     
     public function canHandleMedia (MediaInterface $media)
     {
-        if (preg_match(self::TYPE_MIME_PATTERN, $media->getContentType()) > 0) {
+        if (preg_match(self::TYPE_MIME_PATTERN, $media->getMimeType()) > 0) {
             return true;
         }
         else {

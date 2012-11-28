@@ -14,7 +14,7 @@ abstract class AbstractServiceProvider extends AbstractProvider
     
     public function canHandleMedia (MediaInterface $media)
     {
-        return (($this->getMimeType() === $media->getContentType()) || $media->getMedia() && (preg_match($this->getMediaPattern(), $media->getMedia()) > 0));
+        return (($this->getMimeType() === $media->getMimeType()) || $media->getMedia() && (preg_match($this->getMediaPattern(), $media->getMedia()) > 0));
     }
     
     public function saveMedia (MediaInterface $media)
@@ -40,7 +40,7 @@ abstract class AbstractServiceProvider extends AbstractProvider
         parent::prepareMedia($media);
         
         $media->setMediaIdentifier($media->getMedia());
-        $media->setContentType($this->getMimeType());
+        $media->setMimeType($this->getMimeType());
         
         return $this;
     }

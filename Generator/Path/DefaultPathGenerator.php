@@ -27,10 +27,10 @@ class DefaultPathGenerator extends AbstractPathGenerator
         
         $this->addPath($media->getDateCreation()->format("Y-m"));
         
-        $extension = ExtensionGuesser::guess($media->getContentType());
+        $extension = ExtensionGuesser::guess($media->getMimeType());
         
         if (!$extension) {
-            throw new UnknowMimeTypeException($media->getContentType());
+            throw new UnknowMimeTypeException($media->getMimeType());
         }
         
         $this->addPath($media->getMediaIdentifier() . "." . $extension);

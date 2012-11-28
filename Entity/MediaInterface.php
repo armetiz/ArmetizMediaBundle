@@ -19,8 +19,8 @@ interface MediaInterface
     /**
      * Use to store the type/mime of the media
      */
-    public function getContentType();
-    public function setContentType($value);
+    public function getMimeType();
+    public function setMimeType($value);
     
     /**
      * Use to store any time of scalar meta

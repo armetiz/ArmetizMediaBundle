@@ -16,7 +16,7 @@
     </parameters>
 
     <services>
-        <service id="armetiz.media.transformer.image_to_thumbnail" class="Armetiz\MediaBundle\Transformer\FromImageToThumbnailTransformer" />
+        <service id="armetiz.media.transformer.image_to_thumbnail" class="Armetiz\MediaBundle\Transformer\ImageToThumbnailTransformer" />
         <service id="armetiz.media.transformer.null" class="Armetiz\MediaBundle\Transformer\NullTransformer" />
         
         <service id="armetiz.media.storage.default" class="%armetiz.media.storage.adapter.class%">

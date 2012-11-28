@@ -10,7 +10,7 @@ use Symfony\Component\HttpFoundation\File\MimeType\ExtensionGuesser;
 use Imagine\Image\ImageInterface;
 use Imagine\Image\Box;
 
-class FromImageToThumbnailTransformer extends AbstractTransformer
+class ImageToThumbnailTransformer extends AbstractTransformer
 {
     const RESIZE_MODE_OUTBOUND = 'outbound';
     const RESIZE_MODE_INSET = 'inset';
@@ -96,7 +96,7 @@ class FromImageToThumbnailTransformer extends AbstractTransformer
         
         $filesystem = $this->getFilesystem();
 
-        $outputContent = $image->get(ExtensionGuesser::getInstance()->guess($media->getContentType()), $options);
+        $outputContent = $image->get(ExtensionGuesser::getInstance()->guess($media->getMimeType()), $options);
         
         $path = $this->getPath($media, $format);
         $fileTarget = $filesystem->get($path, true);

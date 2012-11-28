@@ -18,7 +18,7 @@ class FileProvider extends AbstractProvider
 {
     public function canHandleMedia (MediaInterface $media)
     {
-        $extension = ExtensionGuesser::guess($media->getContentType());
+        $extension = ExtensionGuesser::guess($media->getMimeType());
         
         return ((null !== $extension) || $media->getMedia() && ($media->getMedia() instanceof File || is_file($media->getMedia())));
     }
@@ -89,7 +89,7 @@ class FileProvider extends AbstractProvider
             $media->setMediaIdentifier(uniqid());
         }
         
-        $media->setContentType($media->getMedia()->getMimeType());
+        $media->setMimeType($media->getMedia()->getMimeType());
         
         return $this;
     }

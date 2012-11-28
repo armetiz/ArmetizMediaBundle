@@ -22,8 +22,8 @@ class NoProviderException extends MediaException {
             }
         }
         
-        if ($media->getContentType()) {
-            $mimeType = $media->getContentType();
+        if ($media->getMimeType()) {
+            $mimeType = $media->getMimeType();
         }
         elseif ($file) {
             $mimeType = $file->getMimeType();
