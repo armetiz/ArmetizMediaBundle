@@ -90,27 +90,16 @@ armetiz_media:
     cdns: 
         local:
             base_url: %website_url%/medias
-    transformers:
-        thumbnail:
-            provider: pdf
-                page: 1
-                quality: 90
-            provider: youtube
-                
     contexts:
         default:
             providers: 
-                - app.media.provider_foo
-                - app.media.provider_bar
+                armetiz.media.provider.youtube: ~
+                armetiz.media.provider.image:
+                    formats:
+                        annexe_display:
+                            transformer: armetiz.media.transformer.image_to_thumbnail
             formats:
-                thumbnail:
-                    width: 512
-        thumbnail:
-            managed: 
-                - Acme\PosterBundle\Entity\Thumbnail
-            providers: 
-                - thumbnail
-            default_media: default.jpg
+                thumbnail: {width: 512}
 ```
 
 ## Configuration
