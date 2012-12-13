@@ -25,6 +25,11 @@ class ImageToThumbnailTransformer extends AbstractTransformer
         return "ArmetizMediaBundle:Image:default.html.twig";
     }
     
+    public function getMimeType()
+    {
+        return "image/jpeg";
+    }
+    
     public function getRenderOptions(MediaInterface $media, Format $format)
     {
         return array();
@@ -39,6 +44,10 @@ class ImageToThumbnailTransformer extends AbstractTransformer
     public function create(MediaInterface $media, Format $format)
     {
         $options = $format->getOptions();
+        
+        if (!array_key_exists('engine_image', $options)) {
+            $options['engine_image'] = "gd";
+        }
         
         switch ($options["engine_image"]) {
             case "gd":
@@ -55,9 +64,9 @@ class ImageToThumbnailTransformer extends AbstractTransformer
         }
         
         if (!array_key_exists('quality', $options)) {
-            $options['quality'] = 100;
+            $options['quality'] = 80;
         }
-
+        
         $mode = isset($options['mode']) ? $options['mode'] : self::RESIZE_MODE_OUTBOUND;
         $width = isset($options['width']) ? (int)$options['width'] : null;
         $height = isset($options['height']) ? (int)$options['height'] : null;

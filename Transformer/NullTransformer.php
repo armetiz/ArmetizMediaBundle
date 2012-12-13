@@ -14,7 +14,12 @@ class NullTransformer extends AbstractTransformer
     
     public function getTemplate()
     {
-        return "ArmetizMediaBundle:Null:default.html.twig";
+        return null;
+    }
+    
+    public function getMimeType()
+    {
+        return null;
     }
     
     public function getRenderOptions(MediaInterface $media, Format $format)

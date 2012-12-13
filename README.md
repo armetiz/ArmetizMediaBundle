@@ -10,7 +10,28 @@ Do something to provide an automatic CDN http://domain.tld/medias/
 Add "base_folder: medias/"
 Use it to Gaufrette Adapter & CDN
 
-Move "namespaceé from Provider to Context. Tell the MediaManager to use Context params on selected Provider
+Move "namespace" from Provider to Context. Tell the MediaManager to use Context params on selected Provider
+
+L'utilisation d'un "transformer.null" permet d'utiliser les traitements par défaut du Provider sur different format
+
+Enregistrer le context & le provider au sein du Media directement : eviter la detection automatique du context & du provider.
+Cela permet aussi d'utiliser un Media dans plusieurs contexts sans devoir définir de ClassEntity.
+
+
+Rendu de vue
+
+options = {
+    transformer: "thumbnail",
+    transformer_options: {  //Optional, use default transformer option and merge with it
+        engine: gd
+    }
+};
+
+mediaRender (monMedia, "format_name", options);
+
+//Numerosus
+Pour choisir le type de rendu, utiliser les options de rendu avec un Helper Twig.
+Cela va eviter de compliquer le dévleoppement du MediaManager avec la configuration des formats par Provider.. Ce qui allourdit la configuration énormement
 
 ## Installation
 
@@ -69,15 +90,21 @@ armetiz_media:
     cdns: 
         local:
             base_url: %website_url%/medias
-    providers:  //use this section to configure pre-defined provider
-        thumbnail: ~
+    transformers:
+        thumbnail:
+            provider: pdf
+                page: 1
+                quality: 90
+            provider: youtube
+                
     contexts:
-        foo:
-            managed: 
-                - Acme\FileBundle\Entity\File
+        default:
             providers: 
                 - app.media.provider_foo
                 - app.media.provider_bar
+            formats:
+                thumbnail:
+                    width: 512
         thumbnail:
             managed: 
                 - Acme\PosterBundle\Entity\Thumbnail

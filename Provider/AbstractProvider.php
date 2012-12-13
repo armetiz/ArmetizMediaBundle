@@ -145,17 +145,22 @@ abstract class AbstractProvider implements ProviderInterface
             return $format->getTransformer()->getRenderOptions($media, $format);
         }
         
-        throw array();
+        return array();
     }
     
     final public function getTemplate (Format $format = null)
     {
-        if (null === $format) {
-            return $this->getDefaultTemplate();
+        $template = null;
+        
+        if ($format) {
+            $template = $format->getTransformer()->getTemplate();
         }
-        else {        
-            return $format->getTransformer()->getTemplate();
+        
+        if(!$template) {
+            $template = $this->getDefaultTemplate();
         }
+        
+        return $template;
     }
     
     public function getDefaultTemplate()

@@ -1,0 +1,23 @@
+<?xml version="1.0" ?>
+
+<container xmlns="http://symfony.com/schema/dic/services"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://symfony.com/schema/dic/services http://symfony.com/schema/dic/services/services-1.0.xsd">
+    <services>
+        <service id="armetiz.media.provider.base" class="Armetiz\MediaBundle\Provider\ImageProvider" abstract="true">
+            <call method="setFilesystem">
+                <argument type="service" id="armetiz.media.filesystem.default" />
+            </call>
+            <call method="setContentDeliveryNetwork">
+                <argument type="service" id="armetiz.media.cdn.default" />
+            </call>
+        </service>
+
+        <service id="armetiz.media.provider.file" class="Armetiz\MediaBundle\Provider\FileProvider" parent="armetiz.media.provider.base" />        
+        <service id="armetiz.media.provider.image" class="Armetiz\MediaBundle\Provider\ImageProvider" parent="armetiz.media.provider.base" />
+        <service id="armetiz.media.provider.gmap" class="Armetiz\MediaBundle\Provider\ImageProvider" parent="armetiz.media.provider.base" />
+        <service id="armetiz.media.provider.youtube" class="Armetiz\MediaBundle\Provider\YoutubeProvider" parent="armetiz.media.provider.base" />
+        <service id="armetiz.media.provider.vimeo" class="Armetiz\MediaBundle\Provider\VimeoProvider" parent="armetiz.media.provider.base" />
+        <service id="armetiz.media.provider.dailymotion" class="Armetiz\MediaBundle\Provider\DailymotionProvider" parent="armetiz.media.provider.base" />
+    </services>
+</container>

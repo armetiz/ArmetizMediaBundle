@@ -17,20 +17,23 @@ class DefaultPathGenerator extends AbstractPathGenerator
         $this->flush();
         
         if($format) {
-            $options = $format->getOptions();
+            $mimeType = $format->getTransformer()->getMimeType();
             
+            $options = $format->getOptions();
             $this->addPath($options["namespace"]);
         }
         else {
+            $mimeType = $media->getMimeType();
+            
             $this->addPath("original");
         }
         
         $this->addPath($media->getDateCreation()->format("Y-m"));
         
-        $extension = ExtensionGuesser::guess($media->getMimeType());
+        $extension = ExtensionGuesser::guess($mimeType);
         
         if (!$extension) {
-            throw new UnknowMimeTypeException($media->getMimeType());
+            throw new UnknowMimeTypeException($mimeType);
         }
         
         $this->addPath($media->getMediaIdentifier() . "." . $extension);

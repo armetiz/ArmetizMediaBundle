@@ -26,6 +26,7 @@ class ArmetizMediaExtension extends Extension
         
         $loader = new Loader\XmlFileLoader($container, new FileLocator(__DIR__.'/../Resources/config'));
         $loader->load('services.xml');
+        $loader->load('providers.xml');
         
         $contextClass = $container->getParameter("armetiz.media.context.class");
         $cdnClass = $container->getParameter("armetiz.media.cdn.class");
@@ -33,7 +34,6 @@ class ArmetizMediaExtension extends Extension
         $manager = $container->getDefinition("armetiz.media.manager");
         $filesystems = array();
         $cdns = array();
-        $providers = array();
         
         $filesystems["default"] = new Reference("armetiz.media.filesystem.default");
         
@@ -53,54 +53,6 @@ class ArmetizMediaExtension extends Extension
             $cdns[$name] = new Definition ($cdnClass, array ($baseUrl));
         }
         
-        foreach ($config["providers"] as $name => $provider) {
-            if (!array_key_exists($provider["filesystem"], $filesystems)) {
-                throw new \RuntimeException("Access to an undefined filesystem: " . $provider["filesystem"]);
-            }
-            
-            $filesystem = $filesystems[$provider["filesystem"]];
-            $cdn = $cdns[$provider["cdn"]];
-            $namespace = $name;
-            $templates = array();
-            
-            if (array_key_exists("templates", $provider))
-                $templates = $provider["templates"];
-            
-            if (array_key_exists("namespace", $provider))
-                $namespace = $provider["namespace"];
-            
-            switch ($provider["type"]) {
-                case "file" :
-                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\FileProvider";
-                    break;
-                case "youtube" :
-                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\YoutubeProvider";
-                    break;
-                case "dailymotion" :
-                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\DailymotionProvider";
-                    break;
-                case "vimeo" :
-                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\VimeoProvider";
-                    break;
-                case "gmap" :
-                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\GMapProvider";
-                    break;
-                case "image" :
-                    $mediaProviderClass = "Armetiz\MediaBundle\Provider\ImageProvider";
-                    break;
-                default: 
-                    throw new \RuntimeException("ArmetizMediaBundle, unknown type: '" . $provider["type"] . "' for provider: '" . $name . "'");
-            }
-            
-            $provider = new Definition($mediaProviderClass);
-            $provider->addMethodCall("setFilesystem", array($filesystem));
-            $provider->addMethodCall("setContentDeliveryNetwork", array($cdn));
-            
-            $container->setDefinition("armetiz.media.providers." . $name, $provider);
-            
-            $providers[$name] = $provider;
-        }
-        
         $managedClassesMapped = array();
         
         foreach ($config["contexts"] as $name => $context) {
@@ -116,23 +68,34 @@ class ArmetizMediaExtension extends Extension
                 $managedClassesMapped[] = $managedClass;
             }
             
-            foreach ($context["providers"] as $providerName => $providerOptions) {
-                $contextedProvider = null;
+            foreach ($context["providers"] as $providerName => $providerInformations) {
                 $contextedFormat = array();
                 
-                if (array_key_exists($providerName, $providers)) {
-                    $contextedProvider = $providers[$providerName];
+                //loop on context format
+                foreach($context["formats"] as $formatName => $formatOptions) {
+                    if(array_key_exists($formatName, $providerInformations["formats"])) {
+                        if (array_key_exists("options", $providerInformations["formats"][$formatName])) {
+                            $formatOptions = array_merge($formatOptions, $providerInformations["formats"][$formatName]["options"]);
+                        }
+                        
+                        if (array_key_exists("transformer", $providerInformations["formats"][$formatName])) {
+                            $formatTransformerRef = new Reference($providerInformations["formats"][$formatName]["transformer"]);
+                        }
+                        else {
+                            $formatTransformerRef = new Reference("armetiz.media.transformer.null");
+                        }
+                    }
+                    
+                    $contextedFormatArgs = array (
+                        $formatName, 
+                        $formatTransformerRef,
+                        $formatOptions
+                    );
+                    
+                    $contextedFormat[] = new Definition("Armetiz\MediaBundle\Format", $contextedFormatArgs);
                 }
                 
-                if (null === $contextedProvider) {
-                    $contextedProvider = new Reference($providerName);
-                }
-                
-                foreach($providerOptions["formats"] as $formatName => $format) {
-                    $contextedFormat[] = new Definition("Armetiz\MediaBundle\Format", array($formatName, new Reference($format["transformer"]), $format["options"]));
-                }
-                
-                $contextedProviders[$providerName] = $contextedProvider;
+                $contextedProviders[$providerName] = new Reference($providerName);
                 $contextedFormats[$providerName] = $contextedFormat;
             }
             
@@ -142,7 +105,6 @@ class ArmetizMediaExtension extends Extension
             $context->addMethodCall("setManagedClasses", array($managedClasses));
 
             //TODO:: setProviders to context
-            
             $manager->addMethodCall("addContext", array($context));
         }
     }

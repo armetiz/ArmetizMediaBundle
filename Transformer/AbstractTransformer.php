@@ -20,6 +20,8 @@ abstract class AbstractTransformer implements TransformerInterface
     
     abstract public function getTemplate();
     
+    abstract public function getMimeType();
+    
     abstract public function getRenderOptions(MediaInterface $media, Format $format);
     
     abstract public function getName();
