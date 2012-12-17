@@ -15,7 +15,7 @@
 
         <service id="armetiz.media.provider.file" class="Armetiz\MediaBundle\Provider\FileProvider" parent="armetiz.media.provider.base" />        
         <service id="armetiz.media.provider.image" class="Armetiz\MediaBundle\Provider\ImageProvider" parent="armetiz.media.provider.base" />
-        <service id="armetiz.media.provider.gmap" class="Armetiz\MediaBundle\Provider\ImageProvider" parent="armetiz.media.provider.base" />
+        <service id="armetiz.media.provider.gmap" class="Armetiz\MediaBundle\Provider\GMapProvider" parent="armetiz.media.provider.base" />
         <service id="armetiz.media.provider.youtube" class="Armetiz\MediaBundle\Provider\YoutubeProvider" parent="armetiz.media.provider.base" />
         <service id="armetiz.media.provider.vimeo" class="Armetiz\MediaBundle\Provider\VimeoProvider" parent="armetiz.media.provider.base" />
         <service id="armetiz.media.provider.dailymotion" class="Armetiz\MediaBundle\Provider\DailymotionProvider" parent="armetiz.media.provider.base" />
