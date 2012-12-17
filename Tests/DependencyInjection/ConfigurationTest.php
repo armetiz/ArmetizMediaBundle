@@ -25,20 +25,16 @@ class ConfigurationText extends \PHPUnit_Framework_TestCase {
     {
         $configRaw = array(
             "armetiz_media" => array (
-                "providers" => array (
-                    "provider_fake" => array (
-                        "templates" => array (
-                            "default" => "FakeTemplate",
-                            "foo" => "FooTemplate"
-                        )
-                    )
-                ),
                 "contexts" => array (
                     "context_foo" => array (
                         "managed" => array (
                             "FakeMedia",
                             "FooMedia",
                             "BarMedia"
+                        ),
+                        "formats" => array (
+                            "format_foo" => array(),
+                            "format_bar" => array(),
                         ),
                         "providers" => array (
                             "provider_foo" => array (

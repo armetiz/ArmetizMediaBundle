@@ -21,18 +21,10 @@ class ArmetizMediaExtensionTest extends \PHPUnit_Framework_TestCase {
         unset($this->container, $this->extension);
     }
     
-    public function testProviderDefinition()
+    public function testContextDefinition()
     {
         $config = array(
             "armetiz_media" => array (
-                "providers" => array (
-                    "provider_fake" => array (
-                        "templates" => array (
-                            "default" => "FakeTemplate",
-                            "foo" => "FooTemplate"
-                        )
-                    )
-                ),
                 "contexts" => array (
                     "fake" => array (
                         "managed" => array (
@@ -40,55 +32,9 @@ class ArmetizMediaExtensionTest extends \PHPUnit_Framework_TestCase {
                             "FooMedia",
                             "BarMedia"
                         ),
-                        "providers" => array (
-                            "provider_fake" => array (
-                                "formats" => array(
-                                    "format_foo" => array (
-                                        "transformer" => "foo",
-                                        "options" => array (
-                                            "width" => 512,
-                                            "height" => 288,
-                                        )
-                                    ),
-                                    "format_bar" => array (
-                                        "transformer" => "foo",
-                                        "options" => array (
-                                            "width" => 512,
-                                            "height" => 288,
-                                        )
-                                    )
-                                )
-                            )
-                        )
-                        
-                    )
-                )
-            )
-        );
-        
-        $this->extension->load($config, $this->container);
-
-        $this->assertTrue($this->container->hasDefinition('armetiz.media.providers.provider_fake'));
-    }
-    
-    public function testContextDefinition()
-    {
-        $config = array(
-            "armetiz_media" => array (
-                "providers" => array (
-                    "provider_fake" => array (
-                        "templates" => array (
-                            "default" => "FakeTemplate",
-                            "foo" => "FooTemplate"
-                        )
-                    )
-                ),
-                "contexts" => array (
-                    "fake" => array (
-                        "managed" => array (
-                            "FakeMedia",
-                            "FooMedia",
-                            "BarMedia"
+                        "formats" => array (
+                            "format_foo" => array(),
+                            "format_bar" => array(),
                         ),
                         "providers" => array (
                             "provider_fake" => array (
