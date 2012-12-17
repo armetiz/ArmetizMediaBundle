@@ -30,7 +30,7 @@ class MediaExtension extends \Twig_Extension
         );
     }
     
-    public function getMedia(MediaInterface $media, $formatName)
+    public function getMedia(MediaInterface $media, $formatName = "default")
     {
         return $this->helper->getMedia($media, $formatName);
     }
