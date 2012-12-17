@@ -29,7 +29,13 @@ class NoProviderException extends MediaException {
             $mimeType = $file->getMimeType();
         }
         
-        parent::__construct(sprintf("Providers doesn't handle a media, class: '%s'.\nContext: '%s'.\nMimeType: '%s'", get_class($media), $context->getName(), $mimeType));
+        if($mimeType) {
+            parent::__construct(sprintf("No provider found for Media class: '%s'.\nContext: '%s'.\nMimeType: '%s'", get_class($media), $context->getName(), $mimeType));
+        }
+        else {
+            parent::__construct(sprintf("No provider found for Media class: '%s'.\nContext: '%s'.\nContent: '%s'", get_class($media), $context->getName(), $media->getMedia()));
+        }
+        
     }
 
 }
