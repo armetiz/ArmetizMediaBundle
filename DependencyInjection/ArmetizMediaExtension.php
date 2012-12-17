@@ -73,6 +73,8 @@ class ArmetizMediaExtension extends Extension
                 
                 //loop on context format
                 foreach($context["formats"] as $formatName => $formatOptions) {
+                    $formatTransformerRef = new Reference("armetiz.media.transformer.null");
+                    
                     if(array_key_exists($formatName, $providerInformations["formats"])) {
                         if (array_key_exists("options", $providerInformations["formats"][$formatName])) {
                             $formatOptions = array_merge($formatOptions, $providerInformations["formats"][$formatName]["options"]);
@@ -80,9 +82,6 @@ class ArmetizMediaExtension extends Extension
                         
                         if (array_key_exists("transformer", $providerInformations["formats"][$formatName])) {
                             $formatTransformerRef = new Reference($providerInformations["formats"][$formatName]["transformer"]);
-                        }
-                        else {
-                            $formatTransformerRef = new Reference("armetiz.media.transformer.null");
                         }
                     }
                     
