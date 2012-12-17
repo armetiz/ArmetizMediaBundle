@@ -47,6 +47,8 @@ abstract class AbstractServiceProvider extends AbstractProvider
     
     public function getRenderOptions (MediaInterface $media, Format $format = null, array $options = array())
     {
+        $matches = null;
+        
         preg_match($this->getMediaPattern(), $media->getMediaIdentifier(), $matches);
         
         $defaultOptions = array(
